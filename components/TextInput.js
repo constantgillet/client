@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { MainStyle } from "../styles/style"
 
 const TextInputElement = styled.input`
-    border-radius: ${ MainStyle.rardius.s }px;
+    border-radius: ${ MainStyle.radius.s }px;
     border: 1px solid #f2f3f7;
     font-size: 14px;
     display: block;

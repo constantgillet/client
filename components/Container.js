@@ -28,9 +28,9 @@ const ContainerMain = styled.div`
 `
 
 
-export default function Container({children}) {
+export default function Container({children, className}) {
     return (
-        <ContainerMain>
+        <ContainerMain className={ className }>
             { children }
         </ContainerMain>
     )

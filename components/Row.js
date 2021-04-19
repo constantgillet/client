@@ -1,17 +1,17 @@
 import styled from "styled-components"
 
 
-const ContainerDiv = styled.div`
+const RowElement = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
 `
 
-export default function Row({ children }) {
+export default function Row({ children, className }) {
     return (
-        <ContainerDiv>
+        <RowElement className={ className }>
             { children }
-        </ContainerDiv>
+        </RowElement>
     )
 }

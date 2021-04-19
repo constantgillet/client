@@ -1,5 +1,7 @@
 import Head from "next/head"
+import Footer from "./Footer"
 import Header from "./Header"
+import Navbar from "./Navbar"
 
 export default function MainLayout({
     children,
@@ -14,8 +16,9 @@ export default function MainLayout({
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <Header/>
+            <Navbar/>
             {children}
-            <footer>{'I`m here to stay'}</footer>
+            <Footer/>
         </div>
     )
 }

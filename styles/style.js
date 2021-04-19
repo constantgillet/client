@@ -8,12 +8,14 @@ export const MainStyle = {
         lg: 992,
         xl: 1200
     },
-    rardius: {
+    radius: {
         s: 4,
         m: 8
     },
     color: {
-        primary: '#146cda'
+        primary: '#146cda',
+        light: 'white',
+        dark: '#10233A'
     },
     text: {
         body: {
@@ -22,7 +24,7 @@ export const MainStyle = {
         },
         bodyBold: {
             fontSize: '14px',
-            fontWeight: 'bold'
+            fontWeight: '600'
         }
     },
     space: {
@@ -42,6 +44,7 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         line-height: 1.5;
+        color: ${ MainStyle.color.dark };
     }
     
     * {

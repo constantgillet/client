@@ -12,7 +12,7 @@ const ButtonElement = styled.button`
     text-align: center;
     vertical-align: middle;
     border: 1px solid transparent;
-    border-radius: ${MainStyle.rardius.s}px;
+    border-radius: ${MainStyle.radius.s}px;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     cursor: pointer;
     padding: 9px 15px;

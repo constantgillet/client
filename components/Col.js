@@ -10,30 +10,27 @@ const ColDiv = styled.div`
     padding-right: 15px;
     padding-left: 15px;
 
-    ${({ xl }) =>
-    
-        xl &&  (
+    ${({ xs }) =>
+
+        xs &&  (
             cols.map(col => {
-                
-                return (xl == col &&
+                return (xs == col &&
                     css`
-                        @media (min-width: ${ MainStyle.breakpoint.xl }px) {
-                            flex: 0 0 ${100 / (12 / col)}%;
-                            max-width: ${100 / (12 / col)}%;  
-                        }
+                        flex: 0 0 ${100 / (12 / col)}%;
+                        max-width: ${100 / (12 / col)}%;
                     `)
             })
         )
     }
 
-    ${({ lg }) =>
-    
-        lg &&  (
+    ${({ sm }) =>
+        
+        sm &&  (
             cols.map(col => {
                 
-                return (lg == col &&
+                return (sm == col &&
                     css`
-                        @media (min-width: ${ MainStyle.breakpoint.lg }px) {
+                        @media (min-width: ${ MainStyle.breakpoint.sm }px) {
                             flex: 0 0 ${100 / (12 / col)}%;
                             max-width: ${100 / (12 / col)}%;  
                         }
@@ -58,14 +55,14 @@ const ColDiv = styled.div`
         )
     }
 
-    ${({ sm }) =>
+    ${({ lg }) =>
         
-        sm &&  (
+        lg &&  (
             cols.map(col => {
                 
-                return (sm == col &&
+                return (lg == col &&
                     css`
-                        @media (min-width: ${ MainStyle.breakpoint.sm }px) {
+                        @media (min-width: ${ MainStyle.breakpoint.lg }px) {
                             flex: 0 0 ${100 / (12 / col)}%;
                             max-width: ${100 / (12 / col)}%;  
                         }
@@ -74,18 +71,22 @@ const ColDiv = styled.div`
         )
     }
 
-    ${({ xs }) =>
-
-        xs &&  (
+    ${({ xl }) =>
+    
+        xl &&  (
             cols.map(col => {
-                return (xs == col &&
+                
+                return (xl == col &&
                     css`
-                        flex: 0 0 ${100 / (12 / col)}%;
-                        max-width: ${100 / (12 / col)}%;
+                        @media (min-width: ${ MainStyle.breakpoint.xl }px) {
+                            flex: 0 0 ${100 / (12 / col)}%;
+                            max-width: ${100 / (12 / col)}%;  
+                        }
                     `)
             })
         )
     }
+
     
 `
 
@@ -96,9 +97,10 @@ export default function Col({
     sm,
     md,
     lg,
+    xl,
 }) {
     return (
-        <ColDiv xs={xs} ms={sm} md={md} lg={lg} className={className}>
+        <ColDiv xs={xs} ms={sm} md={md} lg={lg} xl={xl} className={className}>
             { children }
         </ColDiv>
     )
