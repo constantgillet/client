@@ -3,7 +3,7 @@ import { MainStyle } from "../styles/style"
 
 const TextInputElement = styled.input`
     border-radius: ${ MainStyle.radius.s }px;
-    border: 1px solid #f2f3f7;
+    border: 1px solid #e3e3e3;
     font-size: 14px;
     display: block;
     width: 100%;

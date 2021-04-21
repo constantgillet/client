@@ -27,6 +27,7 @@ const ButtonElement = styled.button`
         block &&  
             css`
                 display: block;
+                width: 100%;
             `
     }
 

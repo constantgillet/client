@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { darken } from 'polished'
+import { darken, lighten } from 'polished'
 
 export const MainStyle = {
     breakpoint: {
@@ -37,6 +37,10 @@ export const MainStyle = {
     }
 
 }
+
+MainStyle.color.primary80 = lighten(0.2, MainStyle.color.primary)
+MainStyle.color.primary60 = lighten(0.4, MainStyle.color.primary)
+MainStyle.color.primary40 = lighten(0.6, MainStyle.color.primary)
 
 export const GlobalStyle = createGlobalStyle`
     body {
