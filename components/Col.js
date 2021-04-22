@@ -10,6 +10,15 @@ const ColDiv = styled.div`
     padding-right: 15px;
     padding-left: 15px;
 
+    ${({ noPadding }) =>
+
+        noPadding &&  
+            css`
+                padding-right: 0px;
+                padding-left: 0px;
+            `
+    }
+
     ${({ xs }) =>
 
         xs &&  (
@@ -98,9 +107,10 @@ export default function Col({
     md,
     lg,
     xl,
+    noPadding
 }) {
     return (
-        <ColDiv xs={xs} ms={sm} md={md} lg={lg} xl={xl} className={className}>
+        <ColDiv xs={xs} sm={sm} md={md} lg={lg} xl={xl} className={className} noPadding={noPadding}>
             { children }
         </ColDiv>
     )

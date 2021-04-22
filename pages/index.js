@@ -10,6 +10,9 @@ import TextInput from "../components/TextInput";
 import { faSearch } from "@fortawesome/fontawesome-free-solid";
 import Select from "../components/Select";
 import categoriesOptions from '../docs/categories.json';
+import AnnoncesList from "../components/AnnoncesList";
+import Main from '../components/Main'
+import { getAllAnnonces } from "../lib/annoncesAPI";
 
 const SectionIntro = styled.section`
   padding-top: ${ MainStyle.space.xl + 48 }px;
@@ -101,12 +104,21 @@ const options = [
   { value: 'vanilla', label: 'Vanilla' }
 ]
 
-export default function Home() {
+const PageSection = styled.section`
+  margin-top: ${ MainStyle.space.l }px;
+  margin-bottom: ${ MainStyle.space.l }px;
+`
+
+export default function Home({
+  ...props
+}) {
+  //console.log(props);
   return (
-    <main>
+    <Main>
       <Head>
         <title>UpGear | Achetez et vendez vos équipements d'airsoft</title>
       </Head>
+
       <SectionIntro>
         <SectionIntroBackground/>
         <Container>
@@ -133,6 +145,29 @@ export default function Home() {
           </Row>
         </Container>
       </SectionIntro>
-    </main>
+
+      <PageSection>
+        <Container>
+          <AnnoncesList title="Les dernières annonces ajoutées" annonces={ props.annoncesList1 }/>
+        </Container>
+      </PageSection>
+
+    </Main>
   )
+}
+
+export async function getServerSideProps(context) {
+  const data = await getAllAnnonces()
+
+  const annonces = data.annonces;
+
+  const annoncesList1 = annonces.slice(0, 4);
+  const annoncesList2 = annonces.slice(4, 12);
+
+  return {
+    props: {
+      annoncesList1: annoncesList1,
+      annoncesList2: annoncesList2
+    }, 
+  }
 }

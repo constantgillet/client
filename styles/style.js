@@ -14,8 +14,22 @@ export const MainStyle = {
     },
     color: {
         primary: '#146cda',
+        primary80:  lighten(0.2, '#146cda'),
+        primary60:  lighten(0.4, '#146cda'),
+        primary40:  lighten(0.6, '#146cda'),
+        primary20:  lighten(0.8, '#146cda'),
+        primary10:  lighten(0.9, '#146cda'),
+
         light: 'white',
-        dark: '#10233A'
+
+        dark: '#10233A',
+        dark80: '#404F61',
+        dark60: '#707B89',
+        dark40: '#9FA7B0',
+        dark20: '#CFD3D8',
+        dark10:  '#E8E9EC',
+        
+        backgroundColor: '#f2f2f2'
     },
     text: {
         body: {
@@ -25,6 +39,14 @@ export const MainStyle = {
         bodyBold: {
             fontSize: '14px',
             fontWeight: '600'
+        },
+        subtitle: {
+            fontSize: '18px',
+            fontWeight: '600',
+        },
+        small: {
+            fontSize: '12px',
+            fontWeight: 'normal'
         }
     },
     space: {
@@ -37,10 +59,6 @@ export const MainStyle = {
     }
 
 }
-
-MainStyle.color.primary80 = lighten(0.2, MainStyle.color.primary)
-MainStyle.color.primary60 = lighten(0.4, MainStyle.color.primary)
-MainStyle.color.primary40 = lighten(0.6, MainStyle.color.primary)
 
 export const GlobalStyle = createGlobalStyle`
     body {
