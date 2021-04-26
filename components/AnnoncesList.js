@@ -138,7 +138,7 @@ function AnnonceCard({
             <Link href="/">
                 <AnnonceLink title="Titre de l'annonce"> 
                     <AnnonceCardHeader>
-                        <AnnonceImage src={"https://upgear.fr/uploads/annonces/min-" + annonce.images[0]} width={243} height={243} />
+                        <AnnonceImage src={"https://upgear.fr/uploads/annonces/min-" + annonce.images[0]} width={243} height={243} layout="responsive" />
                     </AnnonceCardHeader>
                     <div>
                         <AnnonceTitle>{ annonce.title }</AnnonceTitle>

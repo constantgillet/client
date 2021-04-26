@@ -152,6 +152,12 @@ export default function Home({
         </Container>
       </PageSection>
 
+      <PageSection>
+        <Container>
+          <AnnoncesList title="D'autres annonces" annonces={ props.annoncesList2 }/>
+        </Container>
+      </PageSection>
+
     </Main>
   )
 }

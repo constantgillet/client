@@ -10,7 +10,7 @@ import TextInput from "./TextInput"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch, faUser } from '@fortawesome/fontawesome-free-solid'
 
-const HeaderContainer = styled.header`
+const HeaderElement = styled.header`
     display: block;
     background: #ffffff;
     padding: 10px 0px;
@@ -83,9 +83,14 @@ const LinkAddNew = styled.a`
 const AuthLink = styled.a`
     text-decoration: none;
 `
+
+const WelcomeMessage = styled.span`
+    color: ${ MainStyle.color.dark80 };
+`
+
 export default function Header() {
     return (
-        <HeaderContainer>
+        <HeaderElement>
             <Container>
                 <Row>
                     <LogoCol xs={6} lg={2}>
@@ -115,7 +120,7 @@ export default function Header() {
                                     <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faUser}/></IconButtonLink>
                                 </Link>
                                 <HeaderAuthDiv>
-                                    <span className="text-muted">Bienvenue sur UpGear!</span>
+                                    <WelcomeMessage>Bienvenue sur UpGear!</WelcomeMessage>
                                     <div>
                                         <Link href="/">
                                             <AuthLink title="Page connexion">Connexion</AuthLink>
@@ -131,6 +136,6 @@ export default function Header() {
                     </Col>
                 </Row>
             </Container>
-        </HeaderContainer>
+        </HeaderElement>
     )
 }
