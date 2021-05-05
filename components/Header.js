@@ -9,6 +9,8 @@ import Button from "./Button"
 import TextInput from "./TextInput"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faSearch, faUser } from '@fortawesome/fontawesome-free-solid'
+import { useSession } from "next-auth/client";
+import { useEffect } from "react";
 
 const HeaderElement = styled.header`
     display: block;
@@ -89,6 +91,13 @@ const WelcomeMessage = styled.span`
 `
 
 export default function Header() {
+
+    const [session] = useSession();
+
+    useEffect(() => {
+        
+    }, [session]);
+console.log(session);
     return (
         <HeaderElement>
             <Container>
@@ -122,8 +131,8 @@ export default function Header() {
                                 <HeaderAuthDiv>
                                     <WelcomeMessage>Bienvenue sur UpGear!</WelcomeMessage>
                                     <div>
-                                        <Link href="/">
-                                            <AuthLink title="Page connexion">Connexion</AuthLink>
+                                        <Link href="/auth/connexion">
+                                            <AuthLink title="Page de connexion">Connexion</AuthLink>
                                         </Link>
                                         <span>|</span>
                                         <Link href="/">

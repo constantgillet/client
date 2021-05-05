@@ -136,9 +136,9 @@ function AnnonceCard({
     return (
         <Col sm={6} md={3} noPadding>
             <Link href="/">
-                <AnnonceLink title="Titre de l'annonce"> 
+                <AnnonceLink title={ annonce.title }> 
                     <AnnonceCardHeader>
-                        <AnnonceImage src={"https://upgear.fr/uploads/annonces/min-" + annonce.images[0]} width={243} height={243} layout="responsive" />
+                        <AnnonceImage src={"https://upgear.fr/uploads/annonces/min-" + annonce.images[0]} width={243} height={243} layout="responsive" alt={"photo de " + annonce.title } />
                     </AnnonceCardHeader>
                     <div>
                         <AnnonceTitle>{ annonce.title }</AnnonceTitle>

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import styled from "styled-components"
 
-
 const BackButton = styled.button`
   background-color: 'blue';
   font-size: 16px;
@@ -9,6 +8,7 @@ const BackButton = styled.button`
 `
 
 export default function FirstPost() {
+
   return (
     <>
       <h1>First Post</h1>
