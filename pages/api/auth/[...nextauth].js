@@ -1,63 +1,7 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+import { refreshAccessToken } from "../../../lib/authAPI";
 import { API_URL } from '../../../lib/constants';
-
-const GOOGLE_AUTHORIZATION_URL =
-    "https://accounts.google.com/o/oauth2/v2/auth?" +
-    new URLSearchParams({
-        prompt: "consent",
-        access_type: "offline",
-        response_type: "code",
-    });
-
-/**
- * Takes a token, and returns a new token with updated
- * `accessToken` and `accessTokenExpires`. If an error occurs,
- * returns the old token and an error property
- */
-async function refreshAccessToken(token) {
-
-    try {
-
-        const url =
-        "https://oauth2.googleapis.com/token?" +
-
-        new URLSearchParams({
-            client_id: process.env.GOOGLE_CLIENT_ID,
-            client_secret: process.env.GOOGLE_CLIENT_SECRET,
-            grant_type: "refresh_token",
-            refresh_token: token.refreshToken,
-        });
-
-        const response = await fetch(url, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            method: "POST",
-        });
-
-        const refreshedTokens = await response.json();
-
-        if (!response.ok) {
-            throw refreshedTokens;
-        }
-
-        return {
-            ...token,
-            accessToken: refreshedTokens.access_token,
-            accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
-            refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
-        };
-
-    } catch (error) {
-        console.error(error);
-
-        return {
-            ...token,
-            error: "RefreshAccessTokenError",
-        };
-    }
-}
 
 export default NextAuth({
     
@@ -71,7 +15,7 @@ export default NextAuth({
                     password: credentials.password
                 };
 
-                const response = await fetch(API_URL + '/api/users/login', {
+                const response = await fetch(API_URL + '/auth/login', {
                     method: 'post',
                     headers: {
                         'Accept': 'application/json, text/plain, */*',
@@ -104,7 +48,6 @@ export default NextAuth({
                 };
             }
 
-            console.log(token);
             // Return previous token if the access token has not expired yet
             if (Date.now() < token.accessTokenExpires) {
                 return token;
@@ -128,5 +71,6 @@ export default NextAuth({
 
     pages: {
         signIn: '/auth/connexion',
+        signOut: '/auth/deconnexion',
     }
 });

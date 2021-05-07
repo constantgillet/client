@@ -1,11 +1,15 @@
 import { getProviders, signIn } from 'next-auth/client'
 import { getCsrfToken } from 'next-auth/client'
+import Head from 'next/head'
 
 export default function SignIn({ csrfToken }) {
 
 
     return (
         <>
+            <Head>
+                <title>UpGear | Se connecter</title>
+            </Head>
             <form method='post' action='/api/auth/callback/credentials'>
                 <input name='csrfToken' type='hidden' defaultValue={csrfToken}/>
                 <label>

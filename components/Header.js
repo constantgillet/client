@@ -1,5 +1,5 @@
 import Link from "next/link"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Container from "./Container"
 import Image from 'next/image'
 import Row from "./Row"
@@ -8,15 +8,40 @@ import { MainStyle } from "../styles/style"
 import Button from "./Button"
 import TextInput from "./TextInput"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSearch, faUser } from '@fortawesome/fontawesome-free-solid'
+import { faChevronDown, faEnvelope, faPlus, faSearch, faUser } from '@fortawesome/fontawesome-free-solid'
 import { useSession } from "next-auth/client";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { API_URL } from "../lib/constants"
+import { darken } from 'polished'
 
 const HeaderElement = styled.header`
     display: block;
     background: #ffffff;
     padding: 10px 0px;
     border-bottom: 1px solid #dee2e6 !important;
+
+    ${({ isFixed }) =>
+
+        isFixed &&  
+            css`
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 10;
+                filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.06));
+                animation: header-fixed-animation .3s ease-out;
+            `
+    }
+
+    @keyframes header-fixed-animation {
+        from {
+            transform: translateY(-100%);
+        }
+
+        to {
+            transform: translateY(0%);
+        }
+    }
 `
 
 const LogoCol = styled(Col)`
@@ -90,16 +115,108 @@ const WelcomeMessage = styled.span`
     color: ${ MainStyle.color.dark80 };
 `
 
-export default function Header() {
+const AuthDropdown = styled.div`
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
 
+    &>div {
+        color: ${ MainStyle.color.primary };
+        margin-left: ${ MainStyle.space.s }px;
+    }
+`
+
+const ProfilePicture = styled(Image)`
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    display: inline-block;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+`
+
+const DropdownIcon = styled(FontAwesomeIcon)`
+    color: ${ MainStyle.color.primary };
+    margin-left: ${ MainStyle.space.xs }px;
+    width: 8px;
+    height: 12px;
+`
+
+const AuthDropdownList = styled.ul`
+    position: absolute;
+    right: 0px;
+    top: 42px;
+    border: 1.5px solid #f2f3f7;
+    border-radius: ${ MainStyle.radius.m }px;
+    filter: drop-shadow(0px 5px 14px rgba(0,0,0,0.1));
+    padding: 8px 8px;
+    background: white;
+    width: max-content;
+    z-index: 1;
+`
+
+const AuthDropdownListItem = styled.li`
+    position: relative;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 4px;
+
+    a {
+        display: block;
+        text-decoration: none;
+        color: ${ MainStyle.color.dark };
+        padding: ${ MainStyle.space.s }px ${ MainStyle.space.m }px;
+
+        &:hover {
+            color: ${ MainStyle.color.dark };
+        }
+    }
+
+    &:hover {
+        background-color: ${ darken(0.05, MainStyle.color.light) };
+    }
+`
+
+export default function Header() {
+    
+    const headerRef = useRef();
     const [session] = useSession();
+    
+    const user = session && session.user ? session.user : null;
+
+    let header;
+    let sticky;
+
+    const [isFixed, setIsFixed] = useState(false);
+
+    const getHeaderInfos = () => {
+        header = headerRef.current
+        if (header) {
+            sticky = header.offsetTop + header.offsetHeight
+        }
+    }
 
     useEffect(() => {
-        
-    }, [session]);
-console.log(session);
-    return (
-        <HeaderElement>
+        getHeaderInfos();
+        window.onscroll = () => {fixHeader()}
+    }, [])
+
+    const fixHeader = () => {
+        if (window.pageYOffset > sticky) {
+            setIsFixed(true);
+        } else {
+            setIsFixed(false);
+        }
+    }
+
+    return ( 
+        <HeaderElement ref={headerRef} isFixed={isFixed}>
             <Container>
                 <Row>
                     <LogoCol xs={6} lg={2}>
@@ -124,23 +241,47 @@ console.log(session);
                                     <Button icon={ faPlus } >Ajouter</Button>
                                 </LinkAddNew>
                             </Link>
-                            <WidgetDiv>
-                                <Link href="/">
-                                    <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faUser}/></IconButtonLink>
-                                </Link>
-                                <HeaderAuthDiv>
-                                    <WelcomeMessage>Bienvenue sur UpGear!</WelcomeMessage>
-                                    <div>
-                                        <Link href="/auth/connexion">
-                                            <AuthLink title="Page de connexion">Connexion</AuthLink>
-                                        </Link>
-                                        <span>|</span>
+
+                            {
+                                user ? (
+                                    <WidgetDiv>
                                         <Link href="/">
-                                            <AuthLink title="Page inscription">Inscription</AuthLink>
+                                            <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faEnvelope}/></IconButtonLink>
                                         </Link>
-                                    </div>
-                                </HeaderAuthDiv>
-                            </WidgetDiv>
+                                        <HeaderAuthDiv>
+                                            <AuthDropdown>
+                                                <ProfilePicture src={API_URL + '/uploads/users/profilePictures/' + user.profilePicture} width={40} height={40}/>
+                                                <div>{ user.username }</div>
+                                                <DropdownIcon icon={ faChevronDown }/>
+                                                <AuthDropdownList>
+                                                    <AuthDropdownListItem> <Link href="/"><a> Mon profil </a></Link>  </AuthDropdownListItem>
+                                                    <AuthDropdownListItem> <Link href="/"><a> Mes annonces </a></Link>  </AuthDropdownListItem>
+                                                    <AuthDropdownListItem> <Link href="/"><a> Mes favoris </a></Link>  </AuthDropdownListItem>
+                                                    <AuthDropdownListItem> <Link href="/auth/deconnexion"><a> Me déconnecter </a></Link>  </AuthDropdownListItem>
+                                                </AuthDropdownList>
+                                            </AuthDropdown>
+                                        </HeaderAuthDiv>
+                                    </WidgetDiv>
+                                ) : (
+                                    <WidgetDiv>
+                                        <Link href="/auth/connexion">
+                                            <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faUser}/></IconButtonLink>
+                                        </Link>
+                                        <HeaderAuthDiv>
+                                            <WelcomeMessage>Bienvenue sur UpGear!</WelcomeMessage>
+                                            <div>
+                                                <Link href="/auth/connexion">
+                                                    <AuthLink title="Page de connexion">Connexion</AuthLink>
+                                                </Link>
+                                                <span>|</span>
+                                                <Link href="/">
+                                                    <AuthLink title="Page inscription">Inscription</AuthLink>
+                                                </Link>
+                                            </div>
+                                        </HeaderAuthDiv>
+                                    </WidgetDiv>
+                                )
+                            }
                         </AuthActionsDiv> 
                     </Col>
                 </Row>

@@ -10,6 +10,7 @@ import Row from "./Row"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid"
 import { toReadablePrice } from "../lib/textFunctions"
+import { API_URL } from "../lib/constants"
 
 const AnnoncesListElement = styled(Card)`
     padding: ${MainStyle.space.l}px;
@@ -138,7 +139,7 @@ function AnnonceCard({
             <Link href="/">
                 <AnnonceLink title={ annonce.title }> 
                     <AnnonceCardHeader>
-                        <AnnonceImage src={"https://upgear.fr/uploads/annonces/min-" + annonce.images[0]} width={243} height={243} layout="responsive" alt={"photo de " + annonce.title } />
+                        <AnnonceImage src={API_URL + "/uploads/annonces/min-" + annonce.images[0]} width={243} height={243} layout="responsive" alt={"photo de " + annonce.title } />
                     </AnnonceCardHeader>
                     <div>
                         <AnnonceTitle>{ annonce.title }</AnnonceTitle>
