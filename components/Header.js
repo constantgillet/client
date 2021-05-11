@@ -15,6 +15,10 @@ import { API_URL } from "../lib/constants"
 import { darken } from 'polished'
 
 const HeaderElement = styled.header`
+    height: 60px;
+`
+
+const HeaderElementContent = styled.div`
     display: block;
     background: #ffffff;
     padding: 10px 0px;
@@ -237,78 +241,80 @@ export default function Header() {
     }
 
     return ( 
-        <HeaderElement ref={headerRef} isFixed={isFixed}>
-            <Container>
-                <Row>
-                    <LogoCol xs={6} lg={2}>
-                        <Link href="/">
-                            <a>
-                                <Image src={'/images/logo.png'} width={112} height={22} alt="Upgear logotype" /> 
-                            </a>
-                        </Link>
-                    </LogoCol>
-                    <Col xs={12} lg={4} sm={12}>
-                        <form action="#" className="search">
-                            <SearchBar>
-                                <SearchBarInput type="text" className="form-control" placeholder="Rechercher" />
-                                <SearchBarButton><FontAwesomeIcon icon={faSearch}/></SearchBarButton>
-                            </SearchBar>
-                        </form>
-                    </Col>
-                    <Col xs={12} lg={6} sm={6}>
-                        <AuthActionsDiv>
-                            <Link href="/posts/first-post">
-                                <LinkAddNew className="no-text-decoration" title="Ajouter une annonce">
-                                    <Button icon={ faPlus } >Ajouter</Button>
-                                </LinkAddNew>
+        <HeaderElement>
+            <HeaderElementContent ref={headerRef} isFixed={isFixed}>
+                <Container>
+                    <Row>
+                        <LogoCol xs={6} lg={2}>
+                            <Link href="/">
+                                <a>
+                                    <Image src={'/images/logo.png'} width={112} height={22} alt="Upgear logotype" /> 
+                                </a>
                             </Link>
+                        </LogoCol>
+                        <Col xs={12} lg={4} sm={12}>
+                            <form action="#" className="search">
+                                <SearchBar>
+                                    <SearchBarInput type="text" className="form-control" placeholder="Rechercher" />
+                                    <SearchBarButton><FontAwesomeIcon icon={faSearch}/></SearchBarButton>
+                                </SearchBar>
+                            </form>
+                        </Col>
+                        <Col xs={12} lg={6} sm={6}>
+                            <AuthActionsDiv>
+                                <Link href="/posts/first-post">
+                                    <LinkAddNew className="no-text-decoration" title="Ajouter une annonce">
+                                        <Button icon={ faPlus } >Ajouter</Button>
+                                    </LinkAddNew>
+                                </Link>
 
-                            {
-                                user ? (
-                                    <WidgetDiv>
-                                        <Link href="/">
-                                            <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faEnvelope}/></IconButtonLink>
-                                        </Link>
-                                        <HeaderAuthDiv>
-                                            <AuthDropdown >
-                                                <AuthDropdown onClick={ () => setShowAuthDropdown(!showAuthDropdown) }>
-                                                    <ProfilePicture src={API_URL + '/uploads/users/profilePictures/' + user.profilePicture} width={40} height={40}/>
-                                                    <div>{ user.username }</div>
-                                                    <DropdownIcon icon={ faChevronDown }/>
+                                {
+                                    user ? (
+                                        <WidgetDiv>
+                                            <Link href="/">
+                                                <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faEnvelope}/></IconButtonLink>
+                                            </Link>
+                                            <HeaderAuthDiv>
+                                                <AuthDropdown >
+                                                    <AuthDropdown onClick={ () => setShowAuthDropdown(!showAuthDropdown) }>
+                                                        <ProfilePicture src={API_URL + '/uploads/users/profilePictures/' + user.profilePicture} width={40} height={40}/>
+                                                        <div>{ user.username }</div>
+                                                        <DropdownIcon icon={ faChevronDown }/>
+                                                    </AuthDropdown>
+                                                    <AuthDropdownList show={ showAuthDropdown } ref={ dropdownList }>
+                                                        <AuthDropdownListItem> <Link href="/"><a> Mon profil </a></Link>  </AuthDropdownListItem>
+                                                        <AuthDropdownListItem> <Link href="/"><a> Mes annonces </a></Link>  </AuthDropdownListItem>
+                                                        <AuthDropdownListItem> <Link href="/"><a> Mes favoris </a></Link>  </AuthDropdownListItem>
+                                                        <AuthDropdownListItem> <Link href="/auth/deconnexion"><a> Me déconnecter </a></Link>  </AuthDropdownListItem>
+                                                    </AuthDropdownList>
                                                 </AuthDropdown>
-                                                <AuthDropdownList show={ showAuthDropdown } ref={ dropdownList }>
-                                                    <AuthDropdownListItem> <Link href="/"><a> Mon profil </a></Link>  </AuthDropdownListItem>
-                                                    <AuthDropdownListItem> <Link href="/"><a> Mes annonces </a></Link>  </AuthDropdownListItem>
-                                                    <AuthDropdownListItem> <Link href="/"><a> Mes favoris </a></Link>  </AuthDropdownListItem>
-                                                    <AuthDropdownListItem> <Link href="/auth/deconnexion"><a> Me déconnecter </a></Link>  </AuthDropdownListItem>
-                                                </AuthDropdownList>
-                                            </AuthDropdown>
-                                        </HeaderAuthDiv>
-                                    </WidgetDiv>
-                                ) : (
-                                    <WidgetDiv>
-                                        <Link href="/auth/connexion">
-                                            <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faUser}/></IconButtonLink>
-                                        </Link>
-                                        <HeaderAuthDiv>
-                                            <WelcomeMessage>Bienvenue sur UpGear!</WelcomeMessage>
-                                            <div>
-                                                <Link href="/auth/connexion">
-                                                    <AuthLink title="Page de connexion">Connexion</AuthLink>
-                                                </Link>
-                                                <span>|</span>
-                                                <Link href="/">
-                                                    <AuthLink title="Page inscription">Inscription</AuthLink>
-                                                </Link>
-                                            </div>
-                                        </HeaderAuthDiv>
-                                    </WidgetDiv>
-                                )
-                            }
-                        </AuthActionsDiv> 
-                    </Col>
-                </Row>
-            </Container>
+                                            </HeaderAuthDiv>
+                                        </WidgetDiv>
+                                    ) : (
+                                        <WidgetDiv>
+                                            <Link href="/auth/connexion">
+                                                <IconButtonLink title="Page connexion"><FontAwesomeIcon icon={faUser}/></IconButtonLink>
+                                            </Link>
+                                            <HeaderAuthDiv>
+                                                <WelcomeMessage>Bienvenue sur UpGear!</WelcomeMessage>
+                                                <div>
+                                                    <Link href="/auth/connexion">
+                                                        <AuthLink title="Page de connexion">Connexion</AuthLink>
+                                                    </Link>
+                                                    <span>|</span>
+                                                    <Link href="/">
+                                                        <AuthLink title="Page inscription">Inscription</AuthLink>
+                                                    </Link>
+                                                </div>
+                                            </HeaderAuthDiv>
+                                        </WidgetDiv>
+                                    )
+                                }
+                            </AuthActionsDiv> 
+                        </Col>
+                    </Row>
+                </Container>
+            </HeaderElementContent>
         </HeaderElement>
     )
 }
