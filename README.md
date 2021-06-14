@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Node js v14 
+- Node js v14
 
 ## Labraries used
 

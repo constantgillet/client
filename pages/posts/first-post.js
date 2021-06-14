@@ -1,14 +1,13 @@
-import Link from 'next/link'
-import styled from "styled-components"
+import Link from "next/link";
+import styled from "styled-components";
 
 const BackButton = styled.button`
-  background-color: 'blue';
+  background-color: "blue";
   font-size: 16px;
-  color: 'blue' !important;
-`
+  color: "blue" !important;
+`;
 
 export default function FirstPost() {
-
   return (
     <>
       <h1>First Post</h1>
@@ -18,5 +17,5 @@ export default function FirstPost() {
         </Link>
       </h2>
     </>
-  )
+  );
 }

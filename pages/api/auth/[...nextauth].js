@@ -1,76 +1,71 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import { refreshAccessToken } from "../../../lib/authAPI";
-import { API_URL } from '../../../lib/constants';
+import { API_URL } from "../../../lib/constants";
 
 export default NextAuth({
-    
-    providers: [
-        Providers.Credentials({
-            name: 'Credentials',
-            authorize: async (credentials) => {
-                
-                const body = {
-                    email: credentials.email,
-                    password: credentials.password
-                };
+  providers: [
+    Providers.Credentials({
+      name: "Credentials",
+      authorize: async (credentials) => {
+        const body = {
+          email: credentials.email,
+          password: credentials.password
+        };
 
-                const response = await fetch(API_URL + '/auth/login', {
-                    method: 'post',
-                    headers: {
-                        'Accept': 'application/json, text/plain, */*',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(body)
-                });
+        const response = await fetch(API_URL + "/auth/login", {
+          method: "post",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        });
 
-                const res = await response.json();
-                
-                if (res.data) {
-                    return res.data
-                } else {
-                    return null
-                }
-            }
-        })
-    ],
-    callbacks: {
+        const res = await response.json();
 
-        async jwt(token, user, account) {
+        if (res.data) {
+          return res.data;
+        } else {
+          return null;
+        }
+      }
+    })
+  ],
+  callbacks: {
+    async jwt(token, user, account) {
+      // Initial sign in
+      if (account && user) {
+        return {
+          accessToken: user.accessToken,
+          accessTokenExpires: Date.now() + 300000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
+          refreshToken: user.refreshToken,
+          user: user.user
+        };
+      }
 
-            // Initial sign in
-            if (account && user) {
-                return {
-                    accessToken: user.accessToken,
-                    accessTokenExpires: Date.now() + 300000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
-                    refreshToken: user.refreshToken,
-                    user: user.user,
-                };
-            }
+      // Return previous token if the access token has not expired yet
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
 
-            // Return previous token if the access token has not expired yet
-            if (Date.now() < token.accessTokenExpires) {
-                return token;
-            }
-
-            // Access token has expired, try to update it
-            return refreshAccessToken(token);
-        },
-
-        async session(session, token) {
-
-            if (token) {
-                session.user = token.user;
-                session.accessToken = token.accessToken;
-                session.error = token.error;
-            }
-
-            return session;
-        },
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
     },
 
-    pages: {
-        signIn: '/auth/connexion',
-        signOut: '/auth/deconnexion',
+    async session(session, token) {
+      if (token) {
+        session.user = token.user;
+        session.accessToken = token.accessToken;
+        session.error = token.error;
+      }
+
+      return session;
     }
+  },
+
+  pages: {
+    signIn: "/auth/connexion",
+    signOut: "/auth/deconnexion"
+  }
 });

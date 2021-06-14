@@ -1,64 +1,63 @@
 import { createGlobalStyle } from "styled-components";
-import { darken, lighten } from 'polished'
+import { darken, lighten } from "polished";
 
 export const MainStyle = {
-    breakpoint: {
-        sm: 576,
-        md: 768,
-        lg: 992,
-        xl: 1200
-    },
-    radius: {
-        s: 4,
-        m: 8
-    },
-    color: {
-        primary: '#146cda',
-        primary80:  lighten(0.2, '#146cda'),
-        primary60:  lighten(0.4, '#146cda'),
-        primary40:  lighten(0.6, '#146cda'),
-        primary20:  lighten(0.8, '#146cda'),
-        primary10:  lighten(0.9, '#146cda'),
+  breakpoint: {
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200
+  },
+  radius: {
+    s: 4,
+    m: 8
+  },
+  color: {
+    primary: "#146cda",
+    primary80: lighten(0.2, "#146cda"),
+    primary60: lighten(0.4, "#146cda"),
+    primary40: lighten(0.6, "#146cda"),
+    primary20: lighten(0.8, "#146cda"),
+    primary10: lighten(0.9, "#146cda"),
 
-        light: 'white',
+    light: "white",
 
-        dark: '#10233A',
-        dark80: '#404F61',
-        dark60: '#707B89',
-        dark40: '#9FA7B0',
-        dark20: '#CFD3D8',
-        dark10:  '#E8E9EC',
-        
-        backgroundColor: '#f2f2f2'
+    dark: "#10233A",
+    dark80: "#404F61",
+    dark60: "#707B89",
+    dark40: "#9FA7B0",
+    dark20: "#CFD3D8",
+    dark10: "#E8E9EC",
+
+    backgroundColor: "#f2f2f2"
+  },
+  text: {
+    body: {
+      fontSize: "14px",
+      fontWeight: "normal"
     },
-    text: {
-        body: {
-            fontSize: '14px',
-            fontWeight: 'normal'
-        },
-        bodyBold: {
-            fontSize: '14px',
-            fontWeight: '600'
-        },
-        subtitle: {
-            fontSize: '18px',
-            fontWeight: '600',
-        },
-        small: {
-            fontSize: '12px',
-            fontWeight: 'normal'
-        }
+    bodyBold: {
+      fontSize: "14px",
+      fontWeight: "600"
     },
-    space: {
-        none: 0,
-        xs: 4,
-        s: 8,
-        m: 16,
-        l: 24,
-        xl: 48
+    subtitle: {
+      fontSize: "18px",
+      fontWeight: "600"
+    },
+    small: {
+      fontSize: "12px",
+      fontWeight: "normal"
     }
-
-}
+  },
+  space: {
+    none: 0,
+    xs: 4,
+    s: 8,
+    m: 16,
+    l: 24,
+    xl: 48
+  }
+};
 
 export const GlobalStyle = createGlobalStyle`
     body {
@@ -66,7 +65,7 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         line-height: 1.5;
-        color: ${ MainStyle.color.dark };
+        color: ${MainStyle.color.dark};
     }
     
     * {
@@ -110,7 +109,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     a {
-        color: ${ MainStyle.color.primary};
+        color: ${MainStyle.color.primary};
         cursor: pointer;
 
         &:hover {

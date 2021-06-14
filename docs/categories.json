@@ -1,62 +1,62 @@
 [
-    {
-        "label": "Répliques longues",
-        "options": [
-            { "value": "repliqueAEG", "label": "Répliques longues AEG"},
-            { "value": "repliqueGBBR", "label": "Répliques longues GBBR"},
-            { "value": "repliqueHPA", "label": "Répliques longues HPA"}
-        ]
-    },
-    {
-        "label": "Répliques de poing",
-        "options": [
-            { "value": "repliqueGBB", "label": "Répliques de poing GBB"},
-            { "value": "repliqueNBB", "label": "Répliques de poing NBB"},
-            { "value": "repliqueAEP", "label": "Répliques de poing AEP"},
-            { "value": "repliqueRevolver", "label": "Révolvers"}
-        ]
-    },
-    {
-        "label": "Répliques de sniper",
-        "options": [
-            { "value": "repliqueSniperSpring", "label": "Répliques de sniper spring"},
-            { "value": "repliqueSniperGaz", "label": "Répliques de sniper gaz"}
-        ]
-    },
-    {
-        "label": "Répliques à pompe",
-        "options": [
-            { "value": "repliquePompeSpring", "label": "Répliques à pompe spring"},
-            { "value": "repliquePompeGaz", "label": "Répliques de pompe gaz"}
-        ]
-    },
-    {
-        "label": "Divers",
-        "options": [
-            { "value": "lanceurs40", "label": "Lanceurs 40mm"},
-            { "value": "autres", "label": "Autres"}
-        ]
-    },
-    {
-        "label": "Accessoires",
-        "options": [
-            { "value": "chargeurs", "label": "Chargeurs"},
-            { "value": "organesVisees", "label": "Organes de visées"},
-            { "value": "lampesLasers", "label": "Lampes et lasers"},
-            { "value": "piecesCustoms", "label": "Pièces customs"},
-            { "value": "batteriesChargeurs", "label": "Batteries et chargeurs de batterie"},
-            { "value": "divers", "label": "Pièce divers"}
-        ]
-    },
-    {
-        "label": "Upgrade",
-        "options": [
-            { "value": "piecesAEG", "label": "Pièces AEG"},
-            { "value": "piecesGBBR", "label": "Pièces GBBR"},
-            { "value": "piecesGBBNBB", "label": "Pièces GBB et NBB"},
-            { "value": "piecesSniper", "label": "Pièces de snipers"},
-            { "value": "piecesAEP", "label": "Pièces AEP"}
-        ]
-    },
-    { "value": "equipement", "label": "Equipements"}
+  {
+    "label": "Répliques longues",
+    "options": [
+      { "value": "repliqueAEG", "label": "Répliques longues AEG" },
+      { "value": "repliqueGBBR", "label": "Répliques longues GBBR" },
+      { "value": "repliqueHPA", "label": "Répliques longues HPA" }
+    ]
+  },
+  {
+    "label": "Répliques de poing",
+    "options": [
+      { "value": "repliqueGBB", "label": "Répliques de poing GBB" },
+      { "value": "repliqueNBB", "label": "Répliques de poing NBB" },
+      { "value": "repliqueAEP", "label": "Répliques de poing AEP" },
+      { "value": "repliqueRevolver", "label": "Révolvers" }
+    ]
+  },
+  {
+    "label": "Répliques de sniper",
+    "options": [
+      { "value": "repliqueSniperSpring", "label": "Répliques de sniper spring" },
+      { "value": "repliqueSniperGaz", "label": "Répliques de sniper gaz" }
+    ]
+  },
+  {
+    "label": "Répliques à pompe",
+    "options": [
+      { "value": "repliquePompeSpring", "label": "Répliques à pompe spring" },
+      { "value": "repliquePompeGaz", "label": "Répliques de pompe gaz" }
+    ]
+  },
+  {
+    "label": "Divers",
+    "options": [
+      { "value": "lanceurs40", "label": "Lanceurs 40mm" },
+      { "value": "autres", "label": "Autres" }
+    ]
+  },
+  {
+    "label": "Accessoires",
+    "options": [
+      { "value": "chargeurs", "label": "Chargeurs" },
+      { "value": "organesVisees", "label": "Organes de visées" },
+      { "value": "lampesLasers", "label": "Lampes et lasers" },
+      { "value": "piecesCustoms", "label": "Pièces customs" },
+      { "value": "batteriesChargeurs", "label": "Batteries et chargeurs de batterie" },
+      { "value": "divers", "label": "Pièce divers" }
+    ]
+  },
+  {
+    "label": "Upgrade",
+    "options": [
+      { "value": "piecesAEG", "label": "Pièces AEG" },
+      { "value": "piecesGBBR", "label": "Pièces GBBR" },
+      { "value": "piecesGBBNBB", "label": "Pièces GBB et NBB" },
+      { "value": "piecesSniper", "label": "Pièces de snipers" },
+      { "value": "piecesAEP", "label": "Pièces AEP" }
+    ]
+  },
+  { "value": "equipement", "label": "Equipements" }
 ]

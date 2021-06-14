@@ -1,5 +1,5 @@
 module.exports = {
-    images: {
-      domains: ['upgear.fr', 'localhost', 'api.upgear.fr'],
-    },
+  images: {
+    domains: ["upgear.fr", "localhost", "api.upgear.fr"]
+  }
 };
