@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
 import Container from "./Container";
 import Link from "next/link";
@@ -9,6 +9,12 @@ const NavbarElement = styled.nav`
   position: relative;
   display: flex;
   align-items: center;
+
+  ${({ display }) =>
+    !display &&
+    css`
+      display: none;
+    `}
 
   @media (min-width: ${MainStyle.breakpoint.lg}px) {
     flex-flow: row nowrap;
@@ -91,9 +97,9 @@ const onClickListItem = (e) => {
   subList.classList.add("show");
 };
 
-export default function Navbar() {
+export default function Navbar({ display }) {
   return (
-    <NavbarElement>
+    <NavbarElement display={display ? 1 : 0}>
       <Container>
         <NavbarList>
           <ListItem>

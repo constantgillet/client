@@ -15,7 +15,15 @@ export default function MainLayout({ children }) {
 
   const router = useRouter();
 
+  useEffect(() => {
+    applyLayout();
+  }, []);
+
   Router.events.on("routeChangeComplete", () => {
+    applyLayout();
+  });
+
+  const applyLayout = () => {
     switch (router.pathname) {
       case "/chat":
         setState({ displayHeader: true, displayNavigation: true, displayFooter: false, fullScreen: true });
@@ -36,7 +44,7 @@ export default function MainLayout({ children }) {
         setState({ displayHeader: true, displayNavigation: true, displayFooter: true, fullScreen: false });
         break;
     }
-  });
+  };
 
   return (
     <div>
