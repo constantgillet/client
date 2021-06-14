@@ -174,6 +174,16 @@ const AuthDropdownList = styled.ul`
   background: white;
   width: max-content;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  pointer-events: none;
+
+  ${({ show }) =>
+    show &&
+    css`
+      opacity: 1;
+      pointer-events: all;
+    `}
 `;
 
 const AuthDropdownListItem = styled.li`
