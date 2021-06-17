@@ -15,6 +15,9 @@ const RowMain = styled(Row)`
 
 const ColMain = styled(Col)`
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ColIllustration = styled(Col)`

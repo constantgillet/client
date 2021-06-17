@@ -1,5 +1,24 @@
 import Head from "next/head";
+import styled from "styled-components";
 import AuthLayout from "../../components/AuthLayout";
+import Link from "next/link";
+import Image from "next/image";
+import { MainStyle } from "../../styles/style";
+import TextInput from "../../components/TextInput";
+
+const RegisterForm = styled.form`
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto auto;
+  animation: translateDown 0.5s ease 0s forwards;
+  text-align: center;
+`;
+
+const LogoLink = styled.a`
+  display: block;
+  margin-bottom: ${MainStyle.space.xl}px;
+`;
 
 export default function SignIn({ csrfToken }) {
   return (
@@ -8,18 +27,14 @@ export default function SignIn({ csrfToken }) {
         <title>UpGear | S'inscrire</title>
       </Head>
       <AuthLayout title="Bienvenue sur UpGear" text="Inscrivez vous pour accéder à votre compte ✨">
-        <form method="post" action="/api/auth/callback/credentials">
-          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-          <label>
-            Email addresse
-            <input type="email" id="email" name="email" />
-          </label>
-          <label>
-            Password
-            <input type="password" id="password" name="password" />
-          </label>
-          <button type="submit">Sign in with Email</button>
-        </form>
+        <RegisterForm method="post">
+          <Link href="/">
+            <LogoLink>
+              <Image src={"/images/logo.png"} width={164} height={31} alt="Upgear logotype" />
+            </LogoLink>
+          </Link>
+          <TextInput placeholder="Pseudo" />
+        </RegisterForm>
       </AuthLayout>
     </>
   );
