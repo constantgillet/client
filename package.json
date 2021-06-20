@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@fortawesome/fontawesome-free-regular": "^5.0.13",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
@@ -15,6 +16,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "antd": "^4.16.3",
+    "axios": "^0.21.1",
     "next": "^10.0.0",
     "next-auth": "^3.19.6",
     "nprogress": "^0.2.0",

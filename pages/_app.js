@@ -1,6 +1,6 @@
 // import App from 'next/app'
 import MainLayout from "../components/MainLayout";
-import "../styles/reset.css";
+import "antd/dist/antd.css";
 import { GlobalStyle } from "../styles/style";
 import NProgress from "nprogress";
 import Router from "next/router";

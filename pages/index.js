@@ -140,9 +140,7 @@ export default function Home({ ...props }) {
                   placeholder="Catégorie"
                 />
                 <SearchBoxSelect instanceId="regionSelect" options={options} placeholder="Catégorie" />
-                <Button icon={faSearch} block>
-                  Rechercher
-                </Button>
+                <Button block>Rechercher</Button>
               </SearchBox>
             </SeachAnnonceCol>
           </Row>

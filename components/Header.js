@@ -267,7 +267,7 @@ export default function Header({ display, className, ...props }) {
             <AuthActionsDiv>
               <Link href="/posts/first-post">
                 <LinkAddNew className="no-text-decoration" title="Ajouter une annonce">
-                  <Button icon={faPlus}>Ajouter</Button>
+                  <Button>Ajouter</Button>
                 </LinkAddNew>
               </Link>
 

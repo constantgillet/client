@@ -29,7 +29,9 @@ export const MainStyle = {
     dark20: "#CFD3D8",
     dark10: "#E8E9EC",
 
-    backgroundColor: "#f2f2f2"
+    backgroundColor: "#f2f2f2",
+
+    danger: "#ff4c61"
   },
   text: {
     body: {
@@ -66,6 +68,11 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         line-height: 1.5;
         color: ${MainStyle.color.dark};
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: ${MainStyle.color.dark};
+      font-weight: 500;
     }
     
     * {
@@ -115,5 +122,10 @@ export const GlobalStyle = createGlobalStyle`
         &:hover {
             color:  ${darken(0.1, MainStyle.color.primary)};
         }
+    }
+
+    .ant-message-notice-content {
+      color: ${MainStyle.color.dark};
+      border-radius: ${MainStyle.radius.s}px;
     }
 `;

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { MainStyle } from "../styles/style";
-import Row from "../components/Row";
-import Col from "../components/Col";
+import { Col, Row } from "antd";
 
 const MainElement = styled.main`
   width: 100vw;
@@ -41,12 +40,14 @@ const ColIllustration = styled(Col)`
     font-weight: 300;
     line-height: 1.2;
     margin-bottom: ${MainStyle.space.m}px;
+    color: white;
   }
 
   h2 {
     font-size: 24px;
     font-weight: 600;
     line-height: 1;
+    color: white;
   }
 
   span {
@@ -64,8 +65,10 @@ export default function AuthLayout({ children, title = "Titre de la page", text 
   return (
     <MainElement>
       <RowMain>
-        <ColMain md={4}>{children}</ColMain>
-        <ColIllustration md={8}>
+        <ColMain span={24} md={8}>
+          {children}
+        </ColMain>
+        <ColIllustration md={16}>
           <h1>{title}</h1>
           <h2>{text}</h2>
           <span>
