@@ -47,6 +47,13 @@ const ErrorInputMessage = styled.span`
   text-align: left;
 `;
 
+const Separator = styled.span`
+  display: block;
+  color: ${MainStyle.color.dark};
+  text-align: center;
+  margin: ${MainStyle.space.l}px auto;
+`;
+
 export default function Register({ csrfToken }) {
   //States pseudos
   const [username, setUsername] = useState("");
@@ -269,6 +276,14 @@ export default function Register({ csrfToken }) {
           <Button block loading={isPosting} onClick={onRegisterClick}>
             S'enregistrer
           </Button>
+          <Separator>- OU -</Separator>
+          <Link href="/auth/connexion">
+            <a title="Se connecter">
+              <Button block type="link">
+                J'ai déjà un compte
+              </Button>
+            </a>
+          </Link>
         </RegisterForm>
       </AuthLayout>
     </>

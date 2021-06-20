@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { MainStyle } from "../styles/style";
 import { Col, Row } from "antd";
+import Link from "next/link";
+import Image from "next/image";
 
 const MainElement = styled.main`
   width: 100vw;

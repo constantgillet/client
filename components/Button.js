@@ -35,6 +35,30 @@ const ButtonElement = styled(AntButton)`
     background: ${darken(0.1, MainStyle.color.primary)};
     color: white;
   }
+
+  ${({ type }) =>
+    type == "link" &&
+    css`
+      color: ${MainStyle.color.primary};
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+
+      &:focus,
+      &:active {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: ${darken(0.1, MainStyle.color.primary)};
+      }
+
+      &:hover {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: ${darken(0.1, MainStyle.color.primary)};
+      }
+    `}
 `;
 
 export default function Button(props) {
