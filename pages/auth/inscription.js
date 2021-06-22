@@ -215,7 +215,7 @@ export default function Register({ csrfToken }) {
         <title>UpGear | S'inscrire</title>
       </Head>
       <AuthLayout title="Bienvenue sur UpGear" text="Inscrivez vous pour accéder à votre compte ✨">
-        <RegisterForm method="post">
+        <RegisterForm method="post" target="">
           <Link href="/">
             <LogoLink>
               <Image src={"/images/logo.png"} width={164} height={31} alt="Upgear logotype" />

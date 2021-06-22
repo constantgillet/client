@@ -8,6 +8,8 @@ import { MainStyle } from "../../styles/style";
 import Link from "next/link";
 import Image from "next/image";
 import Input from "../../components/Input";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 const Form = styled.form`
   width: 100%;
@@ -45,6 +47,60 @@ const Separator = styled.span`
 `;
 
 export default function SignIn({ csrfToken }) {
+  const { query } = useRouter();
+  const { error } = query;
+
+  console.log(error);
+
+  //States email
+  const [email, setEmail] = useState(query.email ? query.email : "");
+  const [emailError, setEmailError] = useState(
+    error === "CredentialsSignin" ? "Email ou mot de passe invalide" : null
+  );
+
+  //Sates password
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(null);
+
+  /**
+   * EMAIL CONTROLS
+   */
+  const onBlurEmail = (event) => {
+    const _email = event.target.value;
+
+    const regex =
+      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+    if (regex.test(_email)) {
+      setEmail(_email);
+      setEmailError(null);
+    } else {
+      setEmailError("Cet email n'est pas valide");
+    }
+  };
+
+  /**
+   * PASSWORD CONTROLS
+   */
+  const onBlurPassword = (event) => {
+    const _password = event.target.value;
+
+    if (_password.length > 4) {
+      setPasswordError(null);
+      setPassword(_password);
+    } else {
+      setPasswordError("Le mot de passe doit faire au moins 5 caractères");
+    }
+  };
+
+  const onClickPost = (e) => {
+    if (email.length < 5 || password.length < 4) {
+      e.preventDefault();
+    } else if (emailError != null || passwordError != null) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -59,13 +115,30 @@ export default function SignIn({ csrfToken }) {
           </Link>
           <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
           <FormGroup>
-            <Input type="email" id="email" name="email" placeholder="Votre email" />
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Votre email"
+              defaultValue={query.email && query.email}
+              onBlur={onBlurEmail}
+              error={emailError}
+            />
+            {emailError && <ErrorInputMessage>{emailError}</ErrorInputMessage>}
           </FormGroup>
           <FormGroup>
-            <Input type="password" id="password" name="password" placeholder="Mot de passe" />
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Mot de passe"
+              onBlur={onBlurPassword}
+              error={passwordError}
+            />
+            {passwordError && <ErrorInputMessage>{passwordError}</ErrorInputMessage>}
           </FormGroup>
 
-          <Button type="submit" block>
+          <Button htmlType="submit" block onClick={onClickPost}>
             Se connecter
           </Button>
           <Separator>- OU -</Separator>
