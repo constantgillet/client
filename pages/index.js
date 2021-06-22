@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import Col from "../components/Col";
 import Container from "../components/Container";
-import Row from "../components/Row";
+import { Row } from "antd";
 import { MainStyle } from "../styles/style";
 import TextInput from "../components/TextInput";
 import { faSearch } from "@fortawesome/fontawesome-free-solid";

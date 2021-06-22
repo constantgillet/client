@@ -10,7 +10,7 @@ import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
 import Col from "./Col";
 import Container from "./Container";
-import Row from "./Row";
+import { Row } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { faEnvelope, faMapMarker, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";

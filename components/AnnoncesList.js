@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { MainStyle } from "../styles/style";
 import Card from "./Card";
 import Col from "./Col";
-import Row from "./Row";
+import { Row } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";
 import { toReadablePrice } from "../lib/textFunctions";

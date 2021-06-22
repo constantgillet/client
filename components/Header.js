@@ -2,7 +2,7 @@ import Link from "next/link";
 import styled, { css } from "styled-components";
 import Container from "./Container";
 import Image from "next/image";
-import Row from "./Row";
+import { Row } from "antd";
 import Col from "./Col";
 import { MainStyle } from "../styles/style";
 import Button from "./Button";
