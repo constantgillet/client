@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import { refreshAccessToken } from "../../../lib/authAPI";
+import { refreshAccessToken } from "../../../lib/API/authAPI";
 import { API_URL } from "../../../lib/constants";
 
 export default NextAuth({
@@ -37,9 +37,9 @@ export default NextAuth({
       // Initial sign in
       if (account && user) {
         return {
-          accessToken: user.accessToken,
-          accessTokenExpires: Date.now() + 300000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
-          refreshToken: user.refreshToken,
+          accessToken: user.access_token.value,
+          accessTokenExpires: user.access_token.expires * 1000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
+          refreshToken: user.refresh_token.value,
           user: user.user
         };
       }

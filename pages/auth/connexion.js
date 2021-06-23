@@ -50,8 +50,6 @@ export default function SignIn({ csrfToken }) {
   const { query } = useRouter();
   const { error } = query;
 
-  console.log(error);
-
   //States email
   const [email, setEmail] = useState(query.email ? query.email : "");
   const [emailError, setEmailError] = useState(
