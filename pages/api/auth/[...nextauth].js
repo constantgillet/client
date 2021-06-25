@@ -38,9 +38,14 @@ export default NextAuth({
       if (account && user) {
         return {
           accessToken: user.access_token.value,
-          accessTokenExpires: user.access_token.expires * 1000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
+          accessTokenExpires: user.access_token.expires * 1000,
           refreshToken: user.refresh_token.value,
-          user: user.user
+          user: {
+            id: user.user.id,
+            username: user.user.username,
+            profilePicture: user.user.profile_picture,
+            bannerPicture: user.user.banner_picture
+          }
         };
       }
 

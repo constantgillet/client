@@ -2,17 +2,18 @@ import Link from "next/link";
 import styled, { css } from "styled-components";
 import Container from "./Container";
 import Image from "next/image";
-import { Row } from "antd";
+import { Dropdown, Row } from "antd";
 import Col from "./Col";
 import { MainStyle } from "../styles/style";
 import Button from "./Button";
 import TextInput from "./TextInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faEnvelope, faPlus, faSearch, faUser } from "@fortawesome/fontawesome-free-solid";
-import { useSession } from "next-auth/client";
+import { signOut, useSession } from "next-auth/client";
 import { useEffect, useRef, useState } from "react";
 import { API_URL } from "../lib/constants";
 import { darken } from "polished";
+import Menu from "./Menu";
 
 const HeaderElement = styled.header`
   display: block;
@@ -163,52 +164,6 @@ const DropdownIcon = styled(FontAwesomeIcon)`
   height: 12px;
 `;
 
-const AuthDropdownList = styled.ul`
-  position: absolute;
-  right: 0px;
-  top: 42px;
-  border: 1.5px solid #f2f3f7;
-  border-radius: ${MainStyle.radius.m}px;
-  filter: drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.1));
-  padding: 8px 8px;
-  background: white;
-  width: max-content;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
-  pointer-events: none;
-
-  ${({ show }) =>
-    show &&
-    css`
-      opacity: 1;
-      pointer-events: all;
-    `}
-`;
-
-const AuthDropdownListItem = styled.li`
-  position: relative;
-  margin-bottom: 4px;
-  font-size: 14px;
-  font-weight: normal;
-  border-radius: 4px;
-
-  a {
-    display: block;
-    text-decoration: none;
-    color: ${MainStyle.color.dark};
-    padding: ${MainStyle.space.s}px ${MainStyle.space.m}px;
-
-    &:hover {
-      color: ${MainStyle.color.dark};
-    }
-  }
-
-  &:hover {
-    background-color: ${darken(0.05, MainStyle.color.light)};
-  }
-`;
-
 export default function Header({ display, className, ...props }) {
   const headerRef = useRef();
   const [session] = useSession();
@@ -241,6 +196,13 @@ export default function Header({ display, className, ...props }) {
       setIsFixed(false);
     }
   };
+
+  //Change user picture
+  if (user && user.profilePicture) {
+    if (user.profilePicture.length) {
+      user.profilePicture = "/images/profile.jpg";
+    }
+  }
 
   return (
     <HeaderElement ref={headerRef} isFixed={isFixed} display={display ? 1 : 0} className={className}>
@@ -279,41 +241,17 @@ export default function Header({ display, className, ...props }) {
                     </IconButtonLink>
                   </Link>
                   <HeaderAuthDiv>
-                    <AuthDropdown>
-                      <ProfilePicture
-                        src={API_URL + "/uploads/users/profilePictures/" + user.profilePicture}
-                        width={40}
-                        height={40}
-                      />
-                      <div>{user.username}</div>
-                      <DropdownIcon icon={faChevronDown} />
-                      <AuthDropdownList>
-                        <AuthDropdownListItem>
-                          {" "}
-                          <Link href="/">
-                            <a> Mon profil </a>
-                          </Link>{" "}
-                        </AuthDropdownListItem>
-                        <AuthDropdownListItem>
-                          {" "}
-                          <Link href="/">
-                            <a> Mes annonces </a>
-                          </Link>{" "}
-                        </AuthDropdownListItem>
-                        <AuthDropdownListItem>
-                          {" "}
-                          <Link href="/">
-                            <a> Mes favoris </a>
-                          </Link>{" "}
-                        </AuthDropdownListItem>
-                        <AuthDropdownListItem>
-                          {" "}
-                          <Link href="/auth/deconnexion">
-                            <a> Me déconnecter </a>
-                          </Link>{" "}
-                        </AuthDropdownListItem>
-                      </AuthDropdownList>
-                    </AuthDropdown>
+                    <Dropdown overlay={authMenu} placement="bottomRight">
+                      <AuthDropdown>
+                        <ProfilePicture
+                          src={user.profilePicture.length ? user.profilePicture : "/images/profile.jpg"}
+                          width={40}
+                          height={40}
+                        />
+                        <div>{user.username}</div>
+                        <DropdownIcon icon={faChevronDown} />
+                      </AuthDropdown>
+                    </Dropdown>
                   </HeaderAuthDiv>
                 </WidgetDiv>
               ) : (
@@ -344,3 +282,15 @@ export default function Header({ display, className, ...props }) {
     </HeaderElement>
   );
 }
+
+const authMenu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+        1st menu item
+      </a>
+    </Menu.Item>
+
+    <Menu.Item onClick={signOut}>Se déconnecter</Menu.Item>
+  </Menu>
+);

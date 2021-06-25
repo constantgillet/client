@@ -17,19 +17,27 @@ export const registerUser = async (username, email, password, passwordConfirm) =
  */
 export const refreshAccessToken = async (token) => {
   try {
-    const response = await fetch(API_URL + "/auth/accessToken?refreshToken=" + token.refreshToken);
+    const response = await axios.post(`${API_URL}/auth/refresh`, {
+      refresh_token: token.refreshToken
+    });
 
-    const res = await response.json();
-
-    if (!res.status) {
+    if (!response.data.data.status === "success") {
       throw refreshedTokens;
     }
 
+    const { data } = response.data;
+    console.log(data);
     return {
       ...token,
-      accessToken: res.data.accessToken,
-      accessTokenExpires: Date.now() + 300000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
-      refreshToken: res.data.refreshToken ?? token.refreshToken // Fall back to old refresh token
+      accessToken: data.access_token.value,
+      accessTokenExpires: data.access_token.expires * 1000, //accessTokenExpires: Date.now() + account.expires_in * 1000,
+      refreshToken: data.refresh_token.value, // Fall back to old refresh token
+      user: {
+        id: data.user.id,
+        username: data.user.username,
+        profilePicture: data.user.profile_picture,
+        bannerPicture: data.user.banner_picture
+      }
     };
   } catch (error) {
     console.error(error);
