@@ -21,7 +21,7 @@ function Menu(props) {
  * Item
  */
 const MenuItemElement = styled(AntMenu.Item)`
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   font-size: 14px;
   font-weight: normal;
   border-radius: 4px;
@@ -34,6 +34,10 @@ const MenuItemElement = styled(AntMenu.Item)`
 
   &:hover {
     background-color: ${darken(0.05, MainStyle.color.light)};
+  }
+
+  &:last-child {
+    margin-bottom: 0px;
   }
 `;
 

@@ -5,6 +5,7 @@ import { GlobalStyle } from "../styles/style";
 import NProgress from "nprogress";
 import Router from "next/router";
 import "nprogress/nprogress.css";
+import { Provider } from "next-auth/client";
 
 NProgress.configure({
   minimum: 0.3,
@@ -21,9 +22,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
+      <Provider session={pageProps.session}>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </Provider>
     </>
   );
 }

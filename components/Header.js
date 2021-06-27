@@ -227,7 +227,7 @@ export default function Header({ display, className, ...props }) {
           </Col>
           <Col xs={12} lg={6} sm={6}>
             <AuthActionsDiv>
-              <Link href="/posts/first-post">
+              <Link href="/ajouter-une-annonce">
                 <LinkAddNew className="no-text-decoration" title="Ajouter une annonce">
                   <Button>Ajouter</Button>
                 </LinkAddNew>
@@ -285,12 +285,14 @@ export default function Header({ display, className, ...props }) {
 
 const authMenu = (
   <Menu>
-    <Menu.Item>
+    <Menu.Item key="test">
       <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
         1st menu item
       </a>
     </Menu.Item>
 
-    <Menu.Item onClick={signOut}>Se déconnecter</Menu.Item>
+    <Menu.Item onClick={signOut} key="logout-item">
+      Se déconnecter
+    </Menu.Item>
   </Menu>
 );
