@@ -46,6 +46,7 @@ const SocialBannerTextCol = styled(Col)`
   }
 
   h6 {
+    color: white;
     margin-bottom: 0px;
     font-size: 16px;
     font-weight: 600;
@@ -112,6 +113,7 @@ const WebsiteInfosP = styled.p`
 
 const LinksList = styled.ul`
   list-style: none;
+  padding-left: 0px;
 
   svg {
     margin-right: ${MainStyle.space.m}px;
@@ -135,6 +137,7 @@ const FooterSubtitle = styled.h6`
   font-size: 16px;
   font-weight: 700;
   margin-bottom: ${MainStyle.space.s}px;
+  color: white;
 `;
 
 const FooterCopyright = styled.div`

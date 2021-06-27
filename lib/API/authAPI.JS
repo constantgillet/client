@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../constants";
+import api from "./api";
 
 export const registerUser = async (username, email, password, passwordConfirm) => {
   return axios.post(`${API_URL}/auth/register`, {
@@ -7,6 +8,12 @@ export const registerUser = async (username, email, password, passwordConfirm) =
     email: email,
     password: password,
     confirm_password: passwordConfirm
+  });
+};
+
+export const sendVerificationEmail = async (userId) => {
+  return api.post(`/auth/verify/send`, {
+    user_id: userId
   });
 };
 
@@ -35,8 +42,10 @@ export const refreshAccessToken = async (token) => {
       user: {
         id: data.user.id,
         username: data.user.username,
+        email: data.user.email,
         profilePicture: data.user.profile_picture,
-        bannerPicture: data.user.banner_picture
+        bannerPicture: data.user.banner_picture,
+        emailVerified: data.user.email_verified
       }
     };
   } catch (error) {

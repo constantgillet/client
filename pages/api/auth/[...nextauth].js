@@ -43,8 +43,10 @@ export default NextAuth({
           user: {
             id: user.user.id,
             username: user.user.username,
+            email: user.user.email,
             profilePicture: user.user.profile_picture,
-            bannerPicture: user.user.banner_picture
+            bannerPicture: user.user.banner_picture,
+            emailVerified: user.user.email_verified
           }
         };
       }

@@ -4,6 +4,8 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Router, { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
+import MailNotVerified from "../pages/auth/email-non-verifie";
 
 export default function MainLayout({ children }) {
   const [state, setState] = useState({
@@ -12,6 +14,8 @@ export default function MainLayout({ children }) {
     displayFooter: true,
     fullScreen: false
   });
+
+  const [session, loading] = useSession();
 
   const router = useRouter();
 
@@ -60,7 +64,7 @@ export default function MainLayout({ children }) {
       </Head>
       <Header display={state.displayHeader} />
       <Navbar display={state.displayNavigation} />
-      {children}
+      {session && !loading && !session.user.emailVerified ? <MailNotVerified /> : children}
       <Footer display={state.displayFooter} />
     </div>
   );
