@@ -50,6 +50,12 @@ export default function MainLayout({ children }) {
     }
   };
 
+  let showMailNotVerified = session && !loading && !session.user.emailVerified ? true : false;
+
+  if (router.pathname == "/auth/verification") {
+    showMailNotVerified = false;
+  }
+
   return (
     <div>
       <Head>
@@ -64,7 +70,7 @@ export default function MainLayout({ children }) {
       </Head>
       <Header display={state.displayHeader} />
       <Navbar display={state.displayNavigation} />
-      {session && !loading && !session.user.emailVerified ? <MailNotVerified /> : children}
+      {showMailNotVerified ? <MailNotVerified /> : children}
       <Footer display={state.displayFooter} />
     </div>
   );

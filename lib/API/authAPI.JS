@@ -12,8 +12,14 @@ export const registerUser = async (username, email, password, passwordConfirm) =
 };
 
 export const sendVerificationEmail = async (userId) => {
-  return api.post(`/auth/verify/send`, {
+  return api.post(`/auth/verify/email/send`, {
     user_id: userId
+  });
+};
+
+export const verifyEmail = async (hash) => {
+  return api.post(`/auth/verify/email`, {
+    hash: hash
   });
 };
 
@@ -33,7 +39,7 @@ export const refreshAccessToken = async (token) => {
     }
 
     const { data } = response.data;
-    console.log(data);
+    console.log("refresh token");
     return {
       ...token,
       accessToken: data.access_token.value,

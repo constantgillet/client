@@ -52,9 +52,9 @@ export default NextAuth({
       }
 
       // Return previous token if the access token has not expired yet
-      if (Date.now() < token.accessTokenExpires) {
-        return token;
-      }
+      // if (Date.now() < token.accessTokenExpires) {
+      //   return token;
+      // }
 
       // Access token has expired, try to update it
       return refreshAccessToken(token);

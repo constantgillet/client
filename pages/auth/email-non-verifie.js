@@ -9,7 +9,7 @@ import { MainStyle } from "../../styles/style";
 import Card from "../../components/Card";
 import { useSession } from "next-auth/client";
 import { sendVerificationEmail } from "../../lib/API/authAPI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const IconContainer = styled.div`
   color: ${MainStyle.color.primary};
@@ -48,14 +48,39 @@ const VerifyMailSection = styled(Card)`
 export default function MailNotVerified() {
   const [session, loading] = useSession();
   const [isPosting, setIsPosting] = useState(false);
+  const [canPost, setCanPost] = useState(true);
+  console.log(session);
+  useEffect(() => {
+    sendEmail();
+  }, []);
 
   const onButtonClick = async () => {
+    sendEmail();
+  };
+
+  const sendEmail = async () => {
     try {
+      setCanPost(false);
       setIsPosting(true);
+
+      setTimeout(() => {
+        setCanPost(true);
+      }, 1000 * 20); //20 seconds
+
       await sendVerificationEmail(session.user.id);
       message.success("Un email vous a été envoyé");
+      setIsPosting(false);
     } catch (error) {}
   };
+
+  // const checkEmailVerified = async = () => {
+
+  //   const checkEmailVerified = setTimeout(() => {
+
+  //   }, 1000 * 20); //20 seconds
+
+  //   return () => clearTimeout(checkEmailVerified)
+  // }
 
   return (
     <Main style={{ height: "50vh" }}>
@@ -69,13 +94,13 @@ export default function MailNotVerified() {
 
               <h1>Vérification de l'adresse email</h1>
               <p>Nous avons envoyé un email de confirmation à {session.user.email}</p>
-              <p>Si vous ne le recevez pas, cliquez sur le bouton ci-dessous ou regardez dans vos spam</p>
-              <Button onClick={onButtonClick} loading={isPosting}>
+              <p>Si vous ne le recevez pas, cliquez sur le bouton ci-dessous ou regardez dans vos spams</p>
+              <Button onClick={onButtonClick} loading={isPosting} disabled={!canPost}>
                 Renvoyer l'email
               </Button>
             </VerifyMailSection>
             <p style={{ textAlign: "center", marginBottom: MainStyle.space.xl + "px" }}>
-              Vous avez un problèmes ? Contactez nous à {""}
+              Vous avez un problème ? Contactez nous à {""}
               <a href="mailto:contact@upgear.fr" title="Email d'upgear">
                 contact@upgear.fr
               </a>

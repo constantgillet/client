@@ -22,7 +22,12 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <Provider session={pageProps.session}>
+      <Provider
+        session={pageProps.session}
+        options={{
+          clientMaxAge: 60 * 5
+        }}
+      >
         <MainLayout>
           <Component {...pageProps} />
         </MainLayout>
