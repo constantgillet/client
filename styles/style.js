@@ -34,6 +34,11 @@ export const MainStyle = {
     danger: "#ff4c61"
   },
   text: {
+    title: {
+      fontSize: "24px",
+      fontWeight: "700",
+      lineHeight: "30px"
+    },
     body: {
       fontSize: "14px",
       fontWeight: "normal"
@@ -58,6 +63,9 @@ export const MainStyle = {
     m: 16,
     l: 24,
     xl: 48
+  },
+  card: {
+    border: "1px solid #e8e9ec"
   }
 };
 

@@ -64,9 +64,10 @@ export default NextAuth({
       if (token) {
         session.user = token.user;
         session.accessToken = token.accessToken;
+        session.accessTokenExpires = token.accessTokenExpires;
+        session.refreshToken = token.refreshToken;
         session.error = token.error;
       }
-
       return session;
     }
   },

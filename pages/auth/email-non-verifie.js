@@ -67,9 +67,11 @@ export default function MailNotVerified() {
         setCanPost(true);
       }, 1000 * 20); //20 seconds
 
-      await sendVerificationEmail(session.user.id);
-      message.success("Un email vous a été envoyé");
-      setIsPosting(false);
+      if (session) {
+        await sendVerificationEmail(session.user.id);
+        message.success("Un email vous a été envoyé");
+        setIsPosting(false);
+      }
     } catch (error) {}
   };
 
@@ -93,7 +95,7 @@ export default function MailNotVerified() {
               </IconContainer>
 
               <h1>Vérification de l'adresse email</h1>
-              <p>Nous avons envoyé un email de confirmation à {session.user.email}</p>
+              <p>Nous avons envoyé un email de confirmation à {session && session.user.email}</p>
               <p>Si vous ne le recevez pas, cliquez sur le bouton ci-dessous ou regardez dans vos spams</p>
               <Button onClick={onButtonClick} loading={isPosting} disabled={!canPost}>
                 Renvoyer l'email

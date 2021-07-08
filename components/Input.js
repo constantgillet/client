@@ -1,10 +1,10 @@
 import React from "react";
-import { Input as AntInput } from "antd";
+import { Input as AntInput, InputNumber as AntInputNumber } from "antd";
 import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
 import { rgba } from "polished";
 
-const InputElement = styled(AntInput)`
+const baseInputStyles = css`
   border-radius: ${MainStyle.radius.s}px;
   border: 1px solid #e3e3e3;
   font-size: 14px;
@@ -34,11 +34,13 @@ const InputElement = styled(AntInput)`
       border-color: ${MainStyle.color.danger};
 
       &:hover,
+      & .ant-input-number-input:hover,
       &.ant-input-affix-wrapper:hover {
         border-color: ${MainStyle.color.danger};
       }
 
       &:focus,
+      & .ant-input-number-input:focus,
       &.ant-input-affix-wrapper:focus {
         border-color: ${MainStyle.color.danger};
         outline: none;
@@ -47,6 +49,36 @@ const InputElement = styled(AntInput)`
     `}
 `;
 
-export default function Input(props) {
+const InputElement = styled(AntInput)`
+  ${baseInputStyles}
+`;
+
+function Input(props) {
   return <InputElement {...props} />;
 }
+
+const TextAeraElement = styled(InputElement.TextArea)`
+  ${baseInputStyles}
+`;
+
+function InputTextAera(props) {
+  return <TextAeraElement {...props} />;
+}
+
+const InputNumberElement = styled(AntInputNumber)`
+  ${baseInputStyles}
+  width: 120px;
+  height: 39px;
+
+  .ant-input-number-input {
+    height: fit-content;
+    padding: 0px;
+  }
+`;
+
+function InputNumber(props) {
+  return <InputNumberElement {...props} />;
+}
+Input.Number = InputNumber;
+Input.TextAera = InputTextAera;
+export default Input;
