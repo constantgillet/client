@@ -10,6 +10,7 @@ import Separator from "../components/Separator";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Radio } from "antd";
+import Select from "../components/Select";
 
 const FormSection = styled.section`
   background: white;
@@ -87,7 +88,10 @@ export default function AddAnnonce(props) {
                 <InputLabel htmlFor="input-title">Catégorie :</InputLabel>
               </Col>
               <Col span={24} md={12}>
-                <Input placeholder="Ex: Famas tokyo marui" id="input-title" />
+                <Select placeholder="Choisissez une catégorie" style={{ width: "100%" }}>
+                  <Select.Option value="1">Test</Select.Option>
+                  <Select.Option value="2">Test</Select.Option>
+                </Select>
               </Col>
             </Row>
           </FormPart>
@@ -104,6 +108,8 @@ export default function AddAnnonce(props) {
                   placeholder="120,00€"
                   id="input-description"
                   formatter={(value) => `${value} €`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  min={1}
+                  max={2000}
                 />
               </Col>
             </Row>

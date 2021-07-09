@@ -1,43 +1,45 @@
-import ReactSelect from "react-select";
-import styled from "styled-components";
+import { Select as AntSelect } from "antd";
+import { rgba } from "polished";
+import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
 
-const ReactSelectElement = styled(ReactSelect)`
-  .react-select__control {
-    border: 1px solid #e3e3e3;
+const SelectElement = styled(AntSelect)`
+  .ant-select-selector {
+    border-radius: ${MainStyle.radius.s}px !important;
+    border: 1px solid #e3e3e3 !important;
+    font-size: 14px !important;
+    padding: 8px 15px;
     font-size: ${MainStyle.text.body.fontSize};
+    font-weight: ${MainStyle.text.body.fontWeight};
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
 
-    &:hover {
-    }
-
-    &--menu-is-open {
+  &.ant-select-focused {
+    .ant-select-selector {
+      border-color: ${MainStyle.color.primary} !important;
       outline: none;
+      box-shadow: 0 0 0 2px ${rgba(MainStyle.color.primary, 0.2)} !important;
     }
   }
-
-  .react-select {
-    &__menu {
-      font-size: ${MainStyle.text.body.fontSize};
-    }
-
-    &__option {
-      &--is-selected {
-        background-color: ${MainStyle.color.primary};
-      }
-    }
+  /* &:focus {
+    border-color: ${MainStyle.color.primary};
+    outline: none;
   }
+
+  &::placeholder {
+    font-size: ${MainStyle.text.body.fontSize};
+    font-weight: ${MainStyle.text.body.fontWeight};
+  } */
 `;
 
-export default function Select({ options, placeholder, instanceId, onChange, className }) {
-  return (
-    <ReactSelectElement
-      instanceId={instanceId}
-      noOptionsMessage={() => <p> Aucun résultat </p>}
-      classNamePrefix="react-select"
-      options={options}
-      placeholder={placeholder}
-      onChange={onChange}
-      className={className}
-    />
-  );
+function Select(props) {
+  return <SelectElement {...props} />;
 }
+
+Select.OptGroup = AntSelect.OptGroup;
+Select.Option = AntSelect.Option;
+export default Select;

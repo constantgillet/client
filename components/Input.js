@@ -18,9 +18,15 @@ const baseInputStyles = css`
   background-clip: padding-box;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-  &:focus {
+  &:focus,
+  &.ant-input-number-focused {
     border-color: ${MainStyle.color.primary};
+    box-shadow: 0 0 0 2px ${rgba(MainStyle.color.primary, 0.2)};
     outline: none;
+  }
+
+  &:hover {
+    border-color: ${MainStyle.color.primary};
   }
 
   &::placeholder {
