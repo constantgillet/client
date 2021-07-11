@@ -12,10 +12,19 @@ const SelectElement = styled(AntSelect)`
     font-size: ${MainStyle.text.body.fontSize};
     font-weight: ${MainStyle.text.body.fontWeight};
     line-height: 1.5;
+    height: 39px !important;
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    .ant-select-selection-placeholder {
+      line-height: 37px !important;
+    }
+  }
+
+  .ant-select-selection-placeholder {
+    line-height: 37px !important;
   }
 
   &.ant-select-focused {

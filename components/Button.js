@@ -23,6 +23,10 @@ const ButtonElement = styled(AntButton)`
   font-weight: ${MainStyle.text.bodyBold.fontWeight};
   height: auto;
 
+  & > svg {
+    margin-right: 8px;
+  }
+
   &:focus,
   &:active {
     outline: 0;

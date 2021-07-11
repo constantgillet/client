@@ -11,6 +11,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { Radio } from "antd";
 import Select from "../components/Select";
+import Image from "next/dist/client/image";
 
 const FormSection = styled.section`
   background: white;
@@ -36,6 +37,18 @@ const InputLabel = styled.label`
   display: inline-block;
   font-weight: 600;
   margin-bottom: ${MainStyle.space.s}px;
+`;
+
+const ObvyLogo = styled.span`
+  display: inline-block;
+  width: 65px;
+  height: 18px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("/images/obvy-logo-color.svg");
+  transform: translateY(4px);
+  margin-left: 4px;
 `;
 
 export default function AddAnnonce(props) {
@@ -85,10 +98,10 @@ export default function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-title">Catégorie :</InputLabel>
+                <InputLabel htmlFor="input-category">Catégorie :</InputLabel>
               </Col>
               <Col span={24} md={12}>
-                <Select placeholder="Choisissez une catégorie" style={{ width: "100%" }}>
+                <Select placeholder="Choisissez une catégorie" style={{ width: "100%" }} id="input-category">
                   <Select.Option value="1">Test</Select.Option>
                   <Select.Option value="2">Test</Select.Option>
                 </Select>
@@ -101,12 +114,12 @@ export default function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-description">Prix de l'annonce :</InputLabel>
+                <InputLabel htmlFor="input-price">Prix de l'annonce :</InputLabel>
               </Col>
               <Col span={24} md={12}>
                 <Input.Number
                   placeholder="120,00€"
-                  id="input-description"
+                  id="input-price"
                   formatter={(value) => `${value} €`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   min={1}
                   max={2000}
@@ -134,7 +147,10 @@ export default function AddAnnonce(props) {
             <Row gutter={30}>
               <Col span={24} md={12}>
                 <InputLabel htmlFor="input-description">Categorie de la livraion :</InputLabel>
-                <p>Vendez facilement et plus rapidement vos équipements grâce à notre partenaire Obvy</p>
+                <p>
+                  Vendez facilement et plus rapidement vos équipements grâce à notre partenaire
+                  <ObvyLogo />
+                </p>
               </Col>
               <Col span={24} md={12}>
                 <Radio.Group name="radiogroup" buttonStyle="solid" defaultValue={1}>
@@ -152,16 +168,21 @@ export default function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-description">Numéro de téléphone (optionnel) :</InputLabel>
+                <InputLabel htmlFor="input-phone">Numéro de téléphone (optionnel) :</InputLabel>
+                <p>
+                  Mettez un numéro de téléphone si vous souhaitez être contacté autrement que par la
+                  messagerie upgear.
+                </p>
               </Col>
               <Col span={24} md={12}>
-                <Input placeholder="+33422424424" id="input-description" style={{ width: "180px" }} />
+                <Input placeholder="+33422424424" type="tel" id="input-phone" style={{ width: "180px" }} />
               </Col>
             </Row>
           </FormPart>
         </FormSection>
-
-        <Button>Ajouter l'annonce</Button>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button>Ajouter l'annonce</Button>
+        </div>
       </Container>
     </Main>
   );

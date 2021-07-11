@@ -64,6 +64,10 @@ const HeaderElement = styled.header`
 const LogoCol = styled(Col)`
   display: flex;
   align-items: center;
+
+  a {
+    display: flex;
+  }
 `;
 const SearchBar = styled.div`
   width: 100%auto;
@@ -229,7 +233,7 @@ export default function Header({ display, className, ...props }) {
             <AuthActionsDiv>
               <Link href="/ajouter-une-annonce">
                 <LinkAddNew className="no-text-decoration" title="Ajouter une annonce">
-                  <Button>Ajouter</Button>
+                  <Button icon={<FontAwesomeIcon icon={faPlus} />}>Ajouter</Button>
                 </LinkAddNew>
               </Link>
 
