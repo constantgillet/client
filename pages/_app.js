@@ -6,6 +6,13 @@ import NProgress from "nprogress";
 import Router from "next/router";
 import "nprogress/nprogress.css";
 import { Provider } from "next-auth/client";
+import { Provider as ReduxProvider } from "react-redux";
+import withRedux, { createWrapper } from "next-redux-wrapper";
+import store from "../redux/store";
+import { useEffect } from "react";
+import { setCategories } from "../redux/actions/categoryActions";
+import { getCategories } from "../lib/API/categoryAPI";
+import DataFetcher from "../components/DataFetcher";
 
 NProgress.configure({
   minimum: 0.3,
@@ -19,8 +26,16 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
+  // useEffect(() => {
+  //   getCategories()
+  //     .then((res) => {
+  //       store.dispatch(setCategories(res.data.data));
+  //     })
+  //     .catch((err) => console.error(err));
+  // }, []);
+
   return (
-    <>
+    <ReduxProvider store={store}>
       <GlobalStyle />
       <Provider
         session={pageProps.session}
@@ -28,12 +43,29 @@ function MyApp({ Component, pageProps }) {
           clientMaxAge: 60 * 5
         }}
       >
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
+        <DataFetcher>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
+        </DataFetcher>
       </Provider>
-    </>
+    </ReduxProvider>
   );
 }
 
-export default MyApp;
+MyApp.getInitialProps = async ({ Component, ctx }) => {
+  //console.log(ctx.store);
+
+  const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+
+  //Anything returned here can be accessed by the client
+  return { pageProps: { pageProps } };
+};
+
+//makeStore function that returns a new store for every request
+const makeStore = () => store;
+
+const wrapper = createWrapper(makeStore);
+
+//withRedux wrapper that passes the store to the App Component
+export default wrapper.withRedux(MyApp);

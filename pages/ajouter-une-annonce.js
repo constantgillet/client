@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import { Radio } from "antd";
 import Select from "../components/Select";
 import Image from "next/dist/client/image";
+import { connect } from "react-redux";
 
 const FormSection = styled.section`
   background: white;
@@ -51,8 +52,10 @@ const ObvyLogo = styled.span`
   margin-left: 4px;
 `;
 
-export default function AddAnnonce(props) {
+function AddAnnonce(props) {
   const [session, loading] = useSession();
+
+  const { categories } = props;
 
   return (
     <Main>
@@ -102,8 +105,17 @@ export default function AddAnnonce(props) {
               </Col>
               <Col span={24} md={12}>
                 <Select placeholder="Choisissez une catégorie" style={{ width: "100%" }} id="input-category">
-                  <Select.Option value="1">Test</Select.Option>
-                  <Select.Option value="2">Test</Select.Option>
+                  {categories?.map((category, index) => {
+                    return (
+                      <Select.OptGroup key={index} label={category.label}>
+                        {category.subcategories.map((subcategory) => (
+                          <Select.Option key={subcategory.name} value={subcategory.name}>
+                            {subcategory.label}
+                          </Select.Option>
+                        ))}
+                      </Select.OptGroup>
+                    );
+                  })}
                 </Select>
               </Col>
             </Row>
@@ -187,3 +199,13 @@ export default function AddAnnonce(props) {
     </Main>
   );
 }
+
+const mapState = (state) => {
+  return {
+    categories: state.category.categories
+  };
+};
+
+const mapDis = {};
+
+export default connect(mapState, mapDis)(AddAnnonce);

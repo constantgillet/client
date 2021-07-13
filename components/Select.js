@@ -23,6 +23,11 @@ const SelectElement = styled(AntSelect)`
     }
   }
 
+  .ant-select-selection-item {
+    display: flex;
+    align-items: center;
+  }
+
   .ant-select-selection-placeholder {
     line-height: 37px !important;
   }
