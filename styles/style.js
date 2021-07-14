@@ -31,7 +31,9 @@ export const MainStyle = {
 
     backgroundColor: "#f2f2f2",
 
-    danger: "#ff4c61"
+    danger: "#ff4c61",
+
+    success: "#33D69F"
   },
   text: {
     title: {

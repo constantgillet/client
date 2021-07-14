@@ -85,6 +85,29 @@ const InputNumberElement = styled(AntInputNumber)`
 function InputNumber(props) {
   return <InputNumberElement {...props} />;
 }
+
+const InputMessageElement = styled.span`
+  font-size: ${MainStyle.text.small.fontSize};
+
+  ${({ type }) =>
+    type === "error"
+      ? css`
+          color: ${MainStyle.color.danger};
+        `
+      : css`
+          color: ${MainStyle.color.success};
+        `}
+`;
+
+function InputMessage(props) {
+  return props.message?.length ? (
+    <InputMessageElement {...props}> {props.message} </InputMessageElement>
+  ) : (
+    <></>
+  );
+}
+
+Input.Message = InputMessage;
 Input.Number = InputNumber;
 Input.TextAera = InputTextAera;
 export default Input;

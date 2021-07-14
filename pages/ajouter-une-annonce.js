@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Container from "../components/Container";
 import { Row, Col } from "antd";
 import { MainStyle } from "../styles/style";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Separator from "../components/Separator";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -55,6 +55,90 @@ const ObvyLogo = styled.span`
 function AddAnnonce(props) {
   const { categories } = props;
 
+  const [state, setState] = useState({
+    locationOptions: [],
+    images: [],
+    title: {
+      value: "",
+      error: null
+    },
+    description: {
+      value: "",
+      error: null
+    },
+    category: null,
+    price: {
+      value: "",
+      error: null
+    },
+    location: null,
+    shippingCategory: null,
+    phone: {
+      value: "",
+      error: null
+    }
+  });
+
+  const [isPosting, setIsPosting] = useState(false);
+
+  /**
+   * TITLE CHECK
+   */
+  const onBlurTitleInput = (e) => {
+    const _title = e.target.value;
+
+    //If length is more than 0 we continue
+    if (_title.length > 0) {
+      //If length is less than 50 we continue
+      if (_title.length < 50) {
+        setState({ ...state, title: { value: _title, error: null } });
+      } else {
+        setState({ ...state, title: { value: _title, error: "Le titre est trop long" } });
+      }
+    } else {
+      setState({ ...state, title: { value: _title, error: "Vous devez mettre un titre" } });
+    }
+  };
+
+  /**
+   * DESCRIPTION CHECK
+   */
+
+  const onBlurDescriptionInput = (e) => {
+    const _description = e.target.value;
+
+    //If length is more than 0 we continue
+    if (_description.length > 0) {
+      //If length is less than 700 we continue
+      if (_description.length < 700) {
+        setState({ ...state, description: { value: _description, error: null } });
+      } else {
+        setState({ ...state, description: { value: _description, error: "La description est trop longue" } });
+      }
+    } else {
+      setState({
+        ...state,
+        description: { value: _description, error: "Vous devez mettre une description" }
+      });
+    }
+  };
+
+  /**
+   * PHONE CHECK
+   */
+  const onBlurPhoneInput = (e) => {
+    const _phone = e.target.value;
+    const regex =
+      /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/gm;
+
+    if (_phone.length > 0) {
+      if (regex.test(_phone)) setState({ ...state, phone: { value: _phone, error: null } });
+      else setState({ ...state, phone: { value: _phone, error: "Téléphone invalide" } });
+    } else {
+      setState({ ...state, phone: { value: "", error: null } });
+    }
+  };
+
   return (
     <Main>
       <Container style={{ paddingTop: MainStyle.space.l + "px", paddingBottom: MainStyle.space.xl + "px" }}>
@@ -72,7 +156,13 @@ function AddAnnonce(props) {
                 <InputLabel htmlFor="input-title">Titre de l'annonce :</InputLabel>
               </Col>
               <Col span={24} md={12}>
-                <Input placeholder="Ex: Famas tokyo marui" id="input-title" />
+                <Input
+                  placeholder="Ex: Famas tokyo marui"
+                  id="input-title"
+                  onBlur={onBlurTitleInput}
+                  error={state.title.error}
+                />
+                <Input.Message type="error" message={state.title.error} />
               </Col>
             </Row>
           </FormPart>
@@ -90,6 +180,7 @@ function AddAnnonce(props) {
                   id="input-description"
                   autoSize={{ minRows: 4 }}
                 />
+                <Input.Message type="error" message={state.description.error} />
               </Col>
             </Row>
           </FormPart>
@@ -130,7 +221,7 @@ function AddAnnonce(props) {
                 <Input.Number
                   placeholder="120,00€"
                   id="input-price"
-                  formatter={(value) => `${value} €`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  formatter={(value) => `${value} €`}
                   min={1}
                   max={2000}
                 />
@@ -185,7 +276,15 @@ function AddAnnonce(props) {
                 </p>
               </Col>
               <Col span={24} md={12}>
-                <Input placeholder="+33422424424" type="tel" id="input-phone" style={{ width: "180px" }} />
+                <Input
+                  placeholder="+33422424424"
+                  type="tel"
+                  id="input-phone"
+                  style={{ width: "180px" }}
+                  onBlur={onBlurPhoneInput}
+                  error={state.phone.error}
+                />
+                <Input.Message type="error" message={state.phone.error} />
               </Col>
             </Row>
           </FormPart>
