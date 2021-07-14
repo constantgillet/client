@@ -53,8 +53,6 @@ const ObvyLogo = styled.span`
 `;
 
 function AddAnnonce(props) {
-  const [session, loading] = useSession();
-
   const { categories } = props;
 
   return (
@@ -198,6 +196,25 @@ function AddAnnonce(props) {
       </Container>
     </Main>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/auth/connexion?error=RequiredLogin`,
+        statusCode: 303
+      }
+    };
+  }
+
+  return {
+    props: {
+      session: session
+    }
+  };
 }
 
 const mapState = (state) => {

@@ -17,6 +17,12 @@ import Menu from "./Menu";
 
 const HeaderElement = styled.header`
   height: 63px;
+
+  ${({ display }) =>
+    !display &&
+    css`
+      display: none;
+    `}
 `;
 const HeaderFixedElement = styled.div`
   display: block;
@@ -44,12 +50,6 @@ const HeaderFixedElement = styled.div`
       z-index: 10;
       filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.06));
       animation: header-fixed-animation 0.3s ease-out;
-    `}
-
-    ${({ display }) =>
-    !display &&
-    css`
-      display: none;
     `}
     
 
@@ -212,8 +212,8 @@ export default function Header({ display, className, ...props }) {
   }
 
   return (
-    <HeaderElement>
-      <HeaderFixedElement ref={headerRef} isFixed={isFixed} display={display ? 1 : 0} className={className}>
+    <HeaderElement display={display ? 1 : 0}>
+      <HeaderFixedElement ref={headerRef} isFixed={isFixed} className={className}>
         <Container>
           <Row>
             <LogoCol xs={6} lg={2}>

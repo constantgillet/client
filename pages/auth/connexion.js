@@ -9,7 +9,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Input from "../../components/Input";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { message } from "antd";
 
 const Form = styled.form`
   width: 100%;
@@ -46,7 +47,7 @@ const Separator = styled.span`
   margin: ${MainStyle.space.l}px auto;
 `;
 
-export default function SignIn({ csrfToken }) {
+export default function SignIn({ csrfToken, ...props }) {
   const { query } = useRouter();
   const { error } = query;
 
@@ -59,6 +60,12 @@ export default function SignIn({ csrfToken }) {
   //Sates password
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
+
+  useEffect(() => {
+    if (error === "RequiredLogin") {
+      message.error("Vous devez être connecté pour accéder à cette page");
+    }
+  }, []);
 
   /**
    * EMAIL CONTROLS
