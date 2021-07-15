@@ -13,6 +13,9 @@ import { Radio } from "antd";
 import Select from "../components/Select";
 import Image from "next/dist/client/image";
 import { connect } from "react-redux";
+import { searchCities } from "../lib/API/adressAPI";
+
+const { Option, OptGroup } = Select;
 
 const FormSection = styled.section`
   background: white;
@@ -81,6 +84,10 @@ function AddAnnonce(props) {
 
   const [isPosting, setIsPosting] = useState(false);
 
+  const [isFetchingCities, setIsFecthingCities] = useState(false);
+
+  const [cities, setCities] = useState([]);
+
   /**
    * TITLE CHECK
    */
@@ -121,6 +128,24 @@ function AddAnnonce(props) {
         description: { value: _description, error: "Vous devez mettre une description" }
       });
     }
+  };
+
+  /**
+   * On city search
+   */
+  const onCitySearch = async (val) => {
+    if (!val.length) {
+      return setCities([]);
+    }
+
+    try {
+      setIsFecthingCities(true);
+      const res = await searchCities(val);
+      setIsFecthingCities(false);
+
+      const newCities = res.data.features.map((feature) => feature.properties);
+      setCities(newCities);
+    } catch (error) {}
   };
 
   /**
@@ -179,6 +204,8 @@ function AddAnnonce(props) {
                   placeholder="Ex: Utilisé pendant une dizaine de partie, très bon état"
                   id="input-description"
                   autoSize={{ minRows: 4 }}
+                  onBlur={onBlurDescriptionInput}
+                  error={state.description.error}
                 />
                 <Input.Message type="error" message={state.description.error} />
               </Col>
@@ -193,16 +220,21 @@ function AddAnnonce(props) {
                 <InputLabel htmlFor="input-category">Catégorie :</InputLabel>
               </Col>
               <Col span={24} md={12}>
-                <Select placeholder="Choisissez une catégorie" style={{ width: "100%" }} id="input-category">
+                <Select
+                  placeholder="Choisissez une catégorie"
+                  style={{ width: "100%" }}
+                  onChange={(val) => setState({ ...state, category: val })}
+                  id="input-category"
+                >
                   {categories?.map((category, index) => {
                     return (
-                      <Select.OptGroup key={index} label={category.label}>
+                      <OptGroup key={index} label={category.label}>
                         {category.subcategories.map((subcategory) => (
-                          <Select.Option key={subcategory.name} value={subcategory.name}>
+                          <Option key={subcategory.name} value={subcategory.name}>
                             {subcategory.label}
-                          </Select.Option>
+                          </Option>
                         ))}
-                      </Select.OptGroup>
+                      </OptGroup>
                     );
                   })}
                 </Select>
@@ -234,10 +266,26 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-title">Votre ville :</InputLabel>
+                <InputLabel htmlFor="input-location">Votre ville :</InputLabel>
               </Col>
               <Col span={24} md={12}>
-                <Input placeholder="Ex: Famas tokyo marui" id="input-title" />
+                <Select
+                  id="input-location"
+                  placeholder="Entrez votre ville"
+                  showSearch
+                  defaultActiveFirstOption={false}
+                  filterOption={false}
+                  style={{ width: "100%" }}
+                  onSearch={onCitySearch}
+                  loading={isFetchingCities}
+                  onChange={(val) => setState({ ...state, location: val })}
+                >
+                  {cities.map((city, index) => (
+                    <Option key={index} value={city.name}>
+                      {city.label}
+                    </Option>
+                  ))}
+                </Select>
               </Col>
             </Row>
           </FormPart>

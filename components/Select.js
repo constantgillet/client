@@ -18,6 +18,12 @@ const SelectElement = styled(AntSelect)`
     background-clip: padding-box;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
+    ${({ error }) =>
+      error &&
+      css`
+        border: 1px solid ${MainStyle.color.danger} !important;
+      `}
+
     .ant-select-selection-placeholder {
       line-height: 37px !important;
     }
@@ -37,7 +43,18 @@ const SelectElement = styled(AntSelect)`
       border-color: ${MainStyle.color.primary} !important;
       outline: none;
       box-shadow: 0 0 0 2px ${rgba(MainStyle.color.primary, 0.2)} !important;
+
+      ${({ error }) =>
+        error &&
+        css`
+          border-color: ${MainStyle.color.danger} !important;
+          box-shadow: 0 0 0 2px ${rgba(MainStyle.color.danger, 0.2)} !important;
+        `}
     }
+  }
+
+  input {
+    height: 100% !important;
   }
   /* &:focus {
     border-color: ${MainStyle.color.primary};
@@ -51,7 +68,7 @@ const SelectElement = styled(AntSelect)`
 `;
 
 function Select(props) {
-  return <SelectElement {...props} />;
+  return <SelectElement {...props} notFoundContent="Aucun résultat" />;
 }
 
 Select.OptGroup = AntSelect.OptGroup;
