@@ -3,7 +3,7 @@ import api from "../lib/API/api";
 import Main from "../components/Main";
 import styled from "styled-components";
 import Container from "../components/Container";
-import { Row, Col } from "antd";
+import { Row, Col, message, Upload } from "antd";
 import { MainStyle } from "../styles/style";
 import { useEffect, useState } from "react";
 import Separator from "../components/Separator";
@@ -34,6 +34,23 @@ const MainTitle = styled.h1`
 
 const FormPart = styled.div`
   padding: ${MainStyle.space.l}px;
+`;
+
+const UploadElement = styled(Upload)`
+  .ant-upload-list-picture-card-container,
+  .ant-upload-select-picture-card {
+    width: 132px !important;
+    height: 132px !important;
+    border-radius: ${MainStyle.radius.s}px;
+
+    .ant-upload-list-item {
+      border-radius: ${MainStyle.radius.s}px;
+    }
+  }
+
+  .ant-upload-select-picture-card:hover {
+    border-color: ${MainStyle.color.primary};
+  }
 `;
 
 const InputLabel = styled.label`
@@ -87,6 +104,23 @@ function AddAnnonce(props) {
   const [isFetchingCities, setIsFecthingCities] = useState(false);
 
   const [cities, setCities] = useState([]);
+
+  /** IMAGES */
+
+  const beforeUploadImage = (file) => {
+    //limit 4000 KO
+    const limit = file.size / 1024 < 4000;
+
+    if (file.type !== "image/png" && file.type !== "image/jpeg") {
+      message.error(`${file.name} n'est pas un fichier png ou jpeg`);
+    }
+
+    if (!limit) {
+      message.error(`${file.name} fait plus de 4 MO`);
+    }
+
+    return file.type === "image/png" || (file.type === "image/jpeg" && limit) ? true : Upload.LIST_IGNORE;
+  };
 
   /**
    * TITLE CHECK
@@ -164,6 +198,26 @@ function AddAnnonce(props) {
     }
   };
 
+  const onClickPostButton = () => {
+    if (
+      state.title.value.length > 0 &&
+      state.images.length > 0 &&
+      state.description.value.length > 0 &&
+      state.category &&
+      state.price.value > 0 &&
+      state.location
+    ) {
+      if (!state.title.error && !state.description.error && !state.price.error && !state.phone.error) {
+        console.log("post");
+        //postData();
+      } else {
+        message.error("Vous decez compléter tous les champs obligatoires.");
+      }
+    } else {
+      message.error("Vous decez compléter tous les champs obligatoires.");
+    }
+  };
+
   return (
     <Main>
       <Container style={{ paddingTop: MainStyle.space.l + "px", paddingBottom: MainStyle.space.xl + "px" }}>
@@ -171,7 +225,18 @@ function AddAnnonce(props) {
           <FormPart style={{ paddingBottom: "0px" }}>
             <MainTitle> Ajouter une annonce</MainTitle>
           </FormPart>
-          <FormPart></FormPart>
+          <FormPart>
+            <UploadElement
+              listType="picture-card"
+              fileList={state.images}
+              onChange={({ fileList: newFileList }) => {
+                setState({ ...state, images: newFileList });
+              }}
+              beforeUpload={beforeUploadImage}
+            >
+              {state.images.length < 5 && "+ Uploader"}
+            </UploadElement>
+          </FormPart>
         </FormSection>
 
         <FormSection>
@@ -295,7 +360,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-description">Categorie de la livraion :</InputLabel>
+                <InputLabel htmlFor="input-description">Catégorie de la livraion :</InputLabel>
                 <p>
                   Vendez facilement et plus rapidement vos équipements grâce à notre partenaire
                   <ObvyLogo />
@@ -338,7 +403,7 @@ function AddAnnonce(props) {
           </FormPart>
         </FormSection>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button>Ajouter l'annonce</Button>
+          <Button onClick={onClickPostButton}>Ajouter l'annonce</Button>
         </div>
       </Container>
     </Main>
