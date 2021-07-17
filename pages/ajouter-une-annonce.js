@@ -165,6 +165,69 @@ function AddAnnonce(props) {
   };
 
   /**
+   * PRICE CHECK
+   */
+  const onBlurPriceInput = (e) => {
+    let _price = e.target.value;
+
+    _price = _price.replace("€", "");
+    _price = _price.replace(" ", "");
+
+    //If length is more than 0 we continue
+    if (_price.length > 0) {
+      //If length is less than 30 we continue
+      if (_price.length < 30) {
+        if (convertToValidPrice(_price)) {
+          _price = convertToValidPrice(_price);
+          setState({ ...state, price: { value: _price, error: null } });
+        } else {
+          setState({
+            ...state,
+            price: { value: _price, error: "Le prix doit être un prix valide entre 1,00 et 1000,00" }
+          });
+        }
+      } else {
+        setState({ ...state, price: { value: _price, error: "Le prix est invalide" } });
+      }
+    } else {
+      setState({ ...state, price: { value: _price, error: "Vous devez mettre un prix" } });
+    }
+  };
+
+  const convertToValidPrice = (_price) => {
+    let priceFormated = _price;
+
+    const regex = /^[0-9.,]+$/;
+
+    //test if contains only numbers , , and .
+    if (regex.test(_price)) {
+      //Replace , by .
+      priceFormated = _price.replace(",", ".");
+
+      //Check is first caracter and the last one are not .
+      if (priceFormated[0] != "." && priceFormated[priceFormated.length - 1] != ".") {
+        //Check if contains less than two .
+        if (priceFormated.split(".").length - 1 <= 1) {
+          if (countDecimals(priceFormated) < 3) {
+            priceFormated = parseFloat(priceFormated);
+
+            if (priceFormated > 0.99 && priceFormated < 1000) {
+              return priceFormated;
+            }
+          }
+        }
+      }
+    }
+
+    return false;
+  };
+
+  const countDecimals = (value) => {
+    if (value % 1 != 0) return value.toString().split(".")[1].length;
+    return 0;
+  };
+
+  /**
    * On city search
    */
   const onCitySearch = async (val) => {
@@ -211,10 +274,10 @@ function AddAnnonce(props) {
         console.log("post");
         //postData();
       } else {
-        message.error("Vous decez compléter tous les champs obligatoires.");
+        message.error("Vous devez compléter tous les champs obligatoires.");
       }
     } else {
-      message.error("Vous decez compléter tous les champs obligatoires.");
+      message.error("Vous devez compléter tous les champs obligatoires.");
     }
   };
 
@@ -316,13 +379,17 @@ function AddAnnonce(props) {
                 <InputLabel htmlFor="input-price">Prix de l'annonce :</InputLabel>
               </Col>
               <Col span={24} md={12}>
-                <Input.Number
+                <Input
                   placeholder="120,00€"
                   id="input-price"
-                  formatter={(value) => `${value} €`}
-                  min={1}
-                  max={2000}
+                  // formatter={(value) => `${value} €`}
+                  // min={1}
+                  // max={2000}
+                  style={{ width: "120px" }}
+                  onBlur={onBlurPriceInput}
+                  error={state.price.error}
                 />
+                <Input.Message type="error" message={state.price.error} />
               </Col>
             </Row>
           </FormPart>
