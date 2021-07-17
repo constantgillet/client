@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
 import Separator from "../components/Separator";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { Radio } from "antd";
 import Select from "../components/Select";
 import Image from "next/dist/client/image";
 import { connect } from "react-redux";
 import { searchCities } from "../lib/API/adressAPI";
+import Radio from "../components/Radio";
 
 const { Option, OptGroup } = Select;
 
@@ -224,6 +224,7 @@ function AddAnnonce(props) {
         <FormSection style={{ marginTop: "0px" }}>
           <FormPart style={{ paddingBottom: "0px" }}>
             <MainTitle> Ajouter une annonce</MainTitle>
+            Ajoutez jusqu’à 6 photos - Voir les astuces
           </FormPart>
           <FormPart>
             <UploadElement
@@ -360,18 +361,24 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-description">Catégorie de la livraion :</InputLabel>
+                <InputLabel htmlFor="input-shipping-category">Catégorie de la livraion :</InputLabel>
                 <p>
                   Vendez facilement et plus rapidement vos équipements grâce à notre partenaire
                   <ObvyLogo />
                 </p>
               </Col>
               <Col span={24} md={12}>
-                <Radio.Group name="radiogroup" buttonStyle="solid" defaultValue={1}>
-                  <Radio.Button value={1}>S (max. 2kg)</Radio.Button>
-                  <Radio.Button value={2}>M (max. 5kg) </Radio.Button>
-                  <Radio.Button value={3}>L (max. 10kg) </Radio.Button>
-                  <Radio.Button value={4}>XL (max. 15kg) </Radio.Button>
+                <Radio.Group
+                  id="input-shipping-category"
+                  name="radiogroup"
+                  buttonStyle="solid"
+                  defaultValue={1}
+                  onChange={(e) => setState({ ...state, shippingCategory: e })}
+                >
+                  <Radio.Button value={"s"}>S (max. 2kg)</Radio.Button>
+                  <Radio.Button value={"m"}>M (max. 5kg) </Radio.Button>
+                  <Radio.Button value={"l"}>L (max. 10kg) </Radio.Button>
+                  <Radio.Button value={"xl"}>XL (max. 15kg) </Radio.Button>
                 </Radio.Group>
               </Col>
             </Row>
