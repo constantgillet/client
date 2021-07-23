@@ -14,6 +14,9 @@ import Image from "next/dist/client/image";
 import { connect } from "react-redux";
 import { searchCities } from "../lib/API/adressAPI";
 import Radio from "../components/Radio";
+import Modal from "../components/Modal";
+import { createOffer } from "../lib/API/offferAPI";
+import { useRouter } from "next/dist/client/router";
 
 const { Option, OptGroup } = Select;
 
@@ -74,6 +77,8 @@ const ObvyLogo = styled.span`
 
 function AddAnnonce(props) {
   const { categories } = props;
+
+  const router = useRouter();
 
   const [state, setState] = useState({
     locationOptions: [],
@@ -148,8 +153,8 @@ function AddAnnonce(props) {
   const onBlurDescriptionInput = (e) => {
     const _description = e.target.value;
 
-    //If length is more than 0 we continue
-    if (_description.length > 0) {
+    //If length is more than 3 we continue
+    if (_description.length > 3) {
       //If length is less than 700 we continue
       if (_description.length < 700) {
         setState({ ...state, description: { value: _description, error: null } });
@@ -179,11 +184,12 @@ function AddAnnonce(props) {
       if (_price.length < 30) {
         if (convertToValidPrice(_price)) {
           _price = convertToValidPrice(_price);
+
           setState({ ...state, price: { value: _price, error: null } });
         } else {
           setState({
             ...state,
-            price: { value: _price, error: "Le prix doit être un prix valide entre 1,00 et 1000,00" }
+            price: { value: _price, error: "Le prix doit être un prix valide entre 1,00 et 2000,00" }
           });
         }
       } else {
@@ -211,7 +217,7 @@ function AddAnnonce(props) {
           if (countDecimals(priceFormated) < 3) {
             priceFormated = parseFloat(priceFormated);
 
-            if (priceFormated > 0.99 && priceFormated < 1000) {
+            if (priceFormated > 0.99 && priceFormated < 2000) {
               return priceFormated;
             }
           }
@@ -271,7 +277,29 @@ function AddAnnonce(props) {
       state.location
     ) {
       if (!state.title.error && !state.description.error && !state.price.error && !state.phone.error) {
-        console.log("post");
+        setIsPosting(true);
+
+        createOffer(
+          state.title.value,
+          state.description.value,
+          state.category,
+          state.price.value,
+          state.location,
+          state.phone.value,
+          state.shippingCategory,
+          state.images
+        )
+          .then(() => {
+            setIsPosting(false);
+            message.success("L'annonce a bien été ajoutée");
+            router.push("/");
+          })
+          .catch((err) => {
+            console.error(err);
+            setIsPosting(false);
+            message.error("Erreur lors de l'ajout de votre annonce, merci de contacter le support");
+          });
+
         //postData();
       } else {
         message.error("Vous devez compléter tous les champs obligatoires.");
@@ -289,6 +317,9 @@ function AddAnnonce(props) {
             <MainTitle> Ajouter une annonce</MainTitle>
             Ajoutez jusqu’à 6 photos - Voir les astuces
           </FormPart>
+          <Modal title="Conseils pour les photos" visible={false}>
+            content
+          </Modal>
           <FormPart>
             <UploadElement
               listType="picture-card"
@@ -382,9 +413,7 @@ function AddAnnonce(props) {
                 <Input
                   placeholder="120,00€"
                   id="input-price"
-                  // formatter={(value) => `${value} €`}
-                  // min={1}
-                  // max={2000}
+                  type="number"
                   style={{ width: "120px" }}
                   onBlur={onBlurPriceInput}
                   error={state.price.error}
@@ -412,10 +441,11 @@ function AddAnnonce(props) {
                   onSearch={onCitySearch}
                   loading={isFetchingCities}
                   onChange={(val) => setState({ ...state, location: val })}
+                  autoComplete="dontshow"
                 >
                   {cities.map((city, index) => (
-                    <Option key={index} value={city.name}>
-                      {city.label}
+                    <Option key={index} value={city.name + " " + city.postcode}>
+                      {city.label} ({city.postcode})
                     </Option>
                   ))}
                 </Select>
@@ -440,7 +470,7 @@ function AddAnnonce(props) {
                   name="radiogroup"
                   buttonStyle="solid"
                   defaultValue={1}
-                  onChange={(e) => setState({ ...state, shippingCategory: e })}
+                  onChange={(e) => setState({ ...state, shippingCategory: e.target.value })}
                 >
                   <Radio.Button value={"s"}>S (max. 2kg)</Radio.Button>
                   <Radio.Button value={"m"}>M (max. 5kg) </Radio.Button>
@@ -477,7 +507,9 @@ function AddAnnonce(props) {
           </FormPart>
         </FormSection>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button onClick={onClickPostButton}>Ajouter l'annonce</Button>
+          <Button onClick={onClickPostButton} loading={isPosting}>
+            Ajouter l'annonce
+          </Button>
         </div>
       </Container>
     </Main>
