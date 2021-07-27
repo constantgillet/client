@@ -68,7 +68,8 @@ export const MainStyle = {
   },
   card: {
     border: "1px solid #e8e9ec"
-  }
+  },
+  gutter: 30
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -125,11 +126,11 @@ export const GlobalStyle = createGlobalStyle`
         text-decoration: none;
     }
 
-    a {
+    a, .ant-breadcrumb {
         color: ${MainStyle.color.primary};
         cursor: pointer;
 
-        &:hover {
+        &:hover, a:hover {
             color:  ${darken(0.1, MainStyle.color.primary)};
         }
     }
