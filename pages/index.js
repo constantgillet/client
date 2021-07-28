@@ -7,7 +7,6 @@ import Container from "../components/Container";
 import { Row } from "antd";
 import { MainStyle } from "../styles/style";
 import TextInput from "../components/TextInput";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import Select from "../components/SelectOld";
 import categoriesOptions from "../docs/categories.json";
 import AnnoncesList from "../components/AnnoncesList";
