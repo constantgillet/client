@@ -71,6 +71,7 @@ export const MainStyle = {
   card: {
     border: "1px solid #e8e9ec"
   },
+  boxShadow: "-4px -8px 31px rgb(0 0 0 / 4%), 4px 8px 31px rgb(0 0 0 / 4%)",
   gutter: 30
 };
 

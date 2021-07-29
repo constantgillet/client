@@ -41,28 +41,35 @@ const ButtonElement = styled(AntButton)`
   }
 
   ${({ type }) =>
-    type == "link" &&
-    css`
-      color: ${MainStyle.color.primary};
-      background: transparent;
-      border-color: transparent;
-      box-shadow: none;
+    type == "link"
+      ? css`
+          color: ${MainStyle.color.primary};
+          background: transparent;
+          border-color: transparent;
+          box-shadow: none;
 
-      &:focus,
-      &:active {
-        background: transparent;
-        border-color: transparent;
-        box-shadow: none;
-        color: ${darken(0.1, MainStyle.color.primary)};
-      }
+          &:focus,
+          &:active {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            color: ${darken(0.1, MainStyle.color.primary)};
+          }
 
-      &:hover {
-        background: transparent;
-        border-color: transparent;
-        box-shadow: none;
-        color: ${darken(0.1, MainStyle.color.primary)};
-      }
-    `}
+          &:hover {
+            background: transparent;
+            border-color: transparent;
+            box-shadow: none;
+            color: ${darken(0.1, MainStyle.color.primary)};
+          }
+        `
+      : type == "outline"
+      ? css`
+          color: ${MainStyle.color.primary};
+          background: transparent;
+          border: 1px solid ${MainStyle.color.primary};
+        `
+      : null}
 `;
 
 export default function Button(props) {

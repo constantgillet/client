@@ -12,6 +12,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/fontawesome-free-regular";
 import { faChevronLeft, faChevronRight, faExpand } from "@fortawesome/fontawesome-free-solid";
+import { ContactAside } from "../../../components/ContactAside";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -195,7 +196,7 @@ export default function OffersList({ pageProps }) {
             col 1
           </Col>
           <Col span={24} md={8}>
-            <ContactAside>col 2</ContactAside>
+            <ContactAside offer={offer} offerUser={offerUser} />
           </Col>
         </Row>
       </Container>
@@ -223,23 +224,4 @@ export async function getServerSideProps({ params, res }) {
       props: { myStatusCode: 404, error: `couldn't find the offer` } // will be passed to the page component as props
     };
   }
-}
-
-const ContactAsideElement = styled.aside`
-  position: sticky;
-  top: 149px;
-  background: white;
-  border-radius: ${MainStyle.radius.m}px;
-`;
-
-const AsideHeader = styled.div`
-  padding: ${MainStyle.space.l}px;
-`;
-
-export function ContactAside({ children }) {
-  return (
-    <ContactAsideElement>
-      <AsideHeader>{children}</AsideHeader>
-    </ContactAsideElement>
-  );
 }
