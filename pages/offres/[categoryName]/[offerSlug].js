@@ -10,9 +10,11 @@ import { getOneUser } from "../../../lib/API/userAPI";
 import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/fontawesome-free-regular";
+import { faHeart, faImage } from "@fortawesome/fontawesome-free-regular";
 import { faChevronLeft, faChevronRight, faExpand } from "@fortawesome/fontawesome-free-solid";
 import { ContactAside } from "../../../components/ContactAside";
+import { toReadablePrice } from "../../../helpers/textHelpers";
+import Separator from "../../../components/Separator";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -131,6 +133,57 @@ const ImagePreviewSeeMoreElement = styled.div`
   }
 `;
 
+const OfferSection = styled.section`
+  background: white;
+  border: ${MainStyle.card.border};
+  border-radius: ${MainStyle.radius.m}px;
+  margin-top: ${MainStyle.space.l}px;
+  margin-bottom: ${MainStyle.space.l}px;
+  padding: ${MainStyle.space.l}px;
+`;
+
+const OfferTitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const OfferTitle = styled.h1`
+  font-size: ${MainStyle.text.title.fontSize};
+  font-weight: ${MainStyle.text.title.fontWeight};
+  line-height: 28px;
+`;
+
+const IconFavorite = styled(FontAwesomeIcon)`
+  font-size: 24px;
+  color: ${MainStyle.color.primary};
+  cursor: pointer;
+`;
+
+const OfferPrice = styled.div`
+  color: ${MainStyle.color.primary};
+  font-size: 24px;
+  font-weight: 600;
+`;
+
+const OfferCreationDate = styled.span`
+  font-size: ${MainStyle.text.small.fontSize};
+  font-weight: 600;
+`;
+
+const PartSeparator = styled(Separator)`
+  margin: ${MainStyle.space.l}px auto;
+`;
+
+const OfferPartTitle = styled.h2`
+  font-size: ${MainStyle.text.subtitle.fontSize};
+  font-weight: ${MainStyle.text.subtitle.fontWeight};
+`;
+
+const OfferDescription = styled.p`
+  white-space: pre-line;
+  line-break: anywhere;
+`;
+
 function ImagePreviewSeeMore({ imageSrc, onClick }) {
   return (
     <ImagePreviewSeeMoreElement style={{ backgroundImage: `url(\'${imageSrc}\')` }} onClick={onClick}>
@@ -146,6 +199,7 @@ function ImagePreviewSeeMore({ imageSrc, onClick }) {
 export default function OffersList({ pageProps }) {
   const { offer, offerUser } = pageProps;
 
+  const creationDate = new Date(offer.creation_date);
   return (
     <Main>
       <Container>
@@ -193,7 +247,29 @@ export default function OffersList({ pageProps }) {
                 </ImagesPreviewBox>
               </Col>
             </Row>
-            col 1
+
+            <OfferSection>
+              <OfferTitleContainer>
+                <OfferTitle>{offer.title}</OfferTitle>
+                <IconFavorite icon={faHeart} />
+              </OfferTitleContainer>
+              <OfferPrice>{toReadablePrice(offer.price)}</OfferPrice>
+              <OfferCreationDate>
+                Ajouté le{" "}
+                {creationDate.toLocaleString("fr-FR", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric"
+                })}{" "}
+                à {creationDate.toLocaleString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+              </OfferCreationDate>
+              <PartSeparator />
+              <OfferPartTitle> Description : </OfferPartTitle>
+              <OfferDescription>{offer.description}</OfferDescription>
+              <PartSeparator />
+              <OfferPartTitle> Livraison : </OfferPartTitle>
+              <p>Faites livrer cet équipement avec votre mode de livraison préféré.</p>
+            </OfferSection>
           </Col>
           <Col span={24} md={8}>
             <ContactAside offer={offer} offerUser={offerUser} />
