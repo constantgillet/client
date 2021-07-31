@@ -13,6 +13,10 @@ import Button from "./Button";
 import Input from "./Input";
 import Image from "next/dist/client/image";
 import { faQuestionCircle } from "@fortawesome/fontawesome-free-regular";
+import { signOut, useSession } from "next-auth/client";
+import { message } from "antd";
+import { buyOffer } from "../lib/API/offferAPI";
+import { useState } from "react";
 
 const ContactAsideElement = styled.aside`
   position: sticky;
@@ -107,6 +111,28 @@ const HelpIcon = styled.div`
 `;
 
 export function ContactAside({ offer, offerUser }) {
+  const [isFetchingBuyLink, setIsFetchingBuyLink] = useState(false);
+
+  const [session] = useSession();
+
+  const onClickBuyButton = () => {
+    if (session) {
+      setIsFetchingBuyLink(true);
+
+      buyOffer(offer.id)
+        .then((res) => {
+          setIsFetchingBuyLink(false);
+          window.location.href = res.data.data.url;
+        })
+        .catch((err) => {
+          message.error("Erreur lors de la création du lien d'achat");
+          setIsFetchingBuyLink(false);
+        });
+    } else {
+      message.info("Vous devez être connecté(e)");
+    }
+  };
+
   return (
     <ContactAsideElement>
       <AsideHeader>
@@ -129,7 +155,12 @@ export function ContactAside({ offer, offerUser }) {
           </ShowPhoneButton>
         )}
 
-        <BuyButton block icon={<FontAwesomeIcon icon={faShieldAlt} />} loading={false}>
+        <BuyButton
+          block
+          icon={<FontAwesomeIcon icon={faShieldAlt} />}
+          loading={isFetchingBuyLink}
+          onClick={onClickBuyButton}
+        >
           Acheter en ligne
         </BuyButton>
         <ProtectTextPart>
