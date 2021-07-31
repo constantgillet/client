@@ -3,7 +3,7 @@ import React from "react";
 import Container from "../../../components/Container";
 import Main from "../../../components/Main";
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { MainStyle } from "../../../styles/style";
 import { getOneOffer } from "../../../lib/API/offferAPI";
 import { getOneUser } from "../../../lib/API/userAPI";
@@ -196,6 +196,65 @@ function ImagePreviewSeeMore({ imageSrc, onClick }) {
   );
 }
 
+function ShippingMethod({ type, price, text }) {
+  return (
+    <ShippingMethodElement>
+      <ShippingMethodContainer>
+        <ShippingIcon type={type} />
+        <Separator />
+        <ShippingPrice>{toReadablePrice(price)}</ShippingPrice>
+      </ShippingMethodContainer>
+      <ShippingInfos>{text}</ShippingInfos>
+    </ShippingMethodElement>
+  );
+}
+
+const ShippingMethodElement = styled.div`
+  margin: ${MainStyle.space.m}px auto;
+
+  hr {
+    flex-grow: 1;
+    margin: 0px 12px;
+  }
+`;
+
+const ShippingMethodContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ShippingIcon = styled.i`
+  display: block;
+  background-position: center;
+  background-size: cover;
+
+  ${({ type }) =>
+    type == "colissimo"
+      ? css`
+          height: 26px;
+          width: 101px;
+          background-image: url(/images/logo/colissimo.png);
+        `
+      : type == "mondial-relay"
+      ? css`
+          width: 26px;
+          height: 26px;
+          background-image: url(/images/logo/mondial_relay.png);
+        `
+      : null}
+`;
+
+const ShippingPrice = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${MainStyle.color.primary};
+`;
+
+const ShippingInfos = styled.p`
+  font-size: 12px;
+  color: ${MainStyle.color.dark60};
+`;
+
 export default function OffersList({ pageProps }) {
   const { offer, offerUser } = pageProps;
 
@@ -269,6 +328,8 @@ export default function OffersList({ pageProps }) {
               <PartSeparator />
               <OfferPartTitle> Livraison : </OfferPartTitle>
               <p>Faites livrer cet équipement avec votre mode de livraison préféré.</p>
+              <ShippingMethod type="mondial-relay" price={5.5} text="Livré habituellement en 4-6 jours" />
+              <ShippingMethod type="colissimo" price={10.5} text="Livré habituellement en 4-6 jours" />
             </OfferSection>
           </Col>
           <Col span={24} md={8}>
