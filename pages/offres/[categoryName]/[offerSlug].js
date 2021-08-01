@@ -21,6 +21,7 @@ import {
 import { ContactAside } from "../../../components/ContactAside";
 import { toReadablePrice } from "../../../helpers/textHelpers";
 import Separator from "../../../components/Separator";
+import MapBlock from "../../../components/MapBlock";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -190,6 +191,14 @@ const OfferDescription = styled.p`
   line-break: anywhere;
 `;
 
+const LocationItem = styled.p`
+  margin: ${MainStyle.space.s}px auto;
+`;
+
+const LocationItemTitle = styled.span`
+  font-weight: bold;
+`;
+
 function ImagePreviewSeeMore({ imageSrc, onClick }) {
   return (
     <ImagePreviewSeeMoreElement style={{ backgroundImage: `url(\'${imageSrc}\')` }} onClick={onClick}>
@@ -338,11 +347,28 @@ export default function OffersList({ pageProps }) {
               <OfferPartTitle> Description : </OfferPartTitle>
               <OfferDescription>{offer.description}</OfferDescription>
               <PartSeparator />
+
               <OfferPartTitle> Livraison : </OfferPartTitle>
               <p>Faites livrer cet équipement avec votre mode de livraison préféré.</p>
               <ShippingMethod type="mondial-relay" price={5.5} text="Livré habituellement en 4-6 jours" />
               <ShippingMethod type="chronopost" price={10.5} text="Livré habituellement en 2-5 jours" />
               <SecureBanner />
+              <PartSeparator />
+
+              <OfferPartTitle> Localisation : </OfferPartTitle>
+              <LocationItem>
+                <LocationItemTitle>Ville :</LocationItemTitle> {offer.city}
+              </LocationItem>
+              <LocationItem>
+                <LocationItemTitle>Département :</LocationItemTitle> Seine-saint-denis
+              </LocationItem>
+              <LocationItem>
+                <LocationItemTitle>Région :</LocationItemTitle> Ile-de-France
+              </LocationItem>
+              <MapBlock location={offer.city} />
+              <PartSeparator />
+
+              <OfferPartTitle> Vendeur : </OfferPartTitle>
             </OfferSection>
           </Col>
           <Col span={24} md={8}>
@@ -380,7 +406,7 @@ function SecureBanner() {
   return (
     <SecureBannerElement>
       <SecureBannerTitle>
-        <FontAwesomeIcon icon={faLock} /> Achat sécurisé avec Obvy
+        <FontAwesomeIcon icon={faLock} /> Achat sécurisé avec <ObvyLogo />
       </SecureBannerTitle>
       <p>
         Votre argent est conservé et le vendeur est payé lorsque vous <br /> confirmez la bonne réception du
@@ -426,4 +452,15 @@ const MoreButton = styled.span`
   svg {
     margin-right: ${MainStyle.space.s}px;
   }
+`;
+
+const ObvyLogo = styled.i`
+  display: inline-block;
+  width: 65px;
+  height: 18px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("/images/obvy-logo-color.svg");
+  transform: translateY(4px);
 `;

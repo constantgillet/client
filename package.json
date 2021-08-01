@@ -22,6 +22,7 @@
     "next-auth": "^3.19.6",
     "next-redux-wrapper": "^7.0.2",
     "nprogress": "^0.2.0",
+    "ol": "^6.6.1",
     "polished": "^4.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
