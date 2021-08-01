@@ -11,7 +11,13 @@ import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faImage } from "@fortawesome/fontawesome-free-regular";
-import { faChevronLeft, faChevronRight, faExpand } from "@fortawesome/fontawesome-free-solid";
+import {
+  faArrowRight,
+  faChevronLeft,
+  faChevronRight,
+  faExpand,
+  faLock
+} from "@fortawesome/fontawesome-free-solid";
 import { ContactAside } from "../../../components/ContactAside";
 import { toReadablePrice } from "../../../helpers/textHelpers";
 import Separator from "../../../components/Separator";
@@ -330,6 +336,7 @@ export default function OffersList({ pageProps }) {
               <p>Faites livrer cet équipement avec votre mode de livraison préféré.</p>
               <ShippingMethod type="mondial-relay" price={5.5} text="Livré habituellement en 4-6 jours" />
               <ShippingMethod type="colissimo" price={10.5} text="Livré habituellement en 4-6 jours" />
+              <SecureBanner />
             </OfferSection>
           </Col>
           <Col span={24} md={8}>
@@ -362,3 +369,56 @@ export async function getServerSideProps({ params, res }) {
     };
   }
 }
+
+function SecureBanner() {
+  return (
+    <SecureBannerElement>
+      <SecureBannerTitle>
+        <FontAwesomeIcon icon={faLock} /> Achat sécurisé avec Obvy
+      </SecureBannerTitle>
+      <p>
+        Votre argent est conservé et le vendeur est payé lorsque vous <br /> confirmez la bonne réception du
+        colis.
+      </p>
+      <MoreButton>
+        {" "}
+        <FontAwesomeIcon icon={faArrowRight} /> Plus d’informations sur le paiement sécurisé
+      </MoreButton>
+    </SecureBannerElement>
+  );
+}
+
+const SecureBannerElement = styled.div`
+  padding: ${MainStyle.space.l}px;
+  background-color: ${MainStyle.color.primary20};
+  border-radius: ${MainStyle.radius.s}px;
+
+  p {
+    margin-bottom: ${MainStyle.space.s}px;
+  }
+`;
+
+const SecureBannerTitle = styled.h2`
+  margin-bottom: ${MainStyle.space.s}px;
+  font-size: 18px;
+  font-weight: 600;
+
+  svg {
+    color: ${MainStyle.color.primary};
+    margin-right: ${MainStyle.space.m}px;
+  }
+`;
+
+const MoreButton = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  svg {
+    margin-right: ${MainStyle.space.s}px;
+  }
+`;
