@@ -247,6 +247,12 @@ const ShippingIcon = styled.i`
           height: 26px;
           background-image: url(/images/logo/mondial_relay.png);
         `
+      : type == "chronopost"
+      ? css`
+          width: 96px;
+          height: 26px;
+          background-image: url(/images/logo/chronopost_logo.jpg);
+        `
       : null}
 `;
 
@@ -335,7 +341,7 @@ export default function OffersList({ pageProps }) {
               <OfferPartTitle> Livraison : </OfferPartTitle>
               <p>Faites livrer cet équipement avec votre mode de livraison préféré.</p>
               <ShippingMethod type="mondial-relay" price={5.5} text="Livré habituellement en 4-6 jours" />
-              <ShippingMethod type="colissimo" price={10.5} text="Livré habituellement en 4-6 jours" />
+              <ShippingMethod type="chronopost" price={10.5} text="Livré habituellement en 2-5 jours" />
               <SecureBanner />
             </OfferSection>
           </Col>
@@ -381,7 +387,6 @@ function SecureBanner() {
         colis.
       </p>
       <MoreButton>
-        {" "}
         <FontAwesomeIcon icon={faArrowRight} /> Plus d’informations sur le paiement sécurisé
       </MoreButton>
     </SecureBannerElement>
