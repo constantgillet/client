@@ -10,7 +10,7 @@ import { getOneUser } from "../../../lib/API/userAPI";
 import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faImage } from "@fortawesome/fontawesome-free-regular";
+import { faClock, faFlag, faHeart, faImage, faUser } from "@fortawesome/fontawesome-free-regular";
 import {
   faArrowRight,
   faChevronLeft,
@@ -199,6 +199,45 @@ const LocationItemTitle = styled.span`
   font-weight: bold;
 `;
 
+const SellerProfileLink = styled.a`
+  & > div {
+    vertical-align: middle;
+  }
+`;
+
+const SellerProfilePicture = styled(Image)`
+  border-radius: 50%;
+  vertical-align: middle;
+`;
+
+const SellerUsername = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+  color: ${MainStyle.color.dark};
+  margin-left: 8px;
+`;
+
+const SellerInfoItem = styled.p`
+  margin: ${MainStyle.space.s}px auto;
+
+  svg {
+    margin-right: ${MainStyle.space.s}px;
+  }
+`;
+
+const ReportOffer = styled.p`
+  margin: ${MainStyle.space.s}px auto;
+  cursor: pointer;
+
+  svg {
+    font-size: 12px;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 function ImagePreviewSeeMore({ imageSrc, onClick }) {
   return (
     <ImagePreviewSeeMoreElement style={{ backgroundImage: `url(\'${imageSrc}\')` }} onClick={onClick}>
@@ -280,6 +319,8 @@ export default function OffersList({ pageProps }) {
   const { offer, offerUser } = pageProps;
 
   const creationDate = new Date(offer.creation_date);
+  const offerUserCreationDate = new Date(offerUser.creation_date);
+
   return (
     <Main>
       <Container>
@@ -369,6 +410,33 @@ export default function OffersList({ pageProps }) {
               <PartSeparator />
 
               <OfferPartTitle> Vendeur : </OfferPartTitle>
+              <Link href="/">
+                <SellerProfileLink title="Lien du profil du vendeur">
+                  <SellerProfilePicture
+                    src="/images/profile.jpg"
+                    width={58}
+                    height={58}
+                    alt="Photo de profil du vendeur"
+                  />
+                  <SellerUsername>{offerUser.username}</SellerUsername>
+                </SellerProfileLink>
+              </Link>
+              <SellerInfoItem>
+                <FontAwesomeIcon icon={faUser} /> Membre depuis le{" "}
+                {offerUserCreationDate.toLocaleString("fr-FR", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric"
+                })}
+              </SellerInfoItem>
+              <SellerInfoItem>
+                <FontAwesomeIcon icon={faClock} /> Dernière connexion le 01/08/2021 à 19:26
+              </SellerInfoItem>
+              <Separator />
+              <ReportOffer>
+                <FontAwesomeIcon icon={faFlag} /> Signaler l'annonce
+              </ReportOffer>
+              <Separator />
             </OfferSection>
           </Col>
           <Col span={24} md={8}>
