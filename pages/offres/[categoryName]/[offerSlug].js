@@ -23,6 +23,7 @@ import { toReadablePrice } from "../../../helpers/textHelpers";
 import Separator from "../../../components/Separator";
 import MapBlock from "../../../components/MapBlock";
 import Head from "next/head";
+import Meta from "../../../components/Meta";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -324,13 +325,11 @@ export default function OffersList({ pageProps }) {
 
   return (
     <Main>
-      <Head>
-        <title>{offer.title} | Annonce airsoft</title>
-        <meta name="description" content={offer.description} />
-        <meta property="og:description" content={offer.description} />
-        <meta property="og:image" content={API_IMAGES_PATH + "min-" + offer.images[0]} />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <Meta
+        title={offer.title}
+        description={offer.description}
+        image={API_IMAGES_PATH + "min-" + offer.images[0]}
+      />
       <Container>
         <BreadcrumbElement>
           <Breadcrumb.Item>

@@ -17,6 +17,7 @@ import Radio from "../components/Radio";
 import Modal from "../components/Modal";
 import { createOffer } from "../lib/API/offferAPI";
 import { useRouter } from "next/dist/client/router";
+import Meta from "../components/Meta";
 
 const { Option, OptGroup } = Select;
 
@@ -311,6 +312,7 @@ function AddAnnonce(props) {
 
   return (
     <Main>
+      <Meta title="Ajouter une annonce airsoft" />
       <Container style={{ paddingTop: MainStyle.space.l + "px", paddingBottom: MainStyle.space.xl + "px" }}>
         <FormSection style={{ marginTop: "0px" }}>
           <FormPart style={{ paddingBottom: "0px" }}>
