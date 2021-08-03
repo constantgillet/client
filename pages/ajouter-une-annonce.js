@@ -472,10 +472,10 @@ function AddAnnonce(props) {
                   defaultValue={1}
                   onChange={(e) => setState({ ...state, shippingCategory: e.target.value })}
                 >
-                  <Radio.Button value={"s"}>S (max. 2kg)</Radio.Button>
-                  <Radio.Button value={"m"}>M (max. 5kg) </Radio.Button>
-                  <Radio.Button value={"l"}>L (max. 10kg) </Radio.Button>
-                  <Radio.Button value={"xl"}>XL (max. 15kg) </Radio.Button>
+                  <Radio.Button value={"small"}>S (max. 2kg)</Radio.Button>
+                  <Radio.Button value={"medium"}>M (max. 5kg) </Radio.Button>
+                  <Radio.Button value={"large"}>L (max. 10kg) </Radio.Button>
+                  <Radio.Button value={"extralarge"}>XL (max. 15kg) </Radio.Button>
                 </Radio.Group>
               </Col>
             </Row>
