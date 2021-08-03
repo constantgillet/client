@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 import MailNotVerified from "../pages/auth/email-non-verifie";
+import { WEBSITE_URL } from "../lib/constants";
 
 export default function MainLayout({ children }) {
   const [state, setState] = useState({
@@ -58,16 +59,6 @@ export default function MainLayout({ children }) {
 
   return (
     <div>
-      <Head>
-        <meta charSet="utf-8" />
-        <title>UpGear</title>
-        <meta
-          name="description"
-          content="UpGear est une plateforme pour acheter des équipements d'airsoft d'occasion de façon simple & sécurisée."
-        />
-        <meta property="og:image" content="https://upgear.fr/images/previews/website-preview.png" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
       <Header display={state.displayHeader} />
       <Navbar display={state.displayNavigation} />
       {showMailNotVerified ? <MailNotVerified /> : children}

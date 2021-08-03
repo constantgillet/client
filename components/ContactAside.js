@@ -117,17 +117,19 @@ export function ContactAside({ offer, offerUser }) {
 
   const onClickBuyButton = () => {
     if (session) {
-      setIsFetchingBuyLink(true);
+      if (!isFetchingBuyLink) {
+        setIsFetchingBuyLink(true);
 
-      buyOffer(offer.id)
-        .then((res) => {
-          setIsFetchingBuyLink(false);
-          window.location.href = res.data.data.url;
-        })
-        .catch((err) => {
-          message.error("Erreur lors de la création du lien d'achat");
-          setIsFetchingBuyLink(false);
-        });
+        buyOffer(offer.id)
+          .then((res) => {
+            setIsFetchingBuyLink(false);
+            window.location.href = res.data.data.url;
+          })
+          .catch((err) => {
+            message.error("Erreur lors de la création du lien d'achat");
+            setIsFetchingBuyLink(false);
+          });
+      }
     } else {
       message.info("Vous devez être connecté(e)");
     }

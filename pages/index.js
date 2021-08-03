@@ -114,7 +114,20 @@ export default function Home({ ...props }) {
   return (
     <Main>
       <Head>
-        <title>UpGear | Achetez et vendez vos équipements d'airsoft</title>
+        <meta charSet="utf-8" />
+        <title>UpGear</title>
+        <meta
+          name="description"
+          content="UpGear est une plateforme pour acheter des équipements d'airsoft d'occasion de façon simple & sécurisée."
+        />
+        <meta
+          property="og:description"
+          content="UpGear est une plateforme pour acheter des équipements d'airsoft d'occasion de façon simple & sécurisée."
+        />
+        <meta property="og:image" content={`${WEBSITE_URL}/images/previews/website-preview.png`} />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:type" content="website" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <SectionIntro>
