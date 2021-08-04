@@ -145,4 +145,8 @@ export const GlobalStyle = createGlobalStyle`
       color: ${MainStyle.color.dark};
       border-radius: ${MainStyle.radius.s}px;
     }
+
+    .ant-modal-mask {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
 `;

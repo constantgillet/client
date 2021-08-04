@@ -36,6 +36,11 @@ const MainTitle = styled.h1`
   margin-bottom: ${MainStyle.space.s}px;
 `;
 
+const SeeTipsButton = styled.span`
+  color: ${MainStyle.color.primary};
+  cursor: pointer;
+`;
+
 const FormPart = styled.div`
   padding: ${MainStyle.space.l}px;
 `;
@@ -110,6 +115,8 @@ function AddAnnonce(props) {
   const [isFetchingCities, setIsFecthingCities] = useState(false);
 
   const [cities, setCities] = useState([]);
+
+  const [showTipModal, setShopTipModal] = useState(false);
 
   /** IMAGES */
 
@@ -317,10 +324,21 @@ function AddAnnonce(props) {
         <FormSection style={{ marginTop: "0px" }}>
           <FormPart style={{ paddingBottom: "0px" }}>
             <MainTitle> Ajouter une annonce</MainTitle>
-            Ajoutez jusqu’à 6 photos - Voir les astuces
+            Ajoutez jusqu’à 6 photos -{" "}
+            <SeeTipsButton onClick={() => setShopTipModal(true)}>Voir les astuces</SeeTipsButton>
           </FormPart>
-          <Modal title="Conseils pour les photos" visible={true}>
-            content
+          <Modal
+            title="Conseils pour les photos"
+            visible={showTipModal}
+            cancelText="Fermer"
+            onCancel={() => setShopTipModal(false)}
+          >
+            <ul>
+              <li className="text-body">Mettez des photos en format paysage </li>
+              <li className="text-body">Ne prennez pas des photos trop proches car la photo sera rognée </li>
+              <li className="text-body">Prendre des photos dans un endroit lumineux</li>
+              <li className="text-body">Ajouter le maximum de photos dont vous disposez </li>
+            </ul>
           </Modal>
           <FormPart>
             <UploadElement
