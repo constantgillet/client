@@ -24,6 +24,7 @@ import Separator from "../../../components/Separator";
 import MapBlock from "../../../components/MapBlock";
 import Head from "next/head";
 import Meta from "../../../components/Meta";
+import { connect } from "react-redux";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -317,13 +318,17 @@ const ShippingInfos = styled.p`
   color: ${MainStyle.color.dark60};
 `;
 
-export default function OfferPage({ pageProps }) {
+function OfferPage({ pageProps, categories }) {
   const { offer, offerUser } = pageProps;
 
   const creationDate = new Date(offer.creation_date);
   const offerUserCreationDate = new Date(offerUser.creation_date);
 
   const carousel = useRef(null);
+
+  const category = categories.map((_category) => {
+    return _category.subcategories.find((subcategory) => subcategory.name === offer.category);
+  })[0];
 
   return (
     <Main>
@@ -338,7 +343,7 @@ export default function OfferPage({ pageProps }) {
             <Link href="/offres">Annonces</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link href={"/offres/" + offer.category}>{offer.category}</Link>
+            <Link href={"/offres/" + offer.category}>{category.label}</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>{offer.title}</Breadcrumb.Item>
         </BreadcrumbElement>
@@ -478,6 +483,14 @@ export async function getServerSideProps({ params, res }) {
     };
   }
 }
+
+const mapState = (state) => {
+  return {
+    categories: state.category.categories
+  };
+};
+
+export default connect(mapState)(OfferPage);
 
 function SecureBanner() {
   return (

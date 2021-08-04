@@ -319,7 +319,7 @@ function AddAnnonce(props) {
             <MainTitle> Ajouter une annonce</MainTitle>
             Ajoutez jusqu’à 6 photos - Voir les astuces
           </FormPart>
-          <Modal title="Conseils pour les photos" visible={false}>
+          <Modal title="Conseils pour les photos" visible={true}>
             content
           </Modal>
           <FormPart>
