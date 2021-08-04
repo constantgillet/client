@@ -1,5 +1,5 @@
 import { Breadcrumb, Carousel, Col, message, Row } from "antd";
-import React from "react";
+import React, { useRef } from "react";
 import Container from "../../../components/Container";
 import Main from "../../../components/Main";
 import Link from "next/link";
@@ -317,11 +317,13 @@ const ShippingInfos = styled.p`
   color: ${MainStyle.color.dark60};
 `;
 
-export default function OffersList({ pageProps }) {
+export default function OfferPage({ pageProps }) {
   const { offer, offerUser } = pageProps;
 
   const creationDate = new Date(offer.creation_date);
   const offerUserCreationDate = new Date(offerUser.creation_date);
+
+  const carousel = useRef(null);
 
   return (
     <Main>
@@ -345,13 +347,13 @@ export default function OffersList({ pageProps }) {
             <Row gutter={MainStyle.gutter}>
               <Col lg={18}>
                 <CarouselContainer>
-                  <Carousel>
+                  <Carousel ref={carousel}>
                     {offer.images.map((image, index) => (
                       <OfferImage key={index} src={API_IMAGES_PATH + image} width={540} height={400} />
                     ))}
                   </Carousel>
-                  <ButtonPrevious icon={faChevronLeft} />
-                  <ButtonNext icon={faChevronRight} size="2x" />
+                  <ButtonPrevious icon={faChevronLeft} onClick={() => carousel.current.prev()} />
+                  <ButtonNext icon={faChevronRight} size="2x" onClick={() => carousel.current.next()} />
                 </CarouselContainer>
               </Col>
               <Col lg={6}>
@@ -361,7 +363,7 @@ export default function OffersList({ pageProps }) {
                   />
                   {offer.images.length > 1 ? (
                     <ImagePreview
-                      style={{ backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[0]}\')` }}
+                      style={{ backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[1]}\')` }}
                     />
                   ) : (
                     <ImagePreviewEmpty>
