@@ -343,7 +343,7 @@ function OfferPage({ pageProps, categories }) {
             <Link href="/offres">Annonces</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link href={"/offres/" + offer.category}>{category.label}</Link>
+            <Link href={"/offres/" + offer.category}>{category ? category.label : ""}</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>{offer.title}</Breadcrumb.Item>
         </BreadcrumbElement>
