@@ -481,8 +481,9 @@ function AddAnnonce(props) {
                 <InputLabel htmlFor="input-shipping-category">Catégorie de la livraion :</InputLabel>
                 <p>
                   Vendez facilement et plus rapidement vos équipements grâce à notre partenaire
-                  <ObvyLogo />
+                  <ObvyLogo />.
                 </p>
+                <p>Vous ne payerez aucune commission.</p>
               </Col>
               <Col span={24} md={12}>
                 <Radio.Group

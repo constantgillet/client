@@ -1,5 +1,5 @@
 import { Breadcrumb, Carousel, Col, message, Row } from "antd";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "../../../components/Container";
 import Main from "../../../components/Main";
 import Link from "next/link";
@@ -10,13 +10,14 @@ import { getOneUser } from "../../../lib/API/userAPI";
 import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faFlag, faHeart, faImage, faUser } from "@fortawesome/fontawesome-free-regular";
+import { faClock, faFlag, faHeart, faImage, faLifeRing, faUser } from "@fortawesome/fontawesome-free-regular";
 import {
   faArrowRight,
   faChevronLeft,
   faChevronRight,
   faExpand,
-  faLock
+  faLock,
+  faUserShield
 } from "@fortawesome/fontawesome-free-solid";
 import { ContactAside } from "../../../components/ContactAside";
 import { toReadablePrice } from "../../../helpers/textHelpers";
@@ -25,6 +26,7 @@ import MapBlock from "../../../components/MapBlock";
 import Head from "next/head";
 import Meta from "../../../components/Meta";
 import { connect } from "react-redux";
+import Modal from "../../../components/Modal";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -493,6 +495,8 @@ const mapState = (state) => {
 export default connect(mapState)(OfferPage);
 
 function SecureBanner() {
+  const [secureBannerVisible, setSecureBannerVisible] = useState(false);
+
   return (
     <SecureBannerElement>
       <SecureBannerTitle>
@@ -502,9 +506,63 @@ function SecureBanner() {
         Votre argent est conservé et le vendeur est payé lorsque vous <br /> confirmez la bonne réception du
         colis.
       </p>
-      <MoreButton>
+      <MoreButton onClick={() => setSecureBannerVisible(true)}>
         <FontAwesomeIcon icon={faArrowRight} /> Plus d’informations sur le paiement sécurisé
       </MoreButton>
+      <Modal
+        title={
+          <div>
+            Informations sur la protecion <ObvyLogo />
+          </div>
+        }
+        visible={secureBannerVisible}
+        okText="Fermer"
+        onOk={() => setSecureBannerVisible(false)}
+        onCancel={() => setSecureBannerVisible(false)}
+      >
+        <ProtectFeatureList>
+          <li className="list-element">
+            <div className="illustration">
+              <FontAwesomeIcon icon={faUserShield} />
+            </div>
+            <div>
+              <div className="title">Votre achat est protégé</div>
+              <div className="body text-body">
+                Votre argent est conservé jusqu'à la bonne réception de votre colis.{" "}
+                <span className="font-weight-bold"> Obvy vous remboursera </span>si la commande n'est jamais
+                expédiée, si elle arrive endommagée ou si elle n'est pas conforme à la description.{" "}
+                <a href="#">En savoir plus.</a>
+              </div>
+            </div>
+          </li>
+
+          <li className="list-element">
+            <div className="illustration">
+              <FontAwesomeIcon icon={faLifeRing} />
+            </div>
+            <div>
+              <div className="title">Une équipe de support dédiée</div>
+              <div className="body text-body">
+                Si vous avez besoin d'aide, vous pouvez contacter Obvy 24h/24, ils feront leur possible pour
+                vous répondre dans les 24 heures.
+              </div>
+            </div>
+          </li>
+
+          <li className="list-element">
+            <div className="illustration">
+              <FontAwesomeIcon icon={faLock} />
+            </div>
+            <div>
+              <div className="title">Paiements sécurisés</div>
+              <div className="body text-body">
+                Payer par Obvy est le seul moyen de payer de façon sécurisée et de prouver l'achat. Vos
+                données ne sont pas partagées au vendeur.
+              </div>
+            </div>
+          </li>
+        </ProtectFeatureList>
+      </Modal>
     </SecureBannerElement>
   );
 }
@@ -527,6 +585,35 @@ const SecureBannerTitle = styled.h2`
   svg {
     color: ${MainStyle.color.primary};
     margin-right: ${MainStyle.space.m}px;
+  }
+`;
+
+const ProtectFeatureList = styled.ul`
+  list-style: none;
+  padding-left: 0px;
+
+  .list-element {
+    display: flex;
+    margin-bottom: 24px;
+
+    .illustration {
+      margin-right: 12px;
+
+      svg {
+        color: ${MainStyle.color.primary};
+        font-size: 24px;
+      }
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      color: $dark;
+      margin-bottom: 6px;
+    }
+
+    .body {
+    }
   }
 `;
 

@@ -25,13 +25,13 @@ function Modal(props) {
       footer={
         <div>
           {props.cancelText ? (
-            <Button type="outline" onClick={props.onOk}>
+            <Button type="outline" onClick={props.onCancel}>
               {props.cancelText}
             </Button>
           ) : (
             <></>
           )}
-          {props.okText ? <Button onClick={props.onCancel}>{props.okText}</Button> : <></>}
+          {props.okText ? <Button onClick={props.onOk}>{props.okText}</Button> : <></>}
         </div>
       }
     />
