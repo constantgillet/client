@@ -149,4 +149,8 @@ export const GlobalStyle = createGlobalStyle`
     .ant-modal-mask {
       background-color: rgba(0, 0, 0, 0.2);
     }
+
+    .ant-popover-inner {
+      border-radius: ${MainStyle.radius.s}px;
+    }
 `;

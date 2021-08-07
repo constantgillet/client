@@ -9,10 +9,10 @@ import { MainStyle } from "../styles/style";
 import TextInput from "../components/TextInput";
 import Select from "../components/SelectOld";
 import categoriesOptions from "../docs/categories.json";
-import AnnoncesList from "../components/AnnoncesList";
+import OffersList from "../components/OffersList";
 import Main from "../components/Main";
-import { getAllAnnonces } from "../lib/annoncesAPI";
 import Meta from "../components/Meta";
+import { getAllOffer } from "../lib/API/offferAPI";
 
 const SectionIntro = styled.section`
   padding-top: ${MainStyle.space.xl + 48}px;
@@ -146,13 +146,13 @@ export default function Home({ ...props }) {
 
       <PageSection>
         <Container>
-          <AnnoncesList title="Les dernières annonces ajoutées" annonces={props.annoncesList1} />
+          <OffersList title="Les dernières annonces ajoutées" offers={props.offersList1} />
         </Container>
       </PageSection>
 
       <PageSection>
         <Container>
-          <AnnoncesList title="D'autres annonces" annonces={props.annoncesList2} />
+          <OffersList title="D'autres annonces" offers={props.offersList2} />
         </Container>
       </PageSection>
     </Main>
@@ -160,17 +160,21 @@ export default function Home({ ...props }) {
 }
 
 export async function getServerSideProps(context) {
-  const data = await getAllAnnonces();
+  try {
+    const resp = await getAllOffer();
 
-  const annonces = data.annonces;
+    const offers = resp.data.data;
 
-  const annoncesList1 = annonces.slice(0, 4);
-  const annoncesList2 = annonces.slice(4, 12);
+    const offersList1 = offers.slice(0, 4);
+    const offersList2 = offers.slice(4, 12);
 
-  return {
-    props: {
-      annoncesList1: annoncesList1,
-      annoncesList2: annoncesList2
-    }
-  };
+    return {
+      props: {
+        offersList1: offersList1,
+        offersList2: offersList2
+      }
+    };
+  } catch (error) {
+    console.error(error);
+  }
 }

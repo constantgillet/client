@@ -335,7 +335,7 @@ function OfferPage({ pageProps, categories }) {
   return (
     <Main>
       <Meta
-        title={offer.title}
+        title={offer.title + " | Annonce airsoft"}
         description={offer.description}
         image={API_IMAGES_PATH + "min-" + offer.images[0]}
       />

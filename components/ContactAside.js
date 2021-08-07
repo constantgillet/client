@@ -1,4 +1,5 @@
 import {
+  faCheck,
   faComment,
   faCommentAlt,
   faComments,
@@ -14,7 +15,7 @@ import Input from "./Input";
 import Image from "next/dist/client/image";
 import { faQuestionCircle } from "@fortawesome/fontawesome-free-regular";
 import { signOut, useSession } from "next-auth/client";
-import { message } from "antd";
+import { message, Popover } from "antd";
 import { buyOffer } from "../lib/API/offferAPI";
 import { useState } from "react";
 
@@ -97,9 +98,9 @@ const ProtectTextPart = styled.div`
 `;
 
 const HelpIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  transform: translate3d(-10px, -16px, 0px);
+  width: 20px;
+  height: 20px;
+  transform: translate3d(0px, -18px, 0px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -171,6 +172,7 @@ export function ContactAside({ offer, offerUser }) {
             Achat protégé <br />
             par Obvy
           </p>
+
           <HelpIcon>
             <FontAwesomeIcon icon={faQuestionCircle} />
           </HelpIcon>

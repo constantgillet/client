@@ -9,7 +9,7 @@ import { Row } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";
 import { toReadablePrice } from "../lib/textFunctions";
-import { API_URL } from "../lib/constants";
+import { API_IMAGES_PATH, API_URL } from "../lib/constants";
 
 const AnnoncesListElement = styled(Card)`
   padding: ${MainStyle.space.l}px;
@@ -37,7 +37,7 @@ const SeeMoreLink = styled.a`
   }
 `;
 
-export default function AnnoncesList({ className, children, annonces, title, seeMoreLink }) {
+export default function OffersList({ className, children, offers, title, seeMoreLink }) {
   return (
     <AnnoncesListElement className={className}>
       <BlockHeader>
@@ -47,9 +47,7 @@ export default function AnnoncesList({ className, children, annonces, title, see
         </Link>
       </BlockHeader>
       <main>
-        <Row>
-          {annonces ? annonces.map((annonce, index) => <AnnonceCard key={index} annonce={annonce} />) : null}
-        </Row>
+        <Row>{offers ? offers.map((offer, index) => <AnnonceCard key={index} offer={offer} />) : null}</Row>
       </main>
     </AnnoncesListElement>
   );
@@ -121,26 +119,26 @@ const AnnonceLocation = styled.span`
   color: ${MainStyle.color.dark60};
 `;
 
-function AnnonceCard({ className, children, annonce }) {
+function AnnonceCard({ className, children, offer }) {
   return (
     <Col sm={6} md={3} noPadding>
-      <Link href="/">
-        <AnnonceLink title={annonce.title}>
+      <Link href={`/offres/${offer.category}/${offer.id}`}>
+        <AnnonceLink title={offer.title}>
           <AnnonceCardHeader>
             <AnnonceImage
-              src={API_URL + "/uploads/annonces/min-" + annonce.images[0]}
+              src={API_IMAGES_PATH + "min-" + offer.images[0]}
               width={243}
               height={243}
               layout="responsive"
-              alt={"photo de " + annonce.title}
+              alt={"photo de " + offer.title}
             />
           </AnnonceCardHeader>
           <div>
-            <AnnonceTitle>{annonce.title}</AnnonceTitle>
+            <AnnonceTitle>{offer.title}</AnnonceTitle>
             <AnnonceInfos>
-              <AnnoncePrice>{toReadablePrice(annonce.price)}</AnnoncePrice>
+              <AnnoncePrice>{toReadablePrice(offer.price)}</AnnoncePrice>
               <AnnonceLocation>
-                <FontAwesomeIcon icon={faMapMarkerAlt} /> {annonce.city}
+                <FontAwesomeIcon icon={faMapMarkerAlt} /> {offer.city}
               </AnnonceLocation>
             </AnnonceInfos>
           </div>
