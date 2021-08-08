@@ -29,6 +29,7 @@ const ButtonElement = styled(AntButton)`
 
   &:focus,
   &:active {
+    font-weight: ${MainStyle.text.bodyBold.fontWeight};
     outline: 0;
     box-shadow: 0 0 0 0.2rem ${rgba(MainStyle.color.primary, 0.2)};
     background: ${darken(0.1, MainStyle.color.primary)};
@@ -36,6 +37,7 @@ const ButtonElement = styled(AntButton)`
   }
 
   &:hover {
+    font-weight: ${MainStyle.text.bodyBold.fontWeight};
     background: ${darken(0.1, MainStyle.color.primary)};
     color: white;
   }
@@ -68,6 +70,26 @@ const ButtonElement = styled(AntButton)`
           color: ${MainStyle.color.primary};
           background: transparent;
           border: 1px solid ${MainStyle.color.primary};
+        `
+      : type == "outline-light"
+      ? css`
+          color: ${MainStyle.color.light};
+          background: transparent;
+          border: 1px solid ${MainStyle.color.light};
+
+          &:focus,
+          &:active {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem ${rgba(MainStyle.color.light, 0.2)};
+            background: ${MainStyle.color.light};
+            color: ${darken(0.1, MainStyle.color.dark)};
+          }
+
+          &:hover {
+            background: ${MainStyle.color.light};
+            color: ${darken(0.1, MainStyle.color.dark)};
+            border-color: ${MainStyle.color.light};
+          }
         `
       : null}
 `;
