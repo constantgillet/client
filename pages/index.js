@@ -12,6 +12,12 @@ import OffersList from "../components/OffersList";
 import Main from "../components/Main";
 import Meta from "../components/Meta";
 import { getAllOffer } from "../lib/API/offferAPI";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShieldAlt } from "@fortawesome/fontawesome-free-solid";
+
+const MainElement = styled(Main)`
+  padding-bottom: ${MainStyle.space.l}px;
+`;
 
 const SectionIntro = styled.section`
   padding-top: ${MainStyle.space.xl + 48}px;
@@ -112,7 +118,7 @@ const PageSection = styled.section`
 export default function Home({ ...props }) {
   //console.log(props);
   return (
-    <Main>
+    <MainElement>
       <Meta />
       <SectionIntro>
         <SectionIntroBackground />
@@ -160,7 +166,13 @@ export default function Home({ ...props }) {
           <OffersList title="D'autres annonces" offers={props.offersList2} />
         </Container>
       </PageSection>
-    </Main>
+
+      <PageSection>
+        <Container>
+          <ProtectBanner />
+        </Container>
+      </PageSection>
+    </MainElement>
   );
 }
 
@@ -224,4 +236,67 @@ const AdBannerTitle = styled.h2`
 
 const AdBannerText = styled.p`
   margin-bottom: ${MainStyle.space.l}px;
+`;
+
+const ProtectBanner = () => {
+  return (
+    <ProtectBannerElement>
+      <Col md={9}>
+        <AdBannerTitle>Achetez & vendez en toute sécurité</AdBannerTitle>
+        <ProtectectText>
+          Acheter une réplique d’airsoft à des particuliers n’est pas simple. Achetez de façon sécurisée vous
+          grâce à la protection Obvy disponnible sur toutes les annonces.
+        </ProtectectText>
+      </Col>
+      <ProtectectInfos>
+        <FontAwesomeIcon icon={faShieldAlt} /> Achat protégé par <ObvyLogo />
+      </ProtectectInfos>
+      <Link href="/">
+        <a title="En savoir plus sur la livraison Obvy">
+          <Button type="link">En savoir plus </Button>
+        </a>
+      </Link>
+    </ProtectBannerElement>
+  );
+};
+
+const ProtectectText = styled.p`
+  margin-bottom: ${MainStyle.space.s}px;
+`;
+
+const ProtectectInfos = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-bottom: ${MainStyle.space.s}px;
+
+  svg {
+    font-size: 32px;
+    margin-right: ${MainStyle.space.s}px;
+  }
+`;
+
+const ProtectBannerElement = styled.div`
+  border-radius: ${MainStyle.radius.m}px;
+  padding: ${MainStyle.space.l}px;
+  background-size: cover;
+  background-position: center;
+  background-image: url("/images/banners/banner-2.jpg");
+
+  h2,
+  p {
+    color: ${MainStyle.color.primary};
+  }
+`;
+
+const ObvyLogo = styled.i`
+  display: inline-block;
+  width: 65px;
+  height: 18px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("/images/obvy-logo-color.svg");
+  transform: translateY(4px);
 `;
