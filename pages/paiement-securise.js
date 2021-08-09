@@ -9,6 +9,7 @@ import { MainStyle } from "../styles/style";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCreditCard, faShieldAlt, faShoppingCart } from "@fortawesome/fontawesome-free-solid";
+import { lighten } from "polished";
 
 const ContentContainer = styled.div`
   background: white;
@@ -52,6 +53,13 @@ const ImageCol = styled(Col)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  img {
+    transition: all 0.3s ease-in;
+    &:hover {
+      transform: scale(0.95);
+    }
+  }
 `;
 
 function FeatureItem({ icon, text }) {
@@ -73,8 +81,40 @@ const FeatureItemElement = styled.div`
   svg {
     font-size: 24px;
     color: ${MainStyle.color.success};
-    margin-right: 12px;
+    margin-right: 18px;
   }
+`;
+
+function Step({ number, text }) {
+  return (
+    <StepElement>
+      <StepNumber>#{number}</StepNumber>
+      <StepText>{text}</StepText>
+    </StepElement>
+  );
+}
+
+const StepElement = styled.div`
+  padding: ${MainStyle.space.l}px;
+  border-radius: ${MainStyle.radius.s}px;
+  border: 2px ${lighten(0.3, MainStyle.color.primary)} solid;
+  height: 200px;
+  transition: all 0.3s ease-in;
+  &:hover {
+    border: 2px ${MainStyle.color.primary} solid;
+  }
+`;
+
+const StepNumber = styled.p`
+  font-size: 34px;
+  color: ${MainStyle.color.primary};
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 12px;
+`;
+
+const StepText = styled.p`
+  text-align: center;
 `;
 
 export default function PaiementSecurise() {
@@ -116,6 +156,28 @@ export default function PaiementSecurise() {
               <FeatureItem icon={faCheck} text="Pas de paiement à l’avance pour l’acheteur" />
               <FeatureItem icon={faCheck} text="Solvabilité garantie pour le vendeur" />
               <FeatureItem icon={faCheck} text="Annulation gratuite et sans frais" />
+            </Col>
+          </Row>
+          <ContentSeparator />
+          <PartTitle>Comment ça marche</PartTitle>
+          <Row gutter={MainStyle.gutter}>
+            <Col md={6}>
+              <Step number={1} text="Je visite la page de l’objet que je veux sur Upgear" />
+            </Col>
+            <Col md={6}>
+              <Step
+                number={2}
+                text="Je clique sur le bouton « Paiement sécurisé » pour envoyer ma proposition d’achat"
+              />
+            </Col>
+            <Col md={6}>
+              <Step number={3} text="Je finalise mon inscription sur Obvy en quelques clics" />
+            </Col>
+            <Col md={6}>
+              <Step
+                number={4}
+                text="Je n’ai plus qu’à suivre ma transaction sur Obvy pour finaliser mon achat !"
+              />
             </Col>
           </Row>
           <ContentSeparator />

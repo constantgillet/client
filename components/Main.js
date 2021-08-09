@@ -3,7 +3,7 @@ import { MainStyle } from "../styles/style";
 
 const MainElement = styled.main`
   background-color: ${MainStyle.color.backgroundColor};
-  animation: opacityAnimation 0.5s ease-in backwards;
+  animation: opacityAnimation 0.3s ease-in backwards;
 
   @keyframes opacityAnimation {
     from {
