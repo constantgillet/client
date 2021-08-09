@@ -414,13 +414,7 @@ function OfferPage({ pageProps, categories }) {
 
               <OfferPartTitle> Localisation : </OfferPartTitle>
               <LocationItem>
-                <LocationItemTitle>Ville :</LocationItemTitle> {offer.city}
-              </LocationItem>
-              <LocationItem>
-                <LocationItemTitle>Département :</LocationItemTitle> Seine-saint-denis
-              </LocationItem>
-              <LocationItem>
-                <LocationItemTitle>Région :</LocationItemTitle> Ile-de-France
+                <LocationItemTitle>Ville :</LocationItemTitle> {offer.city} ({offer.department})
               </LocationItem>
               <MapBlock location={offer.city} />
               <PartSeparator />
@@ -531,7 +525,9 @@ function SecureBanner() {
                 Votre argent est conservé jusqu'à la bonne réception de votre colis.{" "}
                 <span className="font-weight-bold"> Obvy vous remboursera </span>si la commande n'est jamais
                 expédiée, si elle arrive endommagée ou si elle n'est pas conforme à la description.{" "}
-                <a href="#">En savoir plus.</a>
+                <a title="En savoir plus sur le paiement sécurisé" target="blank" href="/paiement-securise">
+                  En savoir plus.
+                </a>
               </div>
             </div>
           </li>

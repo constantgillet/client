@@ -251,7 +251,7 @@ const ProtectBanner = () => {
       <ProtectectInfos>
         <FontAwesomeIcon icon={faShieldAlt} /> Achat protégé par <ObvyLogo />
       </ProtectectInfos>
-      <Link href="/">
+      <Link href="/paiement-securise">
         <a title="En savoir plus sur la livraison Obvy">
           <Button type="link">En savoir plus </Button>
         </a>
@@ -298,5 +298,4 @@ const ObvyLogo = styled.i`
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url("/images/obvy-logo-color.svg");
-  transform: translateY(4px);
 `;

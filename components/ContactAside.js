@@ -97,7 +97,8 @@ const ProtectTextPart = styled.div`
   }
 `;
 
-const HelpIcon = styled.div`
+const HelpIcon = styled.a`
+  color: ${MainStyle.color.success};
   width: 20px;
   height: 20px;
   transform: translate3d(0px, -18px, 0px);
@@ -173,7 +174,7 @@ export function ContactAside({ offer, offerUser }) {
             par Obvy
           </p>
 
-          <HelpIcon>
+          <HelpIcon title="En savoir plus sur le paiement sécurisé" target="blank" href="/paiement-securise">
             <FontAwesomeIcon icon={faQuestionCircle} />
           </HelpIcon>
         </ProtectTextPart>
