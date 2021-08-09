@@ -8,7 +8,13 @@ import Image from "next/image";
 import { MainStyle } from "../styles/style";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCreditCard, faShieldAlt, faShoppingCart } from "@fortawesome/fontawesome-free-solid";
+import {
+  faCheck,
+  faCreditCard,
+  faDolly,
+  faShieldAlt,
+  faShoppingCart
+} from "@fortawesome/fontawesome-free-solid";
 import { lighten } from "polished";
 
 const ContentContainer = styled.div`
@@ -62,6 +68,19 @@ const ImageCol = styled(Col)`
   }
 `;
 
+const StepTitle = styled.h3`
+  font-size: ${MainStyle.text.subtitle.fontSize};
+  font-weight: 600;
+  margin: ${MainStyle.space.l}px auto;
+  text-align: center;
+  text-transform: uppercase;
+  color: ${MainStyle.color.primary};
+
+  svg {
+    margin-right: ${MainStyle.space.s}px;
+  }
+`;
+
 function FeatureItem({ icon, text }) {
   return (
     <FeatureItemElement>
@@ -95,10 +114,10 @@ function Step({ number, text }) {
 }
 
 const StepElement = styled.div`
-  padding: ${MainStyle.space.l}px;
+  padding: ${MainStyle.space.m}px;
   border-radius: ${MainStyle.radius.s}px;
-  border: 2px ${lighten(0.3, MainStyle.color.primary)} solid;
-  height: 200px;
+  border: 2px ${lighten(0.4, MainStyle.color.primary)} solid;
+  height: 180px;
   transition: all 0.3s ease-in;
   &:hover {
     border: 2px ${MainStyle.color.primary} solid;
@@ -160,6 +179,10 @@ export default function PaiementSecurise() {
           </Row>
           <ContentSeparator />
           <PartTitle>Comment ça marche</PartTitle>
+          <StepTitle>
+            <FontAwesomeIcon icon={faShoppingCart} />
+            Vous achetez
+          </StepTitle>
           <Row gutter={MainStyle.gutter}>
             <Col md={6}>
               <Step number={1} text="Je visite la page de l’objet que je veux sur Upgear" />
@@ -178,6 +201,24 @@ export default function PaiementSecurise() {
                 number={4}
                 text="Je n’ai plus qu’à suivre ma transaction sur Obvy pour finaliser mon achat !"
               />
+            </Col>
+          </Row>
+          <StepTitle>
+            <FontAwesomeIcon icon={faDolly} />
+            Vous vendez
+          </StepTitle>
+          <Row gutter={MainStyle.gutter}>
+            <Col md={6}>
+              <Step number={1} text="Je dépose mon annonce sur Upgear" />
+            </Col>
+            <Col md={6}>
+              <Step number={2} text="Je reçois la proposition d'achat par mail" />
+            </Col>
+            <Col md={6}>
+              <Step number={3} text="J'accepte la proposition d'achat" />
+            </Col>
+            <Col md={6}>
+              <Step number={4} text="J'imprime les bons de livraison et je fais livrer le colis" />
             </Col>
           </Row>
           <ContentSeparator />
