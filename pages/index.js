@@ -178,8 +178,9 @@ export default function Home({ ...props }) {
 
 export async function getServerSideProps(context) {
   try {
-    const resp = await getAllOffer();
-
+    const resp = await getAllOffer({
+      limit: 12
+    });
     const offers = resp.data.data;
 
     const offersList1 = offers.slice(0, 4);
@@ -193,6 +194,12 @@ export async function getServerSideProps(context) {
     };
   } catch (error) {
     console.error(error);
+    return {
+      props: {
+        offersList1: [],
+        offersList2: []
+      }
+    };
   }
 }
 
