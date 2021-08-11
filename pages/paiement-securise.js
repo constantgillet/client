@@ -17,6 +17,10 @@ import {
 } from "@fortawesome/fontawesome-free-solid";
 import { lighten } from "polished";
 
+const MainElement = styled(Main)`
+  padding-bottom: ${MainStyle.space.l}px;
+`;
+
 const ContentContainer = styled.div`
   background: white;
   padding: ${MainStyle.space.xl}px;
@@ -177,7 +181,7 @@ const tableData = [
 
 export default function PaiementSecurise() {
   return (
-    <Main>
+    <MainElement>
       <Meta title="🛡️🔒 Paiement sécurisé | Upgear" />
       <Container>
         <PageTitle>Paiement sécurisé Obvy</PageTitle>
@@ -289,6 +293,6 @@ export default function PaiementSecurise() {
           </Row>
         </ContentContainer>
       </Container>
-    </Main>
+    </MainElement>
   );
 }
