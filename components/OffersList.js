@@ -5,11 +5,17 @@ import styled from "styled-components";
 import { MainStyle } from "../styles/style";
 import Card from "./Card";
 import Col from "./Col";
-import { Row } from "antd";
+import { message, Row } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";
+import { faHeart as faHeartFavorite, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";
 import { toReadablePrice } from "../lib/textFunctions";
 import { API_IMAGES_PATH, API_URL } from "../lib/constants";
+import { faHeart as FaHeartNotFavorite } from "@fortawesome/fontawesome-free-regular";
+import { useState } from "react";
+import { connect } from "react-redux";
+import { useSession } from "next-auth/client";
+import { createFavorite, deleteFavorite } from "../lib/API/favoriteAPI";
+import { addFavorite, removeFavorite } from "../redux/actions/favoriteActions";
 
 const AnnoncesListElement = styled(Card)`
   padding: ${MainStyle.space.l}px;
@@ -94,6 +100,23 @@ const AnnonceImage = styled(Image)`
   }
 `;
 
+const FavoriteButton = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+
+  svg {
+    position: absolute;
+    color: ${MainStyle.color.primary};
+    font-size: 24px;
+    top: 8px;
+    right: 8px;
+  }
+`;
+
 const AnnonceTitle = styled.h3`
   font-size: ${MainStyle.text.bodyBold.fontSize};
   font-weight: ${MainStyle.text.bodyBold.fontWeight};
@@ -119,7 +142,63 @@ const AnnonceLocation = styled.span`
   color: ${MainStyle.color.dark60};
 `;
 
-function AnnonceCard({ className, children, offer }) {
+const mapState = (state) => {
+  return {
+    favorites: state.favorite.favorites
+  };
+};
+
+const mapDis = {
+  addFavorite: addFavorite,
+  removeFavorite: removeFavorite
+};
+
+const AnnonceCard = connect(
+  mapState,
+  mapDis
+)(({ className, children, offer, favorites, addFavorite, removeFavorite }) => {
+  const [session, loading] = useSession();
+
+  const isFavorite = favorites.includes(offer.id);
+
+  const [isPosting, setIsPosting] = useState(false);
+
+  const onClickFavorite = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (session && !loading) {
+      if (!isPosting) {
+        setIsPosting(true);
+
+        if (!isFavorite) {
+          addFavorite(offer.id);
+          createFavorite(offer.id)
+            .then(() => {
+              setIsPosting(false);
+            })
+            .catch((err) => {
+              setIsPosting(false);
+              removeFavorite(offer.id);
+              message.error("Erreur lors de l'ajout aux favoris");
+            });
+        } else {
+          removeFavorite(offer.id);
+          deleteFavorite(offer.id)
+            .then(() => {
+              setIsPosting(false);
+            })
+            .catch(() => {
+              setIsPosting(false);
+              message.error("Erreur lors de la suppression du favori");
+            });
+        }
+      }
+    } else {
+      message.error("Vous devez être connecté(e)");
+    }
+  };
+
   return (
     <Col sm={6} md={3} noPadding>
       <Link href={`/offres/${offer.category}/${offer.id}`}>
@@ -132,6 +211,9 @@ function AnnonceCard({ className, children, offer }) {
               layout="responsive"
               alt={"photo de " + offer.title}
             />
+            <FavoriteButton onClick={onClickFavorite}>
+              <FontAwesomeIcon icon={isFavorite ? faHeartFavorite : FaHeartNotFavorite} />
+            </FavoriteButton>
           </AnnonceCardHeader>
           <div>
             <AnnonceTitle>{offer.title}</AnnonceTitle>
@@ -146,4 +228,4 @@ function AnnonceCard({ className, children, offer }) {
       </Link>
     </Col>
   );
-}
+});
