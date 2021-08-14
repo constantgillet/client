@@ -2,8 +2,13 @@ import React, { useEffect } from "react";
 import { setCategories } from "../redux/actions/categoryActions";
 import { connect } from "react-redux";
 import { getCategories } from "../lib/API/categoryAPI";
+import { useSession } from "next-auth/client";
+import { setFavorites } from "../redux/actions/favoriteActions";
+import { getAllFavorites } from "../lib/API/favoriteAPI";
 
 function DataFetcher(props) {
+  const [session, loading] = useSession();
+
   useEffect(() => {
     getCategories()
       .then((res) => {
@@ -11,6 +16,24 @@ function DataFetcher(props) {
       })
       .catch((err) => console.error(err));
   }, []);
+
+  useEffect(() => {
+    if (!loading && session) {
+      getAllFavorites(session?.user?.id)
+        .then((res) => {
+          const newFavorites = res.data.data;
+
+          if (newFavorites) {
+            props.setFavorites(newFavorites);
+          } else {
+            props.setFavorites([]);
+          }
+        })
+        .catch((err) => console.error(err));
+    } else if (!loading && !session) {
+      props.setFavorites([]);
+    }
+  }, [session, loading]);
 
   return <>{props.children}</>;
 }
@@ -22,7 +45,8 @@ const mapState = (state) => {
 };
 
 const mapDis = {
-  setCategories: setCategories
+  setCategories: setCategories,
+  setFavorites: setFavorites
 };
 
 export default connect(mapState, mapDis)(DataFetcher);
