@@ -10,16 +10,24 @@ import { getOneUser } from "../../../lib/API/userAPI";
 import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faFlag, faHeart, faImage, faLifeRing, faUser } from "@fortawesome/fontawesome-free-regular";
+import {
+  faClock,
+  faFlag,
+  faHeart as FaHeartNotFavorite,
+  faImage,
+  faLifeRing,
+  faUser
+} from "@fortawesome/fontawesome-free-regular";
 import {
   faArrowRight,
   faChevronLeft,
   faChevronRight,
   faExpand,
   faLock,
-  faUserShield
+  faUserShield,
+  faHeart as faHeartFavorite
 } from "@fortawesome/fontawesome-free-solid";
-import { ContactAside } from "../../../components/ContactAside";
+import ContactAside from "../../../components/ContactAside";
 import { toReadablePrice } from "../../../helpers/textHelpers";
 import Separator from "../../../components/Separator";
 import MapBlock from "../../../components/MapBlock";
@@ -27,6 +35,9 @@ import Head from "next/head";
 import Meta from "../../../components/Meta";
 import { connect } from "react-redux";
 import Modal from "../../../components/Modal";
+import { addFavorite, removeFavorite, setFavorites } from "../../../redux/actions/favoriteActions";
+import { useSession } from "next-auth/client";
+import { createFavorite, deleteFavorite } from "../../../lib/API/favoriteAPI";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -320,7 +331,7 @@ const ShippingInfos = styled.p`
   color: ${MainStyle.color.dark60};
 `;
 
-function OfferPage({ pageProps, categories }) {
+function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavorite }) {
   const { offer, offerUser } = pageProps;
 
   const creationDate = new Date(offer.creation_date);
@@ -331,6 +342,48 @@ function OfferPage({ pageProps, categories }) {
   const category = categories.map((_category) => {
     return _category.subcategories.find((subcategory) => subcategory.name === offer.category);
   })[0];
+
+  const [session, loading] = useSession();
+
+  const isFavorite = favorites.includes(offer.id);
+
+  const [isPosting, setIsPosting] = useState(false);
+
+  const onClickFavorite = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (session && !loading) {
+      if (!isPosting) {
+        setIsPosting(true);
+
+        if (!isFavorite) {
+          addFavorite(offer.id);
+          createFavorite(offer.id)
+            .then(() => {
+              setIsPosting(false);
+            })
+            .catch((err) => {
+              setIsPosting(false);
+              removeFavorite(offer.id);
+              message.error("Erreur lors de l'ajout aux favoris");
+            });
+        } else {
+          removeFavorite(offer.id);
+          deleteFavorite(offer.id)
+            .then(() => {
+              setIsPosting(false);
+            })
+            .catch(() => {
+              setIsPosting(false);
+              message.error("Erreur lors de la suppression du favori");
+            });
+        }
+      }
+    } else {
+      message.error("Vous devez être connecté(e)");
+    }
+  };
 
   return (
     <Main>
@@ -388,7 +441,10 @@ function OfferPage({ pageProps, categories }) {
             <OfferSection>
               <OfferTitleContainer>
                 <OfferTitle>{offer.title}</OfferTitle>
-                <IconFavorite icon={faHeart} />
+                <IconFavorite
+                  icon={isFavorite ? faHeartFavorite : FaHeartNotFavorite}
+                  onClick={onClickFavorite}
+                />
               </OfferTitleContainer>
               <OfferPrice>{toReadablePrice(offer.price)}</OfferPrice>
               <OfferCreationDate>
@@ -482,11 +538,17 @@ export async function getServerSideProps({ params, res }) {
 
 const mapState = (state) => {
   return {
-    categories: state.category.categories
+    categories: state.category.categories,
+    favorites: state.favorite.favorites
   };
 };
 
-export default connect(mapState)(OfferPage);
+const mapDis = {
+  addFavorite: addFavorite,
+  removeFavorite: removeFavorite
+};
+
+export default connect(mapState, mapDis)(OfferPage);
 
 function SecureBanner() {
   const [secureBannerVisible, setSecureBannerVisible] = useState(false);

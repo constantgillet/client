@@ -112,7 +112,7 @@ const HelpIcon = styled.a`
   }
 `;
 
-export function ContactAside({ offer, offerUser }) {
+export default function ContactAside({ offer, offerUser }) {
   const [isFetchingBuyLink, setIsFetchingBuyLink] = useState(false);
 
   const [session] = useSession();
