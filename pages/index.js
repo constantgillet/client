@@ -13,7 +13,7 @@ import Main from "../components/Main";
 import Meta from "../components/Meta";
 import { getAllOffer } from "../lib/API/offferAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShieldAlt } from "@fortawesome/fontawesome-free-solid";
+import { faLock, faShieldAlt, faShippingFast, faUserShield } from "@fortawesome/fontawesome-free-solid";
 
 const MainElement = styled(Main)`
   padding-bottom: ${MainStyle.space.l}px;
@@ -172,6 +172,12 @@ export default function Home({ ...props }) {
           <ProtectBanner />
         </Container>
       </PageSection>
+
+      <PageSection>
+        <Container>
+          <FeaturesBanner />
+        </Container>
+      </PageSection>
     </MainElement>
   );
 }
@@ -305,4 +311,77 @@ const ObvyLogo = styled.i`
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url("/images/obvy-logo-color.svg");
+`;
+
+const FeaturesBanner = () => {
+  return (
+    <FeaturesBannerElement>
+      <Row>
+        <FeatureItem
+          icon={faLock}
+          title="Sécurité & protection"
+          text="UpGear a un support actif et vérifie les annonces qui sont postées. Le support est présent & actif, n'hésitez pas à nous contacter."
+        />
+        <FeatureItem
+          icon={faUserShield}
+          title="Vie privée"
+          text="UpGear possède une messagerie privée, ne laissez pas vos informations fuiter. Nous faisons le maximum pour assurer votre sécurité."
+        />
+        <FeatureItem
+          icon={faShippingFast}
+          title="Livraison"
+          text="Faites livrer votre équipement d'airsoft en un clic grâce à notre système de livraison. Toutes les livraisons sont sécurisées."
+        />
+      </Row>
+    </FeaturesBannerElement>
+  );
+};
+
+const FeaturesBannerElement = styled.div`
+  border-radius: ${MainStyle.radius.m}px;
+  border-radius: 8px;
+  background: linear-gradient(0deg, rgba(20, 108, 218, 0.67), rgba(20, 108, 218, 0.67)),
+    url(/images/backgrounds/soldier2.jpg);
+  background-size: cover;
+  background-position: top;
+`;
+
+const FeatureItem = ({ icon, title, text }) => {
+  return (
+    <FeatureItemElement md={8}>
+      <FontAwesomeIcon icon={icon} />
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </FeatureItemElement>
+  );
+};
+
+const FeatureItemElement = styled(Col)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding: ${MainStyle.space.m}px;
+  color: white;
+
+  svg {
+    font-size: 44px;
+    margin-bottom: 18px;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: ${MainStyle.text.title.fontSize};
+    line-height: 30px;
+    margin-bottom: 8px;
+    color: white;
+  }
+
+  p {
+    text-align: center;
+    font-weight: normal;
+    font-size: 16px;
+    margin-bottom: 0px;
+  }
 `;
