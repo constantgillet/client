@@ -14,8 +14,8 @@ import { faHeart as FaHeartNotFavorite } from "@fortawesome/fontawesome-free-reg
 import { useState } from "react";
 import { connect } from "react-redux";
 import { useSession } from "next-auth/client";
-import { createFavorite, deleteFavorite } from "../lib/API/favoriteAPI";
 import { addFavorite, removeFavorite } from "../redux/actions/favoriteActions";
+import FavoriteAPI from "../lib/API/favoritesAPI";
 
 const AnnoncesListElement = styled(Card)`
   padding: ${MainStyle.space.l}px;
@@ -173,7 +173,9 @@ const AnnonceCard = connect(
 
         if (!isFavorite) {
           addFavorite(offer.id);
-          createFavorite(offer.id)
+
+          new FavoriteAPI()
+            .create(offer.id)
             .then(() => {
               setIsPosting(false);
             })
@@ -184,7 +186,8 @@ const AnnonceCard = connect(
             });
         } else {
           removeFavorite(offer.id);
-          deleteFavorite(offer.id)
+          new FavoriteAPI()
+            .delete(offer.id)
             .then(() => {
               setIsPosting(false);
             })

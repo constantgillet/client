@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getCategories } from "../lib/API/categoryAPI";
 import { useSession } from "next-auth/client";
 import { setFavorites } from "../redux/actions/favoriteActions";
-import { getAllFavorites } from "../lib/API/favoriteAPI";
+import FavoriteAPI from "../lib/API/favoritesAPI";
 
 function DataFetcher(props) {
   const [session, loading] = useSession();
@@ -19,7 +19,8 @@ function DataFetcher(props) {
 
   useEffect(() => {
     if (!loading && session) {
-      getAllFavorites(session?.user?.id)
+      new FavoriteAPI()
+        .getAll(session?.user?.id)
         .then((res) => {
           const newFavorites = res.data.data;
 

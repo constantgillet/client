@@ -37,7 +37,7 @@ import { connect } from "react-redux";
 import Modal from "../../../components/Modal";
 import { addFavorite, removeFavorite, setFavorites } from "../../../redux/actions/favoriteActions";
 import { useSession } from "next-auth/client";
-import { createFavorite, deleteFavorite } from "../../../lib/API/favoriteAPI";
+import FavoriteAPI from "../../../lib/API/favoritesAPI";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -359,7 +359,8 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
 
         if (!isFavorite) {
           addFavorite(offer.id);
-          createFavorite(offer.id)
+          new FavoriteAPI()
+            .create(offer.id)
             .then(() => {
               setIsPosting(false);
             })
@@ -370,7 +371,8 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
             });
         } else {
           removeFavorite(offer.id);
-          deleteFavorite(offer.id)
+          new FavoriteAPI()
+            .delete(offer.id)
             .then(() => {
               setIsPosting(false);
             })
