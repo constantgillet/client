@@ -1,6 +1,6 @@
-import { Col } from "antd";
+import { Col, message } from "antd";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { addFavorite, removeFavorite } from "../redux/actions/favoriteActions";
@@ -9,7 +9,10 @@ import Image from "next/image";
 import { API_IMAGES_PATH } from "../lib/constants";
 import { toReadablePrice } from "../helpers/textHelpers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";
+import { faCamera, faMapMarkerAlt, faHeart as faHeartFavorite } from "@fortawesome/fontawesome-free-solid";
+import { faHeart as FaHeartNotFavorite } from "@fortawesome/fontawesome-free-regular";
+import { useSession } from "next-auth/client";
+import FavoriteAPI from "../lib/API/favoritesAPI";
 
 const OfferLink = styled.a`
   background: white;
@@ -44,6 +47,23 @@ const OfferImage = styled(Image)`
   border-top-right-radius: 8px;
   width: 100%;
   height: auto;
+`;
+
+const FavoriteButton = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+
+  svg {
+    position: absolute;
+    color: ${MainStyle.color.primary};
+    font-size: 24px;
+    top: 8px;
+    right: 8px;
+  }
 `;
 
 const ImagesCount = styled.div`
@@ -92,6 +112,51 @@ const OfferLocation = styled.span`
 `;
 
 const OfferCard = ({ className, children, offer, favorites, addFavorite, removeFavorite }) => {
+  const [session, loading] = useSession();
+
+  const isFavorite = favorites.includes(offer.id);
+
+  const [isPosting, setIsPosting] = useState(false);
+
+  const onClickFavorite = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (session && !loading) {
+      if (!isPosting) {
+        setIsPosting(true);
+
+        if (!isFavorite) {
+          addFavorite(offer.id);
+
+          new FavoriteAPI()
+            .create(offer.id)
+            .then(() => {
+              setIsPosting(false);
+            })
+            .catch((err) => {
+              setIsPosting(false);
+              removeFavorite(offer.id);
+              message.error("Erreur lors de l'ajout aux favoris");
+            });
+        } else {
+          removeFavorite(offer.id);
+          new FavoriteAPI()
+            .delete(offer.id)
+            .then(() => {
+              setIsPosting(false);
+            })
+            .catch(() => {
+              setIsPosting(false);
+              message.error("Erreur lors de la suppression du favori");
+            });
+        }
+      }
+    } else {
+      message.error("Vous devez être connecté(e)");
+    }
+  };
+
   return (
     <Col sm={12} lg={8}>
       <Link href={`/offres/${offer.category}/${offer.id}`}>
@@ -106,6 +171,9 @@ const OfferCard = ({ className, children, offer, favorites, addFavorite, removeF
             <ImagesCount>
               <FontAwesomeIcon icon={faCamera} /> {offer.images.length}
             </ImagesCount>
+            <FavoriteButton onClick={onClickFavorite}>
+              <FontAwesomeIcon icon={isFavorite ? faHeartFavorite : FaHeartNotFavorite} />
+            </FavoriteButton>
           </CardHead>
           <CardBody>
             <OfferTitle> {offer.title} </OfferTitle>
