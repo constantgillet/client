@@ -300,7 +300,7 @@ const authMenu = (
       </a>
     </Menu.Item>
     <Menu.Item key="favorites-item">
-      <Link href="/mon-profil/mes-favoris">
+      <Link href="/compte/mes-favoris">
         <a title="Mes favoris">Mes favoris</a>
       </Link>
     </Menu.Item>
