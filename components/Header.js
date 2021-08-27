@@ -294,11 +294,12 @@ export default function Header({ display, className, ...props }) {
 
 const authMenu = (
   <Menu>
-    <Menu.Item key="test">
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        1st menu item
-      </a>
+    <Menu.Item key="favorites-item">
+      <Link href="/compte/mes-annonces">
+        <a title="Mes annonces">Mes annonces</a>
+      </Link>
     </Menu.Item>
+
     <Menu.Item key="favorites-item">
       <Link href="/compte/mes-favoris">
         <a title="Mes favoris">Mes favoris</a>

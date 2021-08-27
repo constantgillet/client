@@ -91,6 +91,34 @@ const ButtonElement = styled(AntButton)`
             border-color: ${MainStyle.color.light};
           }
         `
+      : type == "outline-danger"
+      ? css`
+          color: ${MainStyle.color.danger};
+          background: transparent;
+          border: 1px solid ${MainStyle.color.danger};
+
+          &:focus,
+          &:active {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem ${rgba(MainStyle.color.danger, 0.2)};
+            background: ${MainStyle.color.danger};
+            color: ${MainStyle.color.light};
+          }
+
+          &:hover {
+            background: ${MainStyle.color.danger};
+            color: ${MainStyle.color.light};
+            border-color: ${MainStyle.color.danger};
+          }
+        `
+      : null}
+
+  ${({ size }) =>
+    size == "small"
+      ? css`
+          font-size: ${MainStyle.text.small.fontSize};
+          padding: 5px 9px;
+        `
       : null}
 `;
 

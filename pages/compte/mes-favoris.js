@@ -29,7 +29,7 @@ const RowElement = styled(Row)`
   }
 `;
 export default function MyFavorites({ offers }) {
-  console.log(offers);
+  
   return (
     <Main>
       <Meta title="Mes favoris" description="Retrouvez vos annonces d'airsoft favorites sur cette page" />

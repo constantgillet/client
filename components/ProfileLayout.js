@@ -2,9 +2,10 @@ import { faHeart, faUser } from "@fortawesome/fontawesome-free-solid";
 import { faBuffer } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row } from "antd";
+import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
 
 const RowElement = styled(Row)`
@@ -44,9 +45,24 @@ const ListItem = styled.li`
       color: ${MainStyle.color.primary};
     }
   }
+
+  ${({ active }) =>
+    active &&
+    css`
+      a {
+        font-weight: 600;
+        color: #707b89;
+      }
+
+      svg {
+        color: ${MainStyle.color.primary};
+      }
+    `}
 `;
 
 export default function ProfileLayout({ ...props }) {
+  const router = useRouter();
+
   return (
     <RowElement gutter={MainStyle.gutter}>
       <Col md={6}>
@@ -58,14 +74,14 @@ export default function ProfileLayout({ ...props }) {
               </a>
             </Link>
           </ListItem>
-          <ListItem>
-            <Link href="/">
+          <ListItem active={router.pathname === "/compte/mes-annonces"}>
+            <Link href="/compte/mes-annonces">
               <a title="Mes annonces">
                 <FontAwesomeIcon icon={faBuffer} /> Mes annonces
               </a>
             </Link>
           </ListItem>
-          <ListItem>
+          <ListItem active={router.pathname === "/compte/mes-favoris"}>
             <Link href="/compte/mes-favoris">
               <a title="Mes favoris">
                 <FontAwesomeIcon icon={faHeart} /> Mes favoris
