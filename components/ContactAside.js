@@ -16,8 +16,8 @@ import Image from "next/dist/client/image";
 import { faQuestionCircle } from "@fortawesome/fontawesome-free-regular";
 import { signOut, useSession } from "next-auth/client";
 import { message, Popover } from "antd";
-import { buyOffer } from "../lib/API/offferAPI";
 import { useState } from "react";
+import OfferAPI from "../lib/API/offerAPI";
 
 const ContactAsideElement = styled.aside`
   position: sticky;
@@ -122,7 +122,8 @@ export default function ContactAside({ offer, offerUser }) {
       if (!isFetchingBuyLink) {
         setIsFetchingBuyLink(true);
 
-        buyOffer(offer.id)
+        new OfferAPI()
+          .buyOffer(offer.id)
           .then((res) => {
             setIsFetchingBuyLink(false);
             window.location.href = res.data.data.url;

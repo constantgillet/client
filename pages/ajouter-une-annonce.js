@@ -15,9 +15,9 @@ import { connect } from "react-redux";
 import { searchCities } from "../lib/API/adressAPI";
 import Radio from "../components/Radio";
 import Modal from "../components/Modal";
-import { createOffer } from "../lib/API/offferAPI";
 import { useRouter } from "next/dist/client/router";
 import Meta from "../components/Meta";
+import OfferAPI from "../lib/API/offerAPI";
 
 const { Option, OptGroup } = Select;
 
@@ -287,16 +287,17 @@ function AddAnnonce(props) {
       if (!state.title.error && !state.description.error && !state.price.error && !state.phone.error) {
         setIsPosting(true);
 
-        createOffer(
-          state.title.value,
-          state.description.value,
-          state.category,
-          state.price.value,
-          state.location,
-          state.phone.value,
-          state.shippingCategory,
-          state.images
-        )
+        new OfferAPI()
+          .createOffer(
+            state.title.value,
+            state.description.value,
+            state.category,
+            state.price.value,
+            state.location,
+            state.phone.value,
+            state.shippingCategory,
+            state.images
+          )
           .then(() => {
             setIsPosting(false);
             message.success("L'annonce a bien été ajoutée");

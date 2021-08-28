@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/client";
 import Main from "../../components/Main";
 import FavoriteAPI from "../../lib/API/favoritesAPI";
-import OfferAPI from "../../lib/API/_offerAPI";
+import OfferAPI from "../../lib/API/offerAPI";
 import Meta from "../../components/Meta";
 import Container from "../../components/Container";
 import ProfileLayout from "../../components/ProfileLayout";
@@ -29,7 +29,6 @@ const RowElement = styled(Row)`
   }
 `;
 export default function MyFavorites({ offers }) {
-  
   return (
     <Main>
       <Meta title="Mes favoris" description="Retrouvez vos annonces d'airsoft favorites sur cette page" />

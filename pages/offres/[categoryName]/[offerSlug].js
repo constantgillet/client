@@ -5,7 +5,6 @@ import Main from "../../../components/Main";
 import Link from "next/link";
 import styled, { css } from "styled-components";
 import { MainStyle } from "../../../styles/style";
-import { getOneOffer } from "../../../lib/API/offferAPI";
 import { getOneUser } from "../../../lib/API/userAPI";
 import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
@@ -38,6 +37,7 @@ import Modal from "../../../components/Modal";
 import { addFavorite, removeFavorite, setFavorites } from "../../../redux/actions/favoriteActions";
 import { useSession } from "next-auth/client";
 import FavoriteAPI from "../../../lib/API/favoritesAPI";
+import OfferAPI from "../../../lib/API/offerAPI";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -521,7 +521,7 @@ export async function getServerSideProps({ params, res }) {
   const offerSlugSplited = offerSlug.split("-");
 
   try {
-    const resp = await getOneOffer(offerSlugSplited[0]);
+    const resp = await new OfferAPI().getOneOffer(offerSlugSplited[0]);
     const respUser = await getOneUser(resp.data.data.user_id);
 
     // will be passed to the page component as props

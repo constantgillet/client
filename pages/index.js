@@ -11,9 +11,9 @@ import categoriesOptions from "../docs/categories.json";
 import OffersList from "../components/OffersList";
 import Main from "../components/Main";
 import Meta from "../components/Meta";
-import { getAllOffer } from "../lib/API/offferAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faShieldAlt, faShippingFast, faUserShield } from "@fortawesome/fontawesome-free-solid";
+import OfferAPI from "../lib/API/offerAPI";
 
 const MainElement = styled(Main)`
   padding-bottom: ${MainStyle.space.l}px;
@@ -184,7 +184,7 @@ export default function Home({ ...props }) {
 
 export async function getServerSideProps(context) {
   try {
-    const resp = await getAllOffer({
+    const resp = await new OfferAPI().getAllOffer({
       limit: 12
     });
     const offers = resp.data.data;
