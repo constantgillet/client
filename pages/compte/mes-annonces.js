@@ -8,12 +8,12 @@ import ProfileLayout from "../../components/ProfileLayout";
 import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import OfferCard from "../../components/OfferCard";
-import { Row, Col } from "antd";
+import { Row, Col, message } from "antd";
 import Link from "next/link";
 import { API_IMAGES_PATH } from "../../lib/constants";
 import { toReadablePrice } from "../../helpers/textHelpers";
 import Image from "next/image";
-import { faEye, faTrash } from "@fortawesome/fontawesome-free-solid";
+import { faEye, faPlus, faTrash } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import { useState } from "react";
@@ -40,8 +40,11 @@ const RowElement = styled(Row)`
 export default function MyOffers({ offers }) {
   console.log(offers);
 
+  const [currentOffers, setCurrentOffers] = useState(offers || []);
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState({ id: 0, title: "" });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const onClickDelete = (e, offerId, offerTitle) => {
     e.stopPropagation();
@@ -49,25 +52,51 @@ export default function MyOffers({ offers }) {
     setShowDeleteModal(true);
   };
 
+  const onConfirmDelete = () => {
+    if (!isDeleting) {
+      setIsDeleting(true);
+      new OfferAPI()
+        .deleteOffer(selectedOffer.id)
+        .then((res) => {
+          const newOffers = currentOffers.filter((offer, index) => offer.id != selectedOffer.id);
+          setCurrentOffers(newOffers);
+          setIsDeleting(false);
+          setShowDeleteModal(false);
+          message.success("L'annonce a été supprimée.");
+        })
+        .catch((err) => {
+          setIsDeleting(false);
+          setShowDeleteModal(false);
+          message.error("Erreur lors de la suppression de l'annonce.");
+        });
+    } else {
+      message.error("Il y a déjà une suppression en cours");
+    }
+  };
+
   return (
     <Main>
-      <Meta title="Mes annonces" description="Retrouvez ici les annonces que vous avez créé." />
+      <Meta title="Mes annonces" description="Retrouvez ici les annonces que vous avez créées." />
       <Container>
         <ProfileLayout>
           <CardSection>
             <CardTitle>Mes annonces</CardTitle>
             <p>Vous retrouverez ici les annonces que vous avez créées.</p>
-            <RowElement gutter={MainStyle.gutter}>
-              {offers?.map((offer, index) => (
-                <OwnedOfferCard
-                  key={index}
-                  offer={offer}
-                  onClickDelete={(e) => {
-                    onClickDelete(e, offer.id, offer.title);
-                  }}
-                />
-              ))}
-            </RowElement>
+            {currentOffers.length ? (
+              <RowElement gutter={MainStyle.gutter}>
+                {currentOffers?.map((offer, index) => (
+                  <OwnedOfferCard
+                    key={index}
+                    offer={offer}
+                    onClickDelete={(e) => {
+                      onClickDelete(e, offer.id, offer.title);
+                    }}
+                  />
+                ))}
+              </RowElement>
+            ) : (
+              <NoResult />
+            )}
           </CardSection>
         </ProfileLayout>
         <Modal
@@ -75,6 +104,7 @@ export default function MyOffers({ offers }) {
           okText="Supprimer"
           cancelText="Annuler"
           onCancel={() => setShowDeleteModal(false)}
+          onOk={onConfirmDelete}
         >
           Etes-vous sûr de vouloir supprimer l'annonce "{selectedOffer?.title}" ?
         </Modal>
@@ -213,5 +243,34 @@ const OwnedOfferCard = ({ offer, onClickDelete }) => {
         </OfferLink>
       </Link>
     </Col>
+  );
+};
+
+const NoResultElement = styled(Row)`
+  justify-content: center;
+  align-items: center;
+`;
+
+const NoOfferBlock = styled(Col)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: ${MainStyle.space.xl}px auto;
+`;
+
+const NoResult = () => {
+  return (
+    <NoResultElement>
+      <NoOfferBlock span={24} md={12}>
+        <p>Vous n'avez créé aucune annonce pour le moment</p>
+        <Link href="/ajouter-une-annonce">
+          <a title="Ajouter une annonce">
+            <Button icon={<FontAwesomeIcon icon={faPlus} />}>Ajouter une annonce</Button>
+          </a>
+        </Link>
+      </NoOfferBlock>
+    </NoResultElement>
   );
 };

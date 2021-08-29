@@ -9,6 +9,11 @@ import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import OfferCard from "../../components/OfferCard";
 import { Row } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/fontawesome-free-solid";
+import { Col } from "antd";
+import Link from "next/link";
+import Button from "../../components/Button";
 
 const CardSection = styled.section`
   background: white;
@@ -28,6 +33,7 @@ const RowElement = styled(Row)`
     padding-bottom: ${MainStyle.space.m}px;
   }
 `;
+
 export default function MyFavorites({ offers }) {
   return (
     <Main>
@@ -40,11 +46,15 @@ export default function MyFavorites({ offers }) {
               Sélectionnez vos annonces favorites et retrouvez les. Sauvegardez autant d'annonces que vous le
               souhaitez.
             </p>
-            <RowElement gutter={MainStyle.gutter}>
-              {offers?.map((offer, index) => (
-                <OfferCard key={index} offer={offer} />
-              ))}
-            </RowElement>
+            {offers?.length ? (
+              <RowElement gutter={MainStyle.gutter}>
+                {offers?.map((offer, index) => (
+                  <OfferCard key={index} offer={offer} />
+                ))}
+              </RowElement>
+            ) : (
+              <NoResult />
+            )}
           </CardSection>
         </ProfileLayout>
       </Container>
@@ -83,3 +93,32 @@ export async function getServerSideProps(context) {
     };
   }
 }
+
+const NoResultElement = styled(Row)`
+  justify-content: center;
+  align-items: center;
+`;
+
+const NoOfferBlock = styled(Col)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: ${MainStyle.space.xl}px auto;
+`;
+
+const NoResult = () => {
+  return (
+    <NoResultElement>
+      <NoOfferBlock span={24} md={12}>
+        <p>Vous n'avez aucune annonce favorite</p>
+        <Link href="/">
+          <a title="Trouver des offres">
+            <Button icon={<FontAwesomeIcon icon={faSearch} />}>Trouver des offres</Button>
+          </a>
+        </Link>
+      </NoOfferBlock>
+    </NoResultElement>
+  );
+};

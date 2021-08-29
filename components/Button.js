@@ -65,7 +65,7 @@ const ButtonElement = styled(AntButton)`
             color: ${darken(0.1, MainStyle.color.primary)};
           }
         `
-      : type == "outline"
+      : type == "outline" || type == "outline-primary"
       ? css`
           color: ${MainStyle.color.primary};
           background: transparent;

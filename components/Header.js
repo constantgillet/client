@@ -294,7 +294,7 @@ export default function Header({ display, className, ...props }) {
 
 const authMenu = (
   <Menu>
-    <Menu.Item key="favorites-item">
+    <Menu.Item key="offers-item">
       <Link href="/compte/mes-annonces">
         <a title="Mes annonces">Mes annonces</a>
       </Link>
