@@ -294,6 +294,12 @@ export default function Header({ display, className, ...props }) {
 
 const authMenu = (
   <Menu>
+    <Menu.Item key="my-profile">
+      <Link href="/compte/mon-profil">
+        <a title="Mes annonces">Mon profil</a>
+      </Link>
+    </Menu.Item>
+
     <Menu.Item key="offers-item">
       <Link href="/compte/mes-annonces">
         <a title="Mes annonces">Mes annonces</a>

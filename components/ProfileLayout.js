@@ -67,8 +67,8 @@ export default function ProfileLayout({ ...props }) {
     <RowElement gutter={MainStyle.gutter}>
       <Col md={6}>
         <NavigationList>
-          <ListItem>
-            <Link href="/">
+          <ListItem active={router.pathname === "/compte/mon-profil"}>
+            <Link href="/compte/mon-profil">
               <a title="Mon profil">
                 <FontAwesomeIcon icon={faUser} /> Mon profil
               </a>
