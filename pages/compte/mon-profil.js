@@ -7,6 +7,10 @@ import ProfileBanner from "../../components/ProfileBanner";
 import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import Button from "../../components/Button";
+import { Col, Row } from "antd";
+import Input from "../../components/Input";
+
+const { Label, TextAera } = Input;
 
 const CardSection = styled.section`
   background: white;
@@ -26,6 +30,10 @@ const CardBottom = styled.div`
   justify-content: flex-end;
 `;
 
+const FormPartRow = styled(Row)`
+  margin-bottom: ${MainStyle.space.m}px;
+`;
+
 export default function MyProfile() {
   return (
     <Main>
@@ -35,6 +43,22 @@ export default function MyProfile() {
           <ProfileBanner showButton />
           <CardSection>
             <CardTitle>Profil</CardTitle>
+            <FormPartRow gutter={MainStyle.gutter}>
+              <Col span={24} md={12}>
+                <Label htmlFor="input-location">Localisation publique</Label>
+                <Input id="input-location" placeholder="Localisation publique" />
+              </Col>
+              <Col span={24} md={12}>
+                <Label htmlFor="input-team">Team /équipe</Label>
+                <Input id="input-team" placeholder="Votre team / équipe" />
+              </Col>
+            </FormPartRow>
+            <FormPartRow gutter={MainStyle.gutter}>
+              <Col span={24}>
+                <Label htmlFor="input-description">Description</Label>
+                <TextAera id="input-description" placeholder="Description" />
+              </Col>
+            </FormPartRow>
             <CardBottom>
               <Button>Sauvegarder</Button>
             </CardBottom>

@@ -107,6 +107,18 @@ function InputMessage(props) {
   );
 }
 
+const InputLabelElement = styled.label`
+  font-size: ${MainStyle.text.body.fontSize};
+  font-weight: 600;
+  margin-bottom: ${MainStyle.space.s}px;
+  display: inline-block;
+`;
+
+function InputLabel(props) {
+  return <InputLabelElement {...props}>{props.children}</InputLabelElement>;
+}
+
+Input.Label = InputLabel;
 Input.Message = InputMessage;
 Input.Number = InputNumber;
 Input.TextAera = InputTextAera;
