@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { darken, lighten } from "polished";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
+
 config.autoAddCss = false;
 
 export const MainStyle = {
