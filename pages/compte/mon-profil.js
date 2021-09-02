@@ -128,6 +128,119 @@ export default function MyProfile() {
     return false;
   };
 
+  /**
+   * LOCATION
+   */
+  const onChangeLocationInput = (e) => {
+    setProfileData({
+      ...profileData,
+      location: { ...profileData.description, value: e.target.value, isModified: true }
+    });
+  };
+
+  const onBlurLocationInput = (e) => {
+    const _location = e.target.value;
+
+    if (_location.length == 0) {
+      return setProfileData({
+        ...profileData,
+        location: { ...profileData.location, error: null }
+      });
+    }
+
+    if (_location.length < 3) {
+      return setProfileData({
+        ...profileData,
+        location: { ...profileData.location, error: "Votre localisation n'est pas assez longue" }
+      });
+    }
+
+    if (_location.length > 16) {
+      return setProfileData({
+        ...profileData,
+        location: { ...profileData.location, error: "Votre localisation est trop longue" }
+      });
+    }
+
+    return setProfileData({
+      ...profileData,
+      location: { ...profileData.location, error: null }
+    });
+  };
+
+  /**
+   * TEAM NAME
+   */
+  const onChangeTeamNameInput = (e) => {
+    setProfileData({
+      ...profileData,
+      teamName: { ...profileData.description, value: e.target.value, isModified: true }
+    });
+  };
+
+  const onBlurTeamNameInput = (e) => {
+    const _teamName = e.target.value;
+
+    if (_teamName.length == 0) {
+      return setProfileData({
+        ...profileData,
+        teamName: { ...profileData.teamName, error: null }
+      });
+    }
+
+    if (_teamName.length < 3) {
+      return setProfileData({
+        ...profileData,
+        teamName: { ...profileData.teamName, error: "Le nom de de l'équipe est trop court" }
+      });
+    }
+
+    if (_teamName.length > 24) {
+      return setProfileData({
+        ...profileData,
+        teamName: { ...profileData.teamName, error: "Le nom de de l'équipe est trop long" }
+      });
+    }
+
+    setProfileData({
+      ...profileData,
+      teamName: { ...profileData.teamName, error: null }
+    });
+  };
+
+  /**
+   * DESCRIPTION
+   */
+  const onChangeDescriptionInput = (e) => {
+    setProfileData({
+      ...profileData,
+      description: { ...profileData.description, value: e.target.value, isModified: true }
+    });
+  };
+
+  const onBlurDescriptionInput = (e) => {
+    const _description = e.target.value;
+
+    if (_description.length == 0) {
+      return setProfileData({
+        ...profileData,
+        description: { ...profileData.description, error: null }
+      });
+    }
+
+    if (_description.length > 200) {
+      return setProfileData({
+        ...profileData,
+        description: { ...profileData.description, error: "Votre description est trop longue" }
+      });
+    }
+
+    return setProfileData({
+      ...profileData,
+      description: { ...profileData.description, error: null }
+    });
+  };
+
   return (
     <Main>
       <Meta title="Mon profil | Upgear" />
@@ -187,17 +300,41 @@ export default function MyProfile() {
             <FormPartRow gutter={MainStyle.gutter}>
               <Col span={24} md={12}>
                 <Label htmlFor="input-location">Localisation publique</Label>
-                <Input id="input-location" placeholder="Localisation publique" />
+                <Input
+                  id="input-location"
+                  placeholder="Localisation publique"
+                  value={profileData.location.value}
+                  onBlur={onBlurLocationInput}
+                  onChange={onChangeLocationInput}
+                  error={profileData.location.error}
+                />
+                <Input.Message type="error" message={profileData.location.error} />
               </Col>
               <Col span={24} md={12}>
                 <Label htmlFor="input-team">Team /équipe</Label>
-                <Input id="input-team" placeholder="Votre team / équipe" />
+                <Input
+                  id="input-team"
+                  placeholder="Votre team / équipe"
+                  value={profileData.teamName.value}
+                  onBlur={onBlurTeamNameInput}
+                  onChange={onChangeTeamNameInput}
+                  error={profileData.teamName.error}
+                />
+                <Input.Message type="error" message={profileData.teamName.error} />
               </Col>
             </FormPartRow>
             <FormPartRow gutter={MainStyle.gutter}>
               <Col span={24}>
                 <Label htmlFor="input-description">Description</Label>
-                <Description id="input-description" placeholder="Description" />
+                <Description
+                  id="input-description"
+                  placeholder="Description"
+                  value={profileData.description?.value}
+                  onBlur={onBlurDescriptionInput}
+                  onChange={onChangeDescriptionInput}
+                  error={profileData.description.error}
+                />
+                <Input.Message type="error" message={profileData.description.error} />
               </Col>
             </FormPartRow>
             <CardBottom>
