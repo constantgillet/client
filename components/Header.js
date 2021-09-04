@@ -249,7 +249,11 @@ export default function Header({ display, className, ...props }) {
                       </IconButtonLink>
                     </Link>
                     <HeaderAuthDiv>
-                      <Dropdown overlay={authMenu} placement="bottomRight">
+                      <Dropdown
+                        overlay={authMenu}
+                        placement="bottomRight"
+                        getPopupContainer={(element) => element.parentNode}
+                      >
                         <AuthDropdown>
                           <ProfilePicture
                             src={user.profilePicture.length ? user.profilePicture : "/images/profile.jpg"}

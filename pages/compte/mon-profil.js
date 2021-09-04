@@ -85,7 +85,6 @@ const BannerImageUpload = styled(Upload)`
 `;
 
 export default function MyProfile({ user }) {
-  console.log(user.description);
   const [profileData, setProfileData] = useState({
     profilePicture: {
       value: null,
