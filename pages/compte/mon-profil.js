@@ -11,6 +11,9 @@ import { Col, Row, Upload } from "antd";
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/fontawesome-free-solid";
+import UserAPI from "../../lib/API/userAPI";
+import { getSession } from "next-auth/client";
+import { API_IMAGES_PATH } from "../../lib/constants";
 
 const { Label, TextAera } = Input;
 
@@ -81,13 +84,24 @@ const BannerImageUpload = styled(Upload)`
   }
 `;
 
-export default function MyProfile() {
+export default function MyProfile({ user }) {
+  console.log(user.description);
   const [profileData, setProfileData] = useState({
-    profilePicture: { value: null, error: null, imageSrc: null, isModified: false },
-    bannerPicture: { value: null, error: null, imageSrc: null, isModified: false },
-    location: { value: "", error: null, isModified: false },
-    teamName: { value: "", error: null, isModified: false },
-    description: { value: "", error: null, isModified: false }
+    profilePicture: {
+      value: null,
+      error: null,
+      imageSrc: user?.profile_picture.length ? API_IMAGES_PATH + user?.profile_picture : null,
+      isModified: false
+    },
+    bannerPicture: {
+      value: null,
+      error: null,
+      imageSrc: user?.banner_picture.length ? API_IMAGES_PATH + user?.banner_picture : null,
+      isModified: false
+    },
+    location: { value: user.location ? user.location : "", error: null, isModified: false },
+    teamName: { value: user.team_name ? user.team_name : "", error: null, isModified: false },
+    description: { value: user.description ? user.description : "", error: null, isModified: false }
   });
 
   const uploadButton = (
@@ -155,7 +169,7 @@ export default function MyProfile() {
       });
     }
 
-    if (_location.length > 16) {
+    if (_location.length > 24) {
       return setProfileData({
         ...profileData,
         location: { ...profileData.location, error: "Votre localisation est trop longue" }
@@ -246,7 +260,11 @@ export default function MyProfile() {
       <Meta title="Mon profil | Upgear" />
       <Container>
         <ProfileLayout>
-          <ProfileBanner showButton />
+          <ProfileBanner
+            profilePicture={user?.profile_picture.length ? API_IMAGES_PATH + user?.profile_picture : null}
+            bannerPicture={user?.banner_picture.length ? API_IMAGES_PATH + user?.banner_picture : null}
+            showButton
+          />
           <CardSection>
             <CardTitle>Profil</CardTitle>
             <FormPartRow gutter={MainStyle.gutter}>
@@ -345,4 +363,26 @@ export default function MyProfile() {
       </Container>
     </Main>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  try {
+    const resp = await new UserAPI(context).getOneUser(session.user.id);
+    const user = resp.data.data;
+
+    return {
+      props: {
+        user: user
+      }
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        user: null
+      }
+    };
+  }
 }

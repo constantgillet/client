@@ -13,7 +13,7 @@ const ProfileBannerElement = styled.div`
   box-shadow: 1px 2px 4px rgb(0 0 0 / 7%), -3px -3px 9px rgb(0 0 0 / 6%);
   width: 100%;
   padding: 38px;
-  background: url(/images/background-1.jpg);
+  background-image: url(/images/background-1.jpg);
   background-position: center;
   background-size: cover;
 `;
@@ -30,10 +30,10 @@ const ProfileImage = styled(Image)`
   border: 2px solid #fff !important;
 `;
 
-export default function ProfileBanner({ profilePicture, profileBanner, showButton }) {
+export default function ProfileBanner({ profilePicture, bannerPicture, showButton }) {
   profilePicture = profilePicture ? profilePicture : "/images/profile.jpg";
   return (
-    <ProfileBannerElement>
+    <ProfileBannerElement style={{ backgroundImage: bannerPicture && `url(${bannerPicture})` }}>
       <ProfileImage src={profilePicture} width={114} height={114} />
       {showButton && (
         <Link href="/">

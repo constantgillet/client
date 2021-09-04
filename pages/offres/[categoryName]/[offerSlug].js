@@ -5,7 +5,7 @@ import Main from "../../../components/Main";
 import Link from "next/link";
 import styled, { css } from "styled-components";
 import { MainStyle } from "../../../styles/style";
-import { getOneUser } from "../../../lib/API/userAPI";
+import UserAPI from "../../../lib/API/userAPI";
 import { API_IMAGES_PATH, API_URL } from "../../../lib/constants";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -522,7 +522,7 @@ export async function getServerSideProps({ params, res }) {
 
   try {
     const resp = await new OfferAPI().getOneOffer(offerSlugSplited[0]);
-    const respUser = await getOneUser(resp.data.data.user_id);
+    const respUser = await new UserAPI().getOneUser(resp.data.data.user_id);
 
     // will be passed to the page component as props
     return {
