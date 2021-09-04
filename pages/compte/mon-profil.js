@@ -7,7 +7,7 @@ import ProfileBanner from "../../components/ProfileBanner";
 import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import Button from "../../components/Button";
-import { Col, Row, Upload } from "antd";
+import { Col, message, Row, Upload } from "antd";
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/fontawesome-free-solid";
@@ -103,6 +103,8 @@ export default function MyProfile({ user }) {
     teamName: { value: user.team_name ? user.team_name : "", error: null, isModified: false },
     description: { value: user.description ? user.description : "", error: null, isModified: false }
   });
+
+  const [isPosting, setIsPosting] = useState(false);
 
   const uploadButton = (
     <div>
@@ -255,6 +257,27 @@ export default function MyProfile({ user }) {
     });
   };
 
+  const onButtonClick = () => {
+    setIsPosting(true);
+    console.log(user.id);
+    new UserAPI()
+      .updateUser(
+        user.id,
+        profileData.location.value,
+        profileData.teamName.value,
+        profileData.description.value
+      )
+      .then((res) => {
+        setIsPosting(false);
+        message.success("Le profil a été sauvegardé");
+      })
+      .catch((err) => {
+        setIsPosting(false);
+        message.error("Erreur lors de la sauvegarde du profil");
+        console.error(err);
+      });
+  };
+
   return (
     <Main>
       <Meta title="Mon profil | Upgear" />
@@ -356,7 +379,9 @@ export default function MyProfile({ user }) {
               </Col>
             </FormPartRow>
             <CardBottom>
-              <Button>Sauvegarder</Button>
+              <Button loading={isPosting} onClick={onButtonClick}>
+                Sauvegarder
+              </Button>
             </CardBottom>
           </CardSection>
         </ProfileLayout>
