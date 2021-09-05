@@ -109,7 +109,6 @@ function AddAnnonce(props) {
       error: null
     }
   });
-
   const [isPosting, setIsPosting] = useState(false);
 
   const [isFetchingCities, setIsFecthingCities] = useState(false);
