@@ -143,7 +143,11 @@ export default function ContactAside({ offer, offerUser }) {
       <AsideHeader>
         <Link href="/">
           <ProfileLink title="Lien du profil du vendeur">
-            <Image src="https://upgear.fr/images/user.jpg" width={60} height={60} />
+            <Image
+              src={offerUser.profile_picture?.length ? offerUser.profile_picture : "/images/user.jpg"}
+              width={60}
+              height={60}
+            />
             <UsernameText className="user-username">{offerUser.username}</UsernameText>
           </ProfileLink>
         </Link>

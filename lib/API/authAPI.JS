@@ -48,9 +48,6 @@ export const refreshAccessToken = async (token) => {
       user: {
         id: data.user.id,
         username: data.user.username,
-        email: data.user.email,
-        profilePicture: data.user.profile_picture,
-        bannerPicture: data.user.banner_picture,
         emailVerified: data.user.email_verified
       }
     };

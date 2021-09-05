@@ -349,6 +349,13 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
 
   const [isPosting, setIsPosting] = useState(false);
 
+  //Change user picture
+  if (offerUser && offerUser.profile_picture) {
+    if (offerUser?.profile_picture.length) {
+      offerUser.profile_picture = API_IMAGES_PATH + offerUser.profile_picture;
+    }
+  }
+
   const onClickFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -481,7 +488,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
               <Link href="/">
                 <SellerProfileLink title="Lien du profil du vendeur">
                   <SellerProfilePicture
-                    src="/images/profile.jpg"
+                    src={offerUser.profile_picture?.length ? offerUser.profile_picture : "/images/user.jpg"}
                     width={58}
                     height={58}
                     alt="Photo de profil du vendeur"
