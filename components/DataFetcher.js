@@ -5,6 +5,7 @@ import { getCategories } from "../lib/API/categoryAPI";
 import { useSession } from "next-auth/client";
 import { setFavorites } from "../redux/actions/favoriteActions";
 import FavoriteAPI from "../lib/API/favoritesAPI";
+import { getUser, setUser } from "../redux/actions/userActions";
 
 function DataFetcher(props) {
   const [session, loading] = useSession();
@@ -31,8 +32,11 @@ function DataFetcher(props) {
           }
         })
         .catch((err) => console.error(err));
+
+      props.getUser(session?.user?.id);
     } else if (!loading && !session) {
       props.setFavorites([]);
+      props.setUser({});
     }
   }, [session, loading]);
 
@@ -41,13 +45,16 @@ function DataFetcher(props) {
 
 const mapState = (state) => {
   return {
-    categories: state.category.categories
+    categories: state.category.categories,
+    user: state.user.user
   };
 };
 
 const mapDis = {
   setCategories: setCategories,
-  setFavorites: setFavorites
+  setFavorites: setFavorites,
+  getUser: getUser,
+  setUser: setUser
 };
 
 export default connect(mapState, mapDis)(DataFetcher);

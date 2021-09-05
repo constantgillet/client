@@ -14,6 +14,8 @@ import { faPlus } from "@fortawesome/fontawesome-free-solid";
 import UserAPI from "../../lib/API/userAPI";
 import { getSession } from "next-auth/client";
 import { API_IMAGES_PATH } from "../../lib/constants";
+import { updateUserProfile } from "../../redux/actions/userActions";
+import { connect } from "react-redux";
 
 const { Label, TextAera } = Input;
 
@@ -84,26 +86,24 @@ const BannerImageUpload = styled(Upload)`
   }
 `;
 
-export default function MyProfile({ user }) {
+function MyProfile({ user, loading, userData, updateUserProfile }) {
   const [profileData, setProfileData] = useState({
     profilePicture: {
       value: null,
       error: null,
-      imageSrc: user?.profile_picture.length ? API_IMAGES_PATH + user?.profile_picture : null,
+      imageSrc: userData?.profile_picture.length ? API_IMAGES_PATH + userData?.profile_picture : null,
       isModified: false
     },
     bannerPicture: {
       value: null,
       error: null,
-      imageSrc: user?.banner_picture.length ? API_IMAGES_PATH + user?.banner_picture : null,
+      imageSrc: userData?.banner_picture.length ? API_IMAGES_PATH + userData?.banner_picture : null,
       isModified: false
     },
-    location: { value: user.location ? user.location : "", error: null, isModified: false },
-    teamName: { value: user.team_name ? user.team_name : "", error: null, isModified: false },
-    description: { value: user.description ? user.description : "", error: null, isModified: false }
+    location: { value: userData.location ? userData.location : "", error: null, isModified: false },
+    teamName: { value: userData.team_name ? userData.team_name : "", error: null, isModified: false },
+    description: { value: userData.description ? userData.description : "", error: null, isModified: false }
   });
-
-  const [isPosting, setIsPosting] = useState(false);
 
   const uploadButton = (
     <div>
@@ -116,7 +116,6 @@ export default function MyProfile({ user }) {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-      console.log(e);
       setProfileData({
         ...profileData,
         profilePicture: { ...profileData.profilePicture, imageSrc: e.target.result }
@@ -255,37 +254,31 @@ export default function MyProfile({ user }) {
     });
   };
 
-  const onButtonClick = () => {
-    setIsPosting(true);
-    console.log(user.id);
-    new UserAPI()
-      .updateUser(
-        user.id,
+  const onButtonClick = async () => {
+    try {
+      await updateUserProfile(
+        userData.id,
         profileData.location.value,
         profileData.teamName.value,
         profileData.description.value,
         profileData.profilePicture.value ? profileData.profilePicture.value : null,
         profileData.bannerPicture.value ? profileData.bannerPicture.value : null
-      )
-      .then((res) => {
-        setIsPosting(false);
-        message.success("Le profil a été sauvegardé");
-      })
-      .catch((err) => {
-        setIsPosting(false);
-        message.error("Erreur lors de la sauvegarde du profil");
-        console.error(err);
-      });
+      );
+      message.success("Le profil a été sauvegardé");
+    } catch (error) {
+      //setIsPosting(false);
+      message.error("Erreur lors de la sauvegarde du profil");
+      //console.error(err);
+    }
   };
-
   return (
     <Main>
       <Meta title="Mon profil | Upgear" />
       <Container>
         <ProfileLayout>
           <ProfileBanner
-            profilePicture={user?.profile_picture.length ? API_IMAGES_PATH + user?.profile_picture : null}
-            bannerPicture={user?.banner_picture.length ? API_IMAGES_PATH + user?.banner_picture : null}
+            profilePicture={user?.profile_picture?.length ? API_IMAGES_PATH + user?.profile_picture : null}
+            bannerPicture={user?.banner_picture?.length ? API_IMAGES_PATH + user?.banner_picture : null}
             showButton
           />
           <CardSection>
@@ -322,7 +315,6 @@ export default function MyProfile({ user }) {
                   showUploadList={false}
                   beforeUpload={beforeUploadBannerPicture}
                   onChange={({ file: newFile, fileList: newfileList }) => {
-                    console.log(newfileList);
                     setProfileData({
                       ...profileData,
                       bannerPicture: { ...profileData.bannerPicture, value: newFile, isModified: true }
@@ -380,7 +372,7 @@ export default function MyProfile({ user }) {
               </Col>
             </FormPartRow>
             <CardBottom>
-              <Button loading={isPosting} onClick={onButtonClick}>
+              <Button loading={loading} onClick={onButtonClick}>
                 Sauvegarder
               </Button>
             </CardBottom>
@@ -396,19 +388,32 @@ export async function getServerSideProps(context) {
 
   try {
     const resp = await new UserAPI(context).getOneUser(session.user.id);
-    const user = resp.data.data;
+    const userData = resp.data.data;
 
     return {
       props: {
-        user: user
+        userData: userData
       }
     };
   } catch (error) {
     console.error(error);
     return {
       props: {
-        user: null
+        userData: null
       }
     };
   }
 }
+
+const mapState = (state) => {
+  return {
+    user: state.user.user,
+    loading: state.user.loading
+  };
+};
+
+const mapDis = {
+  updateUserProfile: updateUserProfile
+};
+
+export default connect(mapState, mapDis)(MyProfile);

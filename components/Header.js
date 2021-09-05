@@ -11,9 +11,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faEnvelope, faPlus, faSearch, faUser } from "@fortawesome/fontawesome-free-solid";
 import { signOut, useSession } from "next-auth/client";
 import { useEffect, useRef, useState } from "react";
-import { API_URL } from "../lib/constants";
+import { API_IMAGES_PATH, API_URL } from "../lib/constants";
 import { darken } from "polished";
 import Menu from "./Menu";
+import { connect } from "react-redux";
 
 const HeaderElement = styled.header`
   height: 63px;
@@ -171,11 +172,11 @@ const DropdownIcon = styled(FontAwesomeIcon)`
   height: 12px;
 `;
 
-export default function Header({ display, className, ...props }) {
+function Header({ display, className, userData, ...props }) {
   const headerRef = useRef();
   const [session] = useSession();
 
-  const user = session && session.user ? session.user : null;
+  const user = { ...userData };
 
   let header;
   let sticky;
@@ -205,9 +206,9 @@ export default function Header({ display, className, ...props }) {
   };
 
   //Change user picture
-  if (user && user.profilePicture) {
-    if (user.profilePicture.length) {
-      user.profilePicture = "/images/profile.jpg";
+  if (user && user.profile_picture) {
+    if (user?.profile_picture.length) {
+      user.profile_picture = API_IMAGES_PATH + user.profile_picture;
     }
   }
 
@@ -256,7 +257,7 @@ export default function Header({ display, className, ...props }) {
                       >
                         <AuthDropdown>
                           <ProfilePicture
-                            src={user.profilePicture.length ? user.profilePicture : "/images/profile.jpg"}
+                            src={user?.profile_picture?.length ? user.profile_picture : "/images/profile.jpg"}
                             width={40}
                             height={40}
                           />
@@ -321,3 +322,11 @@ const authMenu = (
     </Menu.Item>
   </Menu>
 );
+
+const mapState = (state) => {
+  return {
+    userData: state.user.user
+  };
+};
+
+export default connect(mapState)(Header);
