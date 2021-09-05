@@ -125,7 +125,7 @@ export default function MyProfile({ user }) {
     reader.readAsDataURL(file);
 
     // Prevent upload
-    return false;
+    return file;
   };
 
   const beforeUploadBannerPicture = (file) => {
@@ -139,8 +139,7 @@ export default function MyProfile({ user }) {
     };
     reader.readAsDataURL(file);
 
-    // Prevent upload
-    return false;
+    return file;
   };
 
   /**
@@ -264,7 +263,9 @@ export default function MyProfile({ user }) {
         user.id,
         profileData.location.value,
         profileData.teamName.value,
-        profileData.description.value
+        profileData.description.value,
+        profileData.profilePicture.value ? profileData.profilePicture.value : null,
+        profileData.bannerPicture.value ? profileData.bannerPicture.value : null
       )
       .then((res) => {
         setIsPosting(false);
@@ -320,7 +321,8 @@ export default function MyProfile({ user }) {
                   listType="picture-card"
                   showUploadList={false}
                   beforeUpload={beforeUploadBannerPicture}
-                  onChange={({ file: newFile }) => {
+                  onChange={({ file: newFile, fileList: newfileList }) => {
+                    console.log(newfileList);
                     setProfileData({
                       ...profileData,
                       bannerPicture: { ...profileData.bannerPicture, value: newFile, isModified: true }
