@@ -280,6 +280,7 @@ function MyProfile({ user, loading, userData, updateUserProfile }) {
             profilePicture={user?.profile_picture?.length ? API_IMAGES_PATH + user?.profile_picture : null}
             bannerPicture={user?.banner_picture?.length ? API_IMAGES_PATH + user?.banner_picture : null}
             showButton
+            buttonLink={`/profil/${user?.id}`}
           />
           <CardSection>
             <CardTitle>Profil</CardTitle>

@@ -30,13 +30,13 @@ const ProfileImage = styled(Image)`
   border: 2px solid #fff !important;
 `;
 
-export default function ProfileBanner({ profilePicture, bannerPicture, showButton }) {
+export default function ProfileBanner({ profilePicture, bannerPicture, showButton, buttonLink }) {
   profilePicture = profilePicture ? profilePicture : "/images/profile.jpg";
   return (
     <ProfileBannerElement style={{ backgroundImage: bannerPicture && `url(${bannerPicture})` }}>
       <ProfileImage src={profilePicture} width={114} height={114} />
       {showButton && (
-        <Link href="/">
+        <Link href={buttonLink ? buttonLink : "/"}>
           <a title="Lien du profil">
             <ButtonProfile type="outline-primary" icon={<FontAwesomeIcon icon={faEye} />}>
               Afficher le profil
