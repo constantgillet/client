@@ -65,7 +65,7 @@ export default function ProfileLayout({ ...props }) {
 
   return (
     <RowElement gutter={MainStyle.gutter}>
-      <Col md={6}>
+      <Col span={24} md={6}>
         <NavigationList>
           <ListItem active={router.pathname === "/compte/mon-profil"}>
             <Link href="/compte/mon-profil">

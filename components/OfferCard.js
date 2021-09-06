@@ -158,33 +158,31 @@ const OfferCard = ({ className, children, offer, favorites, addFavorite, removeF
   };
 
   return (
-    <Col sm={12} lg={8}>
-      <Link href={`/offres/${offer.category}/${offer.id}`}>
-        <OfferLink title={offer.title}>
-          <CardHead>
-            <OfferImage
-              src={API_IMAGES_PATH + "min-" + offer.images[0]}
-              width={236}
-              height={236}
-              layout="responsive"
-            />
-            <ImagesCount>
-              <FontAwesomeIcon icon={faCamera} /> {offer.images.length}
-            </ImagesCount>
-            <FavoriteButton onClick={onClickFavorite}>
-              <FontAwesomeIcon icon={isFavorite ? faHeartFavorite : FaHeartNotFavorite} />
-            </FavoriteButton>
-          </CardHead>
-          <CardBody>
-            <OfferTitle> {offer.title} </OfferTitle>
-            <OfferPrice> {toReadablePrice(offer.price)} </OfferPrice>
-            <OfferLocation>
-              <FontAwesomeIcon icon={faMapMarkerAlt} /> {offer.city} ({offer.department})
-            </OfferLocation>
-          </CardBody>
-        </OfferLink>
-      </Link>
-    </Col>
+    <Link href={`/offres/${offer.category}/${offer.id}`}>
+      <OfferLink title={offer.title}>
+        <CardHead>
+          <OfferImage
+            src={API_IMAGES_PATH + "min-" + offer.images[0]}
+            width={236}
+            height={236}
+            layout="responsive"
+          />
+          <ImagesCount>
+            <FontAwesomeIcon icon={faCamera} /> {offer.images.length}
+          </ImagesCount>
+          <FavoriteButton onClick={onClickFavorite}>
+            <FontAwesomeIcon icon={isFavorite ? faHeartFavorite : FaHeartNotFavorite} />
+          </FavoriteButton>
+        </CardHead>
+        <CardBody>
+          <OfferTitle> {offer.title} </OfferTitle>
+          <OfferPrice> {toReadablePrice(offer.price)} </OfferPrice>
+          <OfferLocation>
+            <FontAwesomeIcon icon={faMapMarkerAlt} /> {offer.city} ({offer.department})
+          </OfferLocation>
+        </CardBody>
+      </OfferLink>
+    </Link>
   );
 };
 

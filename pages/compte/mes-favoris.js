@@ -8,10 +8,9 @@ import ProfileLayout from "../../components/ProfileLayout";
 import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import OfferCard from "../../components/OfferCard";
-import { Row } from "antd";
+import { Row, Col } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/fontawesome-free-solid";
-import { Col } from "antd";
 import Link from "next/link";
 import Button from "../../components/Button";
 
@@ -49,7 +48,9 @@ export default function MyFavorites({ offers }) {
             {offers?.length ? (
               <RowElement gutter={MainStyle.gutter}>
                 {offers?.map((offer, index) => (
-                  <OfferCard key={index} offer={offer} />
+                  <Col key={index} span={24} sm={12} lg={8}>
+                    <OfferCard offer={offer} />
+                  </Col>
                 ))}
               </RowElement>
             ) : (

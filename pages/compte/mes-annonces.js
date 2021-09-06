@@ -214,7 +214,7 @@ const DeleteButton = styled(Button)`
 
 const OwnedOfferCard = ({ offer, onClickDelete }) => {
   return (
-    <Col sm={12} lg={8}>
+    <Col span={24} sm={12} lg={8}>
       <Link href={`/offres/${offer.category}/${offer.id}`}>
         <OfferLink title={offer.title}>
           <CardHead>

@@ -141,7 +141,7 @@ export default function ContactAside({ offer, offerUser }) {
   return (
     <ContactAsideElement>
       <AsideHeader>
-        <Link href="/">
+        <Link href={`/profil/${offerUser.id}`}>
           <ProfileLink title="Lien du profil du vendeur">
             <Image
               src={offerUser.profile_picture?.length ? offerUser.profile_picture : "/images/user.jpg"}
