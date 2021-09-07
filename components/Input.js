@@ -88,6 +88,7 @@ function InputNumber(props) {
 
 const InputMessageElement = styled.span`
   font-size: ${MainStyle.text.small.fontSize};
+  text-align: left;
 
   ${({ type }) =>
     type === "error"

@@ -147,7 +147,7 @@ export default function SignIn({ csrfToken, ...props }) {
             Se connecter
           </Button>
           <Separator>- OU -</Separator>
-          <Link href="/auth/inscription">
+          <Link href="/auth/mot-de-passe-oublie">
             <a title="J'ai oublié mon mot de passe">
               <Button block type="link">
                 J'ai oublié mon mot de passe
