@@ -1,6 +1,6 @@
 import { ADD_FAVORITE, REMOVE_FAVORITE, SET_FAVORITES } from "../actions/favoriteActions";
 
-const favoriteReducer = (state = { favorites: [], error }, action) => {
+const favoriteReducer = (state = { favorites: [], error: null }, action) => {
   switch (action.type) {
     case SET_FAVORITES:
       return { ...state, favorites: action.payload.favorites };
