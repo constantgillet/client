@@ -174,7 +174,7 @@ const DropdownIcon = styled(FontAwesomeIcon)`
 
 function Header({ display, className, userData, ...props }) {
   const headerRef = useRef();
-  const [session] = useSession();
+  const [session, loading] = useSession();
 
   const user = { ...userData };
 
@@ -242,7 +242,7 @@ function Header({ display, className, userData, ...props }) {
                   </LinkAddNew>
                 </Link>
 
-                {user ? (
+                {session && !loading ? (
                   <WidgetDiv>
                     <Link href="/">
                       <IconButtonLink title="Page connexion">
