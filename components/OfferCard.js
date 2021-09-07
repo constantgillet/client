@@ -116,41 +116,16 @@ const OfferCard = ({ className, children, offer, favorites, addFavorite, removeF
 
   const isFavorite = favorites.includes(offer.id);
 
-  const [isPosting, setIsPosting] = useState(false);
-
   const onClickFavorite = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (session && !loading) {
-      if (!isPosting) {
-        setIsPosting(true);
-
-        if (!isFavorite) {
-          addFavorite(offer.id);
-
-          new FavoriteAPI()
-            .create(offer.id)
-            .then(() => {
-              setIsPosting(false);
-            })
-            .catch((err) => {
-              setIsPosting(false);
-              removeFavorite(offer.id);
-              message.error("Erreur lors de l'ajout aux favoris");
-            });
-        } else {
-          removeFavorite(offer.id);
-          new FavoriteAPI()
-            .delete(offer.id)
-            .then(() => {
-              setIsPosting(false);
-            })
-            .catch(() => {
-              setIsPosting(false);
-              message.error("Erreur lors de la suppression du favori");
-            });
-        }
+      if (!isFavorite) {
+        addFavorite(offer.id);
+        //Set error message https://stackoverflow.com/questions/58266418/correct-way-of-error-handling-in-react-redux
+      } else {
+        removeFavorite(offer.id);
       }
     } else {
       message.error("Vous devez être connecté(e)");

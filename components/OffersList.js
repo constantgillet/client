@@ -168,33 +168,17 @@ const AnnonceCard = connect(
     e.stopPropagation();
 
     if (session && !loading) {
-      if (!isPosting) {
-        setIsPosting(true);
-
-        if (!isFavorite) {
+      if (!isFavorite) {
+        try {
           addFavorite(offer.id);
-
-          new FavoriteAPI()
-            .create(offer.id)
-            .then(() => {
-              setIsPosting(false);
-            })
-            .catch((err) => {
-              setIsPosting(false);
-              removeFavorite(offer.id);
-              message.error("Erreur lors de l'ajout aux favoris");
-            });
-        } else {
+        } catch (error) {
+          message.error("Erreur lors de l'ajout aux favoris");
+        }
+      } else {
+        try {
           removeFavorite(offer.id);
-          new FavoriteAPI()
-            .delete(offer.id)
-            .then(() => {
-              setIsPosting(false);
-            })
-            .catch(() => {
-              setIsPosting(false);
-              message.error("Erreur lors de la suppression du favori");
-            });
+        } catch (error) {
+          message.error("Erreur lors de la suppression du favori");
         }
       }
     } else {
