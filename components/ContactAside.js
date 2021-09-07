@@ -154,7 +154,12 @@ export default function ContactAside({ offer, offerUser }) {
       </AsideHeader>
       <AsideBody>
         <ChatTextAera placeholder="Ecrivez un message au vendeur ici" />
-        <SendMessageButton block type="outline" icon={<FontAwesomeIcon icon={faComments} />}>
+        <SendMessageButton
+          block
+          type="outline"
+          icon={<FontAwesomeIcon icon={faComments} />}
+          onClick={() => message.info("Cette fonctionnalité n'est pas encore disponnible.")}
+        >
           Envoyer le message
         </SendMessageButton>
 
