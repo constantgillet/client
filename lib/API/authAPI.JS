@@ -60,3 +60,9 @@ export const refreshAccessToken = async (token) => {
     };
   }
 };
+
+export const forgotPassword = async (email) => {
+  return api.post(`/auth/forgot`, {
+    email: email
+  });
+};

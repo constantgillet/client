@@ -7,6 +7,8 @@ import Link from "next/link";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Image from "next/image";
+import { forgotPassword } from "../../lib/API/authAPI";
+import { message } from "antd";
 
 const Form = styled.form`
   width: 100%;
@@ -40,6 +42,11 @@ export default function ForgotPassword() {
   //States email
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(null);
+
+  const [isPosting, setIsPosting] = useState(false);
+
+  const [canPost, setCanPost] = useState(true);
+
   /**
    * EMAIL CONTROLS
    */
@@ -58,8 +65,26 @@ export default function ForgotPassword() {
   };
 
   const onClickPost = (e) => {
-    if (email.length < 5) {
-      e.preventDefault();
+    e.preventDefault();
+    if (email.length > 5) {
+      setCanPost(false);
+
+      setTimeout(() => {
+        setCanPost(true);
+      }, 1000 * 30); //30 seconds
+
+      setIsPosting(true);
+      forgotPassword(email)
+        .then(() => {
+          setIsPosting(false);
+          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.");
+        })
+        .catch((err) => {
+          console.error(err);
+          setIsPosting(false);
+          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.");
+        });
+    } else {
     }
   };
 
@@ -85,7 +110,13 @@ export default function ForgotPassword() {
             />
             <Input.Message type="error" message={emailError} />
           </FormGroup>
-          <Button htmlType="submit" block onClick={onClickPost}>
+          <Button
+            htmlType="submit"
+            block
+            onClick={onClickPost}
+            loading={isPosting}
+            disabled={emailError || !email.length || canPost == false}
+          >
             Envoyer
           </Button>
           <Separator>- OU -</Separator>
