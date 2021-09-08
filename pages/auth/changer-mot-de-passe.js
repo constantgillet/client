@@ -7,7 +7,7 @@ import Link from "next/link";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Image from "next/image";
-import { forgotPassword } from "../../lib/API/authAPI";
+import { changePassword, forgotPassword } from "../../lib/API/authAPI";
 import { message } from "antd";
 
 const Form = styled.form`
@@ -31,7 +31,7 @@ const FormGroup = styled.div`
   justify-content: flex-start;
 `;
 
-export default function ChangePasswordPage() {
+export default function ChangePasswordPage({ token }) {
   //States password
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
@@ -41,8 +41,6 @@ export default function ChangePasswordPage() {
   const [passwordConfirmError, setPasswordConfirmError] = useState(null);
 
   const [isPosting, setIsPosting] = useState(false);
-
-  const [canPost, setCanPost] = useState(true);
 
   /**
    * PASSWORD CONTROLS
@@ -72,26 +70,17 @@ export default function ChangePasswordPage() {
 
   const onClickPost = (e) => {
     e.preventDefault();
-    if (password.length > 5) {
-      setCanPost(false);
-
-      setTimeout(() => {
-        setCanPost(true);
-      }, 1000 * 30); //30 seconds
-
-      setIsPosting(true);
-      forgotPassword(password)
-        .then(() => {
-          setIsPosting(false);
-          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.");
-        })
-        .catch((err) => {
-          console.error(err);
-          setIsPosting(false);
-          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.");
-        });
-    } else {
-    }
+    setIsPosting(true);
+    changePassword(token, password, passwordConfirm)
+      .then(() => {
+        setIsPosting(false);
+        message.success("Votre mot de passe a été changé");
+      })
+      .catch((err) => {
+        console.error(err);
+        message.error("Le token de changement n'est pas valide ou est dépassé.");
+        setIsPosting(false);
+      });
   };
 
   return (
@@ -132,13 +121,7 @@ export default function ChangePasswordPage() {
             block
             onClick={onClickPost}
             loading={isPosting}
-            disabled={
-              passwordError ||
-              passwordConfirmError ||
-              !passwordConfirm.length ||
-              !password.length ||
-              canPost == false
-            }
+            disabled={passwordError || passwordConfirmError || !passwordConfirm.length || !password.length}
           >
             Envoyer
           </Button>
@@ -146,4 +129,19 @@ export default function ChangePasswordPage() {
       </AuthLayout>
     </>
   );
+}
+
+export async function getServerSideProps({ query, res }) {
+  if (query.token) {
+    return {
+      props: {
+        token: query.token
+      }
+    };
+  } else {
+    res.statusCode = 404;
+    return {
+      props: { myStatusCode: 401, error: `Not allowed` } // will be passed to the page component as props
+    };
+  }
 }

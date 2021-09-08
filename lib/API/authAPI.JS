@@ -66,3 +66,11 @@ export const forgotPassword = async (email) => {
     email: email
   });
 };
+
+export const changePassword = async (token, password, confirmPassword) => {
+  return api.post(`/auth/password`, {
+    token: token,
+    password: password,
+    confirm_password: confirmPassword
+  });
+};
