@@ -42,8 +42,9 @@ export default function MainLayout({ children }) {
       case "/auth/mot-de-passe-oublie":
         setState({ displayHeader: false, displayNavigation: false, displayFooter: false, fullScreen: true });
         break;
-      case "/auth/changement-mot-de-passe":
+      case "/auth/changer-mot-de-passe":
         setState({ displayHeader: false, displayNavigation: false, displayFooter: false, fullScreen: true });
+
         break;
       default:
         setState({ displayHeader: true, displayNavigation: true, displayFooter: true, fullScreen: false });

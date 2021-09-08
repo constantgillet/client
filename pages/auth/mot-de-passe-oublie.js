@@ -90,7 +90,7 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <Meta title="UpGear | S'inscrire" />
+      <Meta title="Mot de passe oublié | UpGear" />
       <AuthLayout title="Bienvenue sur UpGear" text="Mot de passe oublié">
         <Form method="post">
           <Link href="/">
