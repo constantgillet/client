@@ -77,12 +77,12 @@ export default function ForgotPassword() {
       forgotPassword(email)
         .then(() => {
           setIsPosting(false);
-          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.");
+          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.", 10);
         })
         .catch((err) => {
           console.error(err);
           setIsPosting(false);
-          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.");
+          message.success("Un mail vous a été envoyé et est valide pendant 20 minutes.", 10);
         });
     } else {
     }
