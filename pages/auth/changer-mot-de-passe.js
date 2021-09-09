@@ -9,6 +9,7 @@ import Button from "../../components/Button";
 import Image from "next/image";
 import { changePassword, forgotPassword } from "../../lib/API/authAPI";
 import { message } from "antd";
+import { useRouter } from "next/dist/client/router";
 
 const Form = styled.form`
   width: 100%;
@@ -32,6 +33,8 @@ const FormGroup = styled.div`
 `;
 
 export default function ChangePasswordPage({ token }) {
+  const router = useRouter();
+
   //States password
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
@@ -74,11 +77,13 @@ export default function ChangePasswordPage({ token }) {
     changePassword(token, password, passwordConfirm)
       .then(() => {
         setIsPosting(false);
-        message.success("Votre mot de passe a été changé");
+        router.push("/auth/connexion");
+        message.success("Votre mot de passe a été changé", 5);
       })
       .catch((err) => {
         console.error(err);
-        message.error("Le token de changement n'est pas valide ou est dépassé.");
+        message.error("Le token de changement n'est pas valide ou est dépassé.", 10);
+        router.push("/auth/connexion");
         setIsPosting(false);
       });
   };
