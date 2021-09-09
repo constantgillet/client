@@ -271,7 +271,11 @@ export default function Register({ csrfToken }) {
             {passwordConfirmError && <ErrorInputMessage>{passwordConfirmError}</ErrorInputMessage>}
           </FormGroup>
           <ConfirmCheckbox onChange={(e) => setAcceptConditions(e.target.checked)} checked={acceptConditions}>
-            Je reconnais avoir lu et compris les CGU et je les accepte. Je confirme avoir plus de 18 ans.
+            Je reconnais avoir lu et compris les{" "}
+            <Link href="/CGU">
+              <a title="Lien des conditions générales d'utilisation">conditions générales d'utilisation</a>
+            </Link>
+            {""} et je les accepte. Je confirme avoir plus de 18 ans.
           </ConfirmCheckbox>
           <Button block loading={isPosting} onClick={onRegisterClick}>
             S'enregistrer
