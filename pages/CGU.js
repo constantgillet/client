@@ -4,19 +4,32 @@ import React from "react";
 import Container from "../components/Container";
 import Main from "../components/Main";
 import Meta from "../components/Meta";
+import Card from "../components/Card";
+import styled from "styled-components";
+import { MainStyle } from "../styles/style";
 
+const MainElement = styled(Main)`
+  padding-top: ${MainStyle.space.l}px;
+  padding-bottom: ${MainStyle.space.l}px;
+`;
+
+const ContentContainer = styled(Card)`
+  padding: ${MainStyle.space.xl}px;
+`;
 export default function CGU({ content }) {
   return (
-    <Main>
+    <MainElement>
       <Meta title="Conditions d'utilisations | Upgear" />
       <Container>
         <Row justify="center">
           <Col span={24} md={16}>
-            <div className="content" dangerouslySetInnerHTML={{ __html: content }}></div>
+            <ContentContainer>
+              <div className="content" dangerouslySetInnerHTML={{ __html: content }}></div>
+            </ContentContainer>
           </Col>
         </Row>
       </Container>
-    </Main>
+    </MainElement>
   );
 }
 
