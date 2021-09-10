@@ -3,6 +3,7 @@ import {
   faComment,
   faCommentAlt,
   faComments,
+  faCopy,
   faPhone,
   faShieldAlt
 } from "@fortawesome/fontawesome-free-solid";
@@ -18,6 +19,7 @@ import { signOut, useSession } from "next-auth/client";
 import { message, Popover } from "antd";
 import { useState } from "react";
 import OfferAPI from "../lib/API/offerAPI";
+import copyToClipboard from "../helpers/copyToClipboard";
 
 const ContactAsideElement = styled.aside`
   position: sticky;
@@ -114,6 +116,8 @@ const HelpIcon = styled.a`
 
 export default function ContactAside({ offer, offerUser }) {
   const [isFetchingBuyLink, setIsFetchingBuyLink] = useState(false);
+  const [isFecthingPhoneNumber, setIsFecthingPhoneNumber] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(false);
 
   const [session] = useSession();
 
@@ -135,6 +139,32 @@ export default function ContactAside({ offer, offerUser }) {
       }
     } else {
       message.info("Vous devez être connecté(e)");
+    }
+  };
+
+  const onClickPhoneButton = () => {
+    if (phoneNumber) {
+      copyToClipboard(phoneNumber);
+      message.success("Le numéro de téléphone a été copié.", 7);
+    } else {
+      if (session) {
+        if (!isFetchingBuyLink) {
+          setIsFecthingPhoneNumber(true);
+
+          new OfferAPI()
+            .getOfferPhone(offer.id)
+            .then((res) => {
+              setIsFecthingPhoneNumber(false);
+              setPhoneNumber(res.data.data);
+            })
+            .catch((err) => {
+              message.error("Erreur lors de la création du lien d'achat");
+              setIsFecthingPhoneNumber(false);
+            });
+        }
+      } else {
+        message.info("Vous devez être connecté(e)");
+      }
     }
   };
 
@@ -164,8 +194,14 @@ export default function ContactAside({ offer, offerUser }) {
         </SendMessageButton>
 
         {offer?.has_phone_number === true && (
-          <ShowPhoneButton block type="outline" icon={<FontAwesomeIcon icon={faPhone} />}>
-            Afficher le numéro
+          <ShowPhoneButton
+            block
+            type="outline"
+            icon={<FontAwesomeIcon icon={phoneNumber ? faCopy : faPhone} />}
+            onClick={onClickPhoneButton}
+            loading={isFecthingPhoneNumber}
+          >
+            {phoneNumber ? phoneNumber : "Afficher le numéro"}
           </ShowPhoneButton>
         )}
 
