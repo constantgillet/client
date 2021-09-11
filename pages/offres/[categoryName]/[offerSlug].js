@@ -494,7 +494,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
               <PartSeparator />
 
               <OfferPartTitle> Vendeur : </OfferPartTitle>
-              <Link href="/">
+              <Link href={`/profil/${offerUser.id}`}>
                 <SellerProfileLink title="Lien du profil du vendeur">
                   <SellerProfilePicture
                     src={offerUser.profile_picture?.length ? offerUser.profile_picture : "/images/user.jpg"}
