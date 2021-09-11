@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { setCategories } from "../redux/actions/categoryActions";
 import { getCategories } from "../lib/API/categoryAPI";
 import DataFetcher from "../components/DataFetcher";
+import CookieConsent from "../components/CookieConsent";
 
 NProgress.configure({
   minimum: 0.3,
@@ -44,6 +45,7 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         <DataFetcher>
+          <CookieConsent />
           <MainLayout>
             <Component {...pageProps} />
           </MainLayout>
