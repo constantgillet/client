@@ -38,6 +38,7 @@ import { addFavorite, removeFavorite, setFavorites } from "../../../redux/action
 import { useSession } from "next-auth/client";
 import FavoriteAPI from "../../../lib/API/favoritesAPI";
 import OfferAPI from "../../../lib/API/offerAPI";
+import ShippingCategoryAPI from "../../../lib/API/shippingCategoryAPI";
 
 const BreadcrumbElement = styled(Breadcrumb)`
   padding-top: ${MainStyle.space.m}px;
@@ -332,7 +333,7 @@ const ShippingInfos = styled.p`
 `;
 
 function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavorite }) {
-  const { offer, offerUser } = pageProps;
+  const { offer, offerUser, shippingCategory } = pageProps;
 
   const creationDate = new Date(offer.creation_date);
   const offerUserCreationDate = new Date(offerUser.creation_date);
@@ -472,8 +473,16 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
 
               <OfferPartTitle> Livraison : </OfferPartTitle>
               <p>Faites livrer cet équipement avec votre mode de livraison préféré.</p>
-              <ShippingMethod type="mondial-relay" price={5.5} text="Livré habituellement en 4-6 jours" />
-              <ShippingMethod type="chronopost" price={10.5} text="Livré habituellement en 2-5 jours" />
+              <ShippingMethod
+                type="mondial-relay"
+                price={shippingCategory?.price_mondial_relay}
+                text="Livré habituellement en 4-6 jours"
+              />
+              <ShippingMethod
+                type="chronopost"
+                price={shippingCategory?.price_chronopost}
+                text="Livré habituellement en 2-5 jours"
+              />
               <SecureBanner />
               <PartSeparator />
 
@@ -530,11 +539,18 @@ export async function getServerSideProps({ params, res }) {
   try {
     const resp = await new OfferAPI().getOneOffer(offerSlugSplited[0]);
     const respUser = await new UserAPI().getOneUser(resp.data.data.user_id);
+    const respShippingCategory = await new ShippingCategoryAPI().getOneShippingCategory(
+      resp.data.data.shipping_category
+    );
 
     // will be passed to the page component as props
     return {
       props: {
-        pageProps: { offer: resp.data.data, offerUser: respUser.data.data }
+        pageProps: {
+          offer: resp.data.data,
+          offerUser: respUser.data.data,
+          shippingCategory: respShippingCategory.data.data
+        }
       }
     };
   } catch (error) {
