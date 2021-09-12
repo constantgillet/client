@@ -265,7 +265,7 @@ export default function PaiementSecurise() {
             </Col>
           </Row>
           <ContentSeparator />
-          <PartTitle>Les tarrifs</PartTitle>
+          <PartTitle>Les tarifs</PartTitle>
           <Row>
             <Col md={24}>
               <Table
