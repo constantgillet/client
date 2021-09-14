@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Meta from "../../components/Meta";
 import OfferAPI from "../../lib/API/offerAPI";
 import OfferCard from "../../components/OfferCard";
+import SearchFilters from "../../components/SearchFilters";
 
 const MainElement = styled(Main)`
   padding-top: ${MainStyle.space.l}px;
@@ -42,7 +43,9 @@ export default function OfferSearchPage({ offers }) {
       <MainElement>
         <Container>
           <Row gutter={MainStyle.gutter}>
-            <Col span={24} lg={6}></Col>
+            <Col span={24} lg={6}>
+              <SearchFilters />
+            </Col>
             <Col span={24} lg={18}>
               <HeaderCard>
                 <h1>Recherche</h1>
@@ -64,9 +67,20 @@ export default function OfferSearchPage({ offers }) {
 
 export async function getServerSideProps(context) {
   const { query, res } = context;
+
+  let departments = null;
+  if (query.departement) {
+    if (Array.isArray(query.departement)) {
+      departments = query.departement;
+    } else {
+      departments = [query.departement];
+    }
+  }
+
   try {
     const resp = await new OfferAPI().getAllOffer({
-      limit: 9
+      limit: 9,
+      departments: departments
     });
     const offers = resp.data.data;
 

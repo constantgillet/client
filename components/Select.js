@@ -24,6 +24,13 @@ const SelectElement = styled(AntSelect)`
         border: 1px solid ${MainStyle.color.danger} !important;
       `}
 
+    ${({ mode }) =>
+      mode == "multiple" &&
+      css`
+        height: auto !important;
+        padding: 5px 12px;
+      `}
+
     .ant-select-selection-placeholder {
       line-height: 37px !important;
     }
