@@ -22,14 +22,14 @@ export default function MainLayout({ children }) {
 
   useEffect(() => {
     applyLayout();
+
+    Router.events.on("routeChangeComplete", (e) => {
+      applyLayout(e);
+    });
   }, []);
 
-  Router.events.on("routeChangeComplete", () => {
-    applyLayout();
-  });
-
-  const applyLayout = () => {
-    switch (router.pathname) {
+  const applyLayout = (newPathname) => {
+    switch (newPathname) {
       case "/chat":
         setState({ displayHeader: true, displayNavigation: true, displayFooter: false, fullScreen: true });
         break;
