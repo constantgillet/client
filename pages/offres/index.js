@@ -8,6 +8,7 @@ import Meta from "../../components/Meta";
 import OfferAPI from "../../lib/API/offerAPI";
 import OfferCard from "../../components/OfferCard";
 import SearchFilters from "../../components/SearchFilters";
+import Pagination from "../../components/Pagination";
 
 const MainElement = styled(Main)`
   padding-top: ${MainStyle.space.l}px;
@@ -36,6 +37,10 @@ const CardCol = styled(Col)`
   padding-bottom: ${MainStyle.space.m}px;
 `;
 
+const PaginationContainer = styled.div`
+  text-align: center;
+`;
+
 export default function OfferSearchPage({ offers }) {
   return (
     <>
@@ -57,6 +62,14 @@ export default function OfferSearchPage({ offers }) {
                   </CardCol>
                 ))}
               </Row>
+              <PaginationContainer>
+                <Pagination
+                  showSizeChanger
+                  onShowSizeChange={(e) => console.log(e)}
+                  defaultCurrent={3}
+                  total={500}
+                />
+              </PaginationContainer>
             </Col>
           </Row>
         </Container>
