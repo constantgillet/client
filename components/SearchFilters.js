@@ -32,6 +32,7 @@ const SearchFiltersElement = styled.aside`
   border-radius: ${MainStyle.radius.m}px;
   position: sticky;
   top: 84px;
+  z-index: 2;
 `;
 
 const InputSearch = styled(Input)`
@@ -46,9 +47,12 @@ function SearchFilters({ categories }) {
   const router = useRouter();
 
   const [regionValue, setRegionValue] = useState(null);
-
+  const [departmentValues, setDepartmentValues] = useState(router?.query?.departement || []);
   useEffect(() => {
     //router.push("/offers");
+    return () => {
+      console.log("unmount");
+    };
   }, []);
   return (
     <SearchFiltersElement>
@@ -92,7 +96,15 @@ function SearchFilters({ categories }) {
         mode="multiple"
         placeholder="Département"
         style={{ width: "100%" }}
-        onChange={(val) => console.log(val)}
+        onChange={(val) => {
+          setDepartmentValues(val);
+
+          router.push({
+            pathname: "/offres",
+            query: { ...router.query, departement: val }
+          });
+        }}
+        value={departmentValues}
         id="input-region"
         getPopupContainer={(element) => element.parentNode}
         showArrow={true}

@@ -7,7 +7,6 @@ import { Row, Col } from "antd";
 import { MainStyle } from "../styles/style";
 import TextInput from "../components/TextInput";
 import Select from "../components/SelectOld";
-import categoriesOptions from "../docs/categories.json";
 import OffersList from "../components/OffersList";
 import Main from "../components/Main";
 import Meta from "../components/Meta";
@@ -136,11 +135,7 @@ export default function Home({ ...props }) {
             <SeachAnnonceCol md={12}>
               <SearchBox>
                 <SearchBoxInput placeholder="Votre recherche" />
-                <SearchBoxSelect
-                  instanceId="categorySelect"
-                  options={categoriesOptions}
-                  placeholder="Catégorie"
-                />
+                <SearchBoxSelect instanceId="categorySelect" options={options} placeholder="Catégorie" />
                 <SearchBoxSelect instanceId="regionSelect" options={options} placeholder="Catégorie" />
                 <Button block>Rechercher</Button>
               </SearchBox>

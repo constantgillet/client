@@ -27,14 +27,6 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
-  // useEffect(() => {
-  //   getCategories()
-  //     .then((res) => {
-  //       store.dispatch(setCategories(res.data.data));
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
-
   return (
     <ReduxProvider store={store}>
       <GlobalStyle />
