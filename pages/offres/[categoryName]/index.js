@@ -1,5 +1,6 @@
 import React from "react";
+import OfferSearchPage, { getServerSideProps as getServerSidePropsImport } from "../index";
 
-export default function OffersList() {
-  return <div>offer category</div>;
-}
+export default OfferSearchPage;
+
+export const getServerSideProps = getServerSidePropsImport;

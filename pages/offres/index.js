@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Main from "../../components/Main";
 import Container from "../../components/Container";
 import { Col, Row } from "antd";
@@ -9,6 +9,7 @@ import OfferAPI from "../../lib/API/offerAPI";
 import OfferCard from "../../components/OfferCard";
 import SearchFilters from "../../components/SearchFilters";
 import Pagination from "../../components/Pagination";
+import { useRouter } from "next/dist/client/router";
 
 const MainElement = styled(Main)`
   padding-top: ${MainStyle.space.l}px;
@@ -42,6 +43,11 @@ const PaginationContainer = styled.div`
 `;
 
 export default function OfferSearchPage({ offers }) {
+  const router = useRouter();
+
+  const [page, setPage] = useState(parseInt(router?.query?.page) || 1);
+  const [pageSize, setPageSize] = useState(router?.query?.size || 9);
+
   return (
     <>
       <Meta title="Rechercher une annonce | upgear" />
@@ -65,9 +71,23 @@ export default function OfferSearchPage({ offers }) {
               <PaginationContainer>
                 <Pagination
                   showSizeChanger
-                  onShowSizeChange={(e) => console.log(e)}
-                  defaultCurrent={3}
+                  pageSize={router?.query?.size ? router?.query?.size : 10}
+                  current={page}
                   total={500}
+                  pageSize={pageSize}
+                  onChange={(newPage, newPageSize) => {
+                    setPage(newPage);
+                    setPageSize(newPageSize);
+
+                    const params = {
+                      pathname: window.location.pathname,
+                      query: { ...router.query, page: newPage, size: newPageSize }
+                    };
+
+                    delete params.query?.categoryName;
+                    router.push(params);
+                  }}
+                  pageSizeOptions={[9, 18, 45, 90]}
                 />
               </PaginationContainer>
             </Col>
@@ -80,7 +100,6 @@ export default function OfferSearchPage({ offers }) {
 
 export async function getServerSideProps(context) {
   const { query, res } = context;
-
   let departments = null;
   if (query.departement) {
     if (Array.isArray(query.departement)) {
@@ -92,8 +111,10 @@ export async function getServerSideProps(context) {
 
   try {
     const resp = await new OfferAPI().getAllOffer({
-      limit: 9,
-      departments: departments
+      limit: query?.size ? query?.size : 9,
+      page: query?.page ? query?.page : 1,
+      departments: departments,
+      category: query?.categoryName
     });
     const offers = resp.data.data;
 

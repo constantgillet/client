@@ -6,6 +6,8 @@ import { MainStyle } from "../styles/style";
 import Select from "./Select";
 import departments from "../docs/departments.json";
 import { useRouter } from "next/dist/client/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/fontawesome-free-solid";
 
 const regions = [];
 getRegions();
@@ -43,17 +45,37 @@ const SelectElement = styled(Select)`
   margin-bottom: 12px;
 `;
 
+const DeleteFilters = styled.div`
+  cursor: pointer;
+  font-size: 14px;
+  color: #d2d2d2;
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transition: 0.2s ease-out all;
+
+  &:hover {
+    color: #969696;
+  }
+
+  svg {
+    margin-right: 8px;
+  }
+`;
+
 function SearchFilters({ categories }) {
   const router = useRouter();
-
+  const [category, setCategoryName] = useState(router?.query?.categoryName || null);
   const [regionValue, setRegionValue] = useState(null);
   const [departmentValues, setDepartmentValues] = useState(router?.query?.departement || []);
+
   useEffect(() => {
     //router.push("/offers");
     return () => {
       console.log("unmount");
     };
   }, []);
+
   return (
     <SearchFiltersElement>
       <Title>Filtres</Title>
@@ -61,7 +83,18 @@ function SearchFilters({ categories }) {
       <SelectElement
         placeholder="Choisissez une catégorie"
         style={{ width: "100%" }}
-        onChange={(val) => console.log(val)}
+        value={category}
+        onChange={(val) => {
+          setCategoryName(val);
+
+          const params = {
+            pathname: val ? `/offres/${val}` : "/offres",
+            query: { ...router.query, page: 1 }
+          };
+
+          delete params.query?.categoryName;
+          router.push(params);
+        }}
         id="input-category"
         getPopupContainer={(element) => element.parentNode}
       >
@@ -98,11 +131,14 @@ function SearchFilters({ categories }) {
         style={{ width: "100%" }}
         onChange={(val) => {
           setDepartmentValues(val);
+          const params = {
+            pathname: window.location.pathname,
+            query: { ...router.query, page: 1, departement: val }
+          };
 
-          router.push({
-            pathname: "/offres",
-            query: { ...router.query, departement: val }
-          });
+          delete params.query?.categoryName;
+
+          router.push(params);
         }}
         value={departmentValues}
         id="input-region"
@@ -127,6 +163,20 @@ function SearchFilters({ categories }) {
           //return(<option key={index} value={departments.regionCode}>{department.departmentName}</option>)
         })}
       </SelectElement>
+      <DeleteFilters
+        onClick={() => {
+          setCategoryName(null);
+          setDepartmentValues([]);
+          setRegionValue(null);
+
+          router.push({
+            pathname: "/offres",
+            query: { page: 1 }
+          });
+        }}
+      >
+        <FontAwesomeIcon icon={faTrashAlt} /> Effacer les filtres
+      </DeleteFilters>
     </SearchFiltersElement>
   );
 }
