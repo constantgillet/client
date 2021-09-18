@@ -6,7 +6,7 @@ import { Dropdown, Row } from "antd";
 import Col from "./Col";
 import { MainStyle } from "../styles/style";
 import Button from "./Button";
-import TextInput from "./TextInput";
+import Input from "./Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faEnvelope, faPlus, faSearch, faUser } from "@fortawesome/fontawesome-free-solid";
 import { signOut, useSession } from "next-auth/client";
@@ -15,6 +15,7 @@ import { API_IMAGES_PATH, API_URL } from "../lib/constants";
 import { darken } from "polished";
 import Menu from "./Menu";
 import { connect } from "react-redux";
+import { useRouter } from "next/dist/client/router";
 
 const HeaderElement = styled.header`
   height: 63px;
@@ -79,9 +80,11 @@ const SearchBar = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
+  display: flex;
+  flex-wrap: nowrap;
 `;
 
-const SearchBarInput = styled(TextInput)`
+const SearchBarInput = styled(Input)`
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   position: relative;
@@ -94,6 +97,10 @@ const SearchBarInput = styled(TextInput)`
 const SearchBarButton = styled(Button)`
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+
+  svg {
+    margin-right: 0px;
+  }
 `;
 
 const AuthActionsDiv = styled.div`
@@ -176,6 +183,10 @@ function Header({ display, className, userData, ...props }) {
   const headerRef = useRef();
   const [session, loading] = useSession();
 
+  const [search, setSearch] = useState("");
+
+  const router = useRouter();
+
   const user = { ...userData };
 
   let header;
@@ -212,6 +223,16 @@ function Header({ display, className, userData, ...props }) {
     }
   }
 
+  const postSearch = (e) => {
+    e.preventDefault();
+
+    router.push({ pathname: "/offres", query: search.length && { q: search } });
+  };
+
+  useEffect(() => {
+    setSearch("");
+  }, [router.pathname, router.query]);
+
   return (
     <HeaderElement display={display ? 1 : 0}>
       <HeaderFixedElement ref={headerRef} isFixed={isFixed} className={className}>
@@ -225,10 +246,16 @@ function Header({ display, className, userData, ...props }) {
               </Link>
             </LogoCol>
             <Col xs={12} lg={4} sm={12}>
-              <form action="#" className="search">
+              <form action="#" className="search" onSubmit={postSearch}>
                 <SearchBar>
-                  <SearchBarInput type="text" className="form-control" placeholder="Rechercher" />
-                  <SearchBarButton>
+                  <SearchBarInput
+                    type="text"
+                    className="form-control"
+                    placeholder="Rechercher"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <SearchBarButton onClick={postSearch}>
                     <FontAwesomeIcon icon={faSearch} />
                   </SearchBarButton>
                 </SearchBar>
