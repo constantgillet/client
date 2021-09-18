@@ -8,6 +8,7 @@ import departments from "../docs/departments.json";
 import { useRouter } from "next/dist/client/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/fontawesome-free-solid";
+import useDebounce from "../hooks/useDebounce.js";
 
 const regions = [];
 getRegions();
@@ -65,21 +66,40 @@ const DeleteFilters = styled.div`
 
 function SearchFilters({ categories }) {
   const router = useRouter();
+  const [queryValue, setQueryValue] = useState(router?.query?.q || "");
   const [category, setCategoryName] = useState(router?.query?.categoryName || null);
   const [regionValue, setRegionValue] = useState(null);
   const [departmentValues, setDepartmentValues] = useState(router?.query?.departement || []);
 
-  useEffect(() => {
-    //router.push("/offers");
-    return () => {
-      console.log("unmount");
-    };
-  }, []);
+  const queryValueDebounced = useDebounce(queryValue, 500);
+
+  // Effect for API call
+  useEffect(
+    () => {
+      const params = {
+        pathname: window.location.pathname,
+        query: { ...router.query, page: 1, q: queryValueDebounced }
+      };
+
+      if (!queryValueDebounced.length) {
+        delete params.query?.q;
+      }
+
+      delete params.query?.categoryName;
+
+      router.push(params);
+    },
+    [queryValueDebounced] // Only call effect if debounced search term changes
+  );
 
   return (
     <SearchFiltersElement>
       <Title>Filtres</Title>
-      <InputSearch placeholder="Votre recherche" />
+      <InputSearch
+        placeholder="Votre recherche"
+        value={queryValue}
+        onChange={(e) => setQueryValue(e.target.value)}
+      />
       <SelectElement
         placeholder="Choisissez une catégorie"
         style={{ width: "100%" }}
@@ -165,6 +185,7 @@ function SearchFilters({ categories }) {
       </SelectElement>
       <DeleteFilters
         onClick={() => {
+          setQueryValue("");
           setCategoryName(null);
           setDepartmentValues([]);
           setRegionValue(null);

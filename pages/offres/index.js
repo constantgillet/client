@@ -114,7 +114,8 @@ export async function getServerSideProps(context) {
       limit: query?.size ? query?.size : 9,
       page: query?.page ? query?.page : 1,
       departments: departments,
-      category: query?.categoryName
+      category: query?.categoryName,
+      query: query?.q
     });
     const offers = resp.data.data;
 
