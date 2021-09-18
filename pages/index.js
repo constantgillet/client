@@ -182,7 +182,7 @@ export async function getServerSideProps(context) {
     const resp = await new OfferAPI().getAllOffer({
       limit: 12
     });
-    const offers = resp.data.data;
+    const offers = resp.data.data.offers;
 
     const offersList1 = offers.slice(0, 4);
     const offersList2 = offers.slice(4, 12);

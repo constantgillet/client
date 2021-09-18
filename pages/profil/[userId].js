@@ -118,7 +118,7 @@ export async function getServerSideProps({ params, res }) {
     // will be passed to the page component as props
     return {
       props: {
-        offers: respOffers.data.data,
+        offers: respOffers.data.data.offers,
         user: respUser.data.data
       }
     };

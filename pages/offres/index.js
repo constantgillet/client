@@ -62,7 +62,7 @@ export default function OfferSearchPage({ offers }) {
                 <h1>Recherche</h1>
               </HeaderCard>
               <Row gutter={MainStyle.gutter}>
-                {offers?.map((offer, index) => (
+                {offers?.offers?.map((offer, index) => (
                   <CardCol key={index} span={24} sm={12} lg={8}>
                     <OfferCard offer={offer} />
                   </CardCol>
@@ -73,7 +73,7 @@ export default function OfferSearchPage({ offers }) {
                   showSizeChanger
                   pageSize={router?.query?.size ? router?.query?.size : 10}
                   current={page}
-                  total={500}
+                  total={offers?.total}
                   pageSize={pageSize}
                   onChange={(newPage, newPageSize) => {
                     setPage(newPage);

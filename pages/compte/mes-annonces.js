@@ -121,7 +121,7 @@ export async function getServerSideProps(context) {
 
     let offers = [];
     if (respOffers.data.data) {
-      offers = respOffers.data.data;
+      offers = respOffers.data.data.offers;
     }
 
     return {

@@ -76,7 +76,7 @@ export async function getServerSideProps(context) {
       const respOffers = await new OfferAPI().getAllOffer({ offersId: favorites });
 
       if (respOffers.data.data) {
-        offers = respOffers.data.data;
+        offers = respOffers.data.data.offers;
       }
     }
 
