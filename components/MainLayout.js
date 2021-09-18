@@ -21,12 +21,8 @@ export default function MainLayout({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    applyLayout();
-
-    Router.events.on("routeChangeComplete", (e) => {
-      applyLayout(e);
-    });
-  }, []);
+    applyLayout(router.pathname);
+  }, [router.pathname]);
 
   const applyLayout = (newPathname) => {
     switch (newPathname) {

@@ -8,9 +8,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
-import Col from "./Col";
 import Container from "./Container";
-import { Row } from "antd";
+import { Row, Col } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { faEnvelope, faMapMarker, faMapMarkerAlt } from "@fortawesome/fontawesome-free-solid";
@@ -159,11 +158,11 @@ export default function Footer({ display }) {
     <FooterElement display={display ? 1 : 0}>
       <SocialBanner>
         <Container>
-          <SocialBannerRow>
-            <SocialBannerTextCol md={6} lg={5}>
+          <SocialBannerRow gutter={MainStyle.gutter}>
+            <SocialBannerTextCol span={24} md={12} lg={10}>
               <h6>Suivez nous sur les réseaux sociaux!</h6>
             </SocialBannerTextCol>
-            <SocialNetworksListCol md={6} lg={7}>
+            <SocialNetworksListCol span={24} md={12} lg={14}>
               <a
                 className="fb-ic"
                 href="https://www.facebook.com/upgearairsoft/"
@@ -192,8 +191,8 @@ export default function Footer({ display }) {
         </Container>
       </SocialBanner>
       <MainPartContainer>
-        <Row>
-          <LinksCol md={3} lg={4} xl={3}>
+        <Row gutter={MainStyle.gutter}>
+          <LinksCol span={24} md={6} lg={8} xl={6}>
             <LogotypeContainer>
               <Image src={"/images/logo-white.png"} width={94} height={18} alt="Upgear logotype" />
             </LogotypeContainer>
@@ -203,73 +202,59 @@ export default function Footer({ display }) {
               meilleur prix !
             </WebsiteInfosP>
           </LinksCol>
-          <LinksCol md={2} lg={2} xl={2}>
+          <LinksCol span={24} md={4} lg={4} xl={4}>
             <FooterSubtitle>Catégories</FooterSubtitle>
             <SeparatorHr />
             <LinksList>
               <li>
                 <Link href="/">
-                  <a> Répliques longues AEG </a>
+                  <a>Répliques longues AEG </a>
                 </Link>
               </li>
 
               <li>
                 <Link href="/">
-                  <a> Répliques longues AEG </a>
+                  <a>Répliques longues GBBR </a>
                 </Link>
               </li>
 
               <li>
                 <Link href="/">
-                  <a> Répliques longues AEG </a>
+                  <a>Répliques longues GBBR</a>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a> Répliques longues AEG </a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/">
-                  <a> Répliques longues AEG </a>
+                  <a>Répliques longues GBBR </a>
                 </Link>
               </li>
             </LinksList>
           </LinksCol>
-          <LinksCol md={3} lg={2} xl={2}>
+          <LinksCol span={24} md={6} lg={4} xl={4}>
             <FooterSubtitle>Liens utiles</FooterSubtitle>
             <SeparatorHr />
             <LinksList>
               <li>
-                <Link href="/">
-                  <a> Répliques longues AEG </a>
+                <Link href="/compte/mon-profil">
+                  <a> Mon compte</a>
                 </Link>
               </li>
 
               <li>
-                <Link href="/">
-                  <a> Répliques longues AEG </a>
-                </Link>
+                <a href="mailto:contact@upgear.fr"> Nous contacter </a>
               </li>
 
               <li>
-                <Link href="/">
-                  <a> Répliques longues AEG </a>
+                <Link href="/CGU">
+                  <a> CGU </a>
                 </Link>
               </li>
               <li>
-                <Link href="/">
-                  <a> Répliques longues AEG </a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/">
-                  <a> Répliques longues AEG </a>
-                </Link>
+                <a href="mailto:contact@upgear.fr"> Aide </a>
               </li>
             </LinksList>
           </LinksCol>
-          <LinksCol md={4} lg={3} xl={3}>
+          <LinksCol span={24} md={8} lg={6} xl={6}>
             <FooterSubtitle>Contact</FooterSubtitle>
             <SeparatorHr />
             <LinksList>
