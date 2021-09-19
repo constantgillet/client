@@ -106,6 +106,7 @@ export default function OfferSearchPage({ offers }) {
 
 export async function getServerSideProps(context) {
   const { query, res } = context;
+
   let departments = null;
   if (query.departement) {
     if (Array.isArray(query.departement)) {

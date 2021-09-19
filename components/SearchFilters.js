@@ -73,24 +73,32 @@ function SearchFilters({ categories }) {
 
   const queryValueDebounced = useDebounce(queryValue, 500);
 
+  const [init, setInit] = useState(false);
+
   // Effect for API call
   useEffect(
     () => {
-      const params = {
-        pathname: window.location.pathname,
-        query: { ...router.query, page: 1, q: queryValueDebounced }
-      };
+      if (init) {
+        const params = {
+          pathname: window.location.pathname,
+          query: { ...router.query, page: 1, q: queryValueDebounced }
+        };
 
-      if (!queryValueDebounced.length) {
-        delete params.query?.q;
+        if (!queryValueDebounced.length) {
+          delete params.query?.q;
+        }
+
+        delete params.query?.categoryName;
+
+        router.push(params);
       }
-
-      delete params.query?.categoryName;
-
-      router.push(params);
     },
     [queryValueDebounced] // Only call effect if debounced search term changes
   );
+
+  useEffect(() => {
+    setInit(true);
+  }, []);
 
   return (
     <SearchFiltersElement>
