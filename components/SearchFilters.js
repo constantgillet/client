@@ -141,7 +141,24 @@ function SearchFilters({ categories }) {
       <SelectElement
         placeholder="Région"
         style={{ width: "100%" }}
-        onChange={(val) => console.log(val)}
+        value={regionValue}
+        onChange={(regionCode) => {
+          setRegionValue(regionCode);
+          const newDepartments = departments.filter((department) => department.regionCode === regionCode);
+
+          let newDepartmentValues = [];
+          newDepartmentValues = newDepartments.map((department) => department.departmentCode);
+
+          setDepartmentValues(newDepartmentValues);
+          const params = {
+            pathname: window.location.pathname,
+            query: { ...router.query, page: 1, departement: newDepartmentValues }
+          };
+
+          delete params.query?.categoryName;
+
+          router.push(params);
+        }}
         id="input-region"
         getPopupContainer={(element) => element.parentNode}
       >
