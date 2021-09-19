@@ -10,6 +10,8 @@ import OfferCard from "../../components/OfferCard";
 import SearchFilters from "../../components/SearchFilters";
 import Pagination from "../../components/Pagination";
 import { useRouter } from "next/dist/client/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faQuestionCircle } from "@fortawesome/fontawesome-free-regular";
 
 const MainElement = styled(Main)`
   padding-top: ${MainStyle.space.l}px;
@@ -62,11 +64,15 @@ export default function OfferSearchPage({ offers }) {
                 <h1>Recherche</h1>
               </HeaderCard>
               <Row gutter={MainStyle.gutter}>
-                {offers?.offers?.map((offer, index) => (
-                  <CardCol key={index} span={24} sm={12} lg={8}>
-                    <OfferCard offer={offer} />
-                  </CardCol>
-                ))}
+                {offers?.offers?.length ? (
+                  offers?.offers?.map((offer, index) => (
+                    <CardCol key={index} span={24} sm={12} lg={8}>
+                      <OfferCard offer={offer} />
+                    </CardCol>
+                  ))
+                ) : (
+                  <NoOffersBlock />
+                )}
               </Row>
               <PaginationContainer>
                 <Pagination
@@ -133,3 +139,36 @@ export async function getServerSideProps(context) {
     };
   }
 }
+
+const NoOffersBlockElement = styled(Col)`
+  background-color: ${MainStyle.color.primary80};
+  border-radius: ${MainStyle.radius.m}px;
+  padding: ${MainStyle.space.l}px;
+  margin-bottom: ${MainStyle.space.l}px;
+  text-align: center;
+  color: white;
+
+  svg {
+    font-size: 60px;
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-size: ${MainStyle.text.subtitle.fontSize};
+    font-weight: ${MainStyle.text.subtitle.fontWeight};
+    color: white;
+    margin-bottom: 16px;
+  }
+`;
+
+const NoOffersBlock = () => {
+  return (
+    <Col span={24}>
+      <NoOffersBlockElement>
+        <FontAwesomeIcon icon={faQuestionCircle} />
+        <h2>Aucun résultat trouvé</h2>
+        <p>Aucun résultat a été trouvé, Changez ou supprimez les filtres pour afficher des annonces</p>
+      </NoOffersBlockElement>
+    </Col>
+  );
+};
