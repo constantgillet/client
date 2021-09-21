@@ -409,7 +409,7 @@ function AddAnnonce(props) {
                   {categories?.map((category, index) => {
                     return (
                       <OptGroup key={index} label={category.label}>
-                        {category.subcategories.map((subcategory) => (
+                        {category.subcategories?.map((subcategory) => (
                           <Option key={subcategory.name} value={subcategory.name}>
                             {subcategory.label}
                           </Option>

@@ -3,6 +3,8 @@ import { MainStyle } from "../styles/style";
 import Container from "./Container";
 import Link from "next/link";
 import { darken } from "polished";
+import Menu from "../components/Menu";
+import { Dropdown } from "antd";
 
 const NavbarElement = styled.nav`
   background-color: ${MainStyle.color.primary};
@@ -62,10 +64,6 @@ const SubList = styled.ul`
   padding: 8px 8px;
   background: white;
   width: max-content;
-
-  &.show {
-    display: block;
-  }
 `;
 
 const SubListItem = styled.li`
@@ -91,49 +89,60 @@ const SubListItem = styled.li`
   }
 `;
 
-const onClickListItem = (e) => {
-  const subList = e.target.nextSibling;
+const MenuElement = styled(Menu)``;
 
-  subList.classList.add("show");
-};
+const authMenu = (
+  <MenuElement>
+    <Menu.Item key="repliques-longues-aeg">
+      <Link href="/offres/repliques_aeg">
+        <a title="Répliques longues AEG">Répliques longues AEG</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="repliques-longues-gbbr">
+      <Link href="/offres/repliques_gbbr">
+        <a title="Répliques longues GBBR">Répliques longues GBBR</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="repliques-hpa">
+      <Link href="/offres/repliques_hpa">
+        <a title="Répliques longues HPA">Répliques longues HPA</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="sniper-spring">
+      <Link href="/offres/sniper_spring">
+        <a title="Répliques longues HPA">Répliques de sniper spring</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="/offres/sniper_spring">
+      <Link href="/">
+        <a title="Répliques longues HPA">Répliques de sniper gaz</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="my-profile">
+      <Link href="/">
+        <a title="Répliques longues HPA">Répliques à pompe string</a>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="my-profile">
+      <Link href="/">
+        <a title="Répliques longues HPA">Répliques à pompe gaz</a>
+      </Link>
+    </Menu.Item>
+  </MenuElement>
+);
 
 export default function Navbar({ display }) {
   return (
     <NavbarElement display={display ? 1 : 0}>
       <Container>
         <NavbarList>
+          <Dropdown overlay={authMenu} getPopupContainer={(element) => element.parentNode}>
+            <ListItem>
+              <span> Répliques longues</span>
+            </ListItem>
+          </Dropdown>
           <ListItem>
-            <span onClick={onClickListItem}>Répliques longues</span>
-            <SubList>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-            </SubList>
-          </ListItem>
-          <ListItem>
-            <span onClick={onClickListItem}>Répliques de poing</span>
+            <span>Répliques de poing</span>
             <SubList>
               <SubListItem>
                 <Link href="/">
