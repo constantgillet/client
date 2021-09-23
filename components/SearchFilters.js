@@ -30,6 +30,7 @@ const Title = styled.h2`
 `;
 
 const SearchFiltersContainer = styled.div`
+  height: 100%;
   @media (max-width: ${MainStyle.breakpoint.lg}px) {
     left: 1px;
     position: fixed;

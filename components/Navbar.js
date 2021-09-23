@@ -32,6 +32,10 @@ const NavbarList = styled.ul`
   margin-right: auto;
   color: ${MainStyle.color.light};
 
+  a {
+    color: white;
+  }
+
   @media (min-width: ${MainStyle.breakpoint.lg}px) {
     flex-direction: row;
   }
@@ -89,45 +93,122 @@ const SubListItem = styled.li`
   }
 `;
 
-const MenuElement = styled(Menu)``;
+const MenuElement = styled(Menu)`
+  a {
+    color: ${MainStyle.color.dark};
+  }
+`;
 
-const authMenu = (
+const menuContent = [
+  [
+    { key: "repliques-longues-aeg", link: "/offres/repliques_aeg", name: "Répliques longues AEG" },
+    { key: "repliques-longues-gbbr", link: "/offres/repliques_gbbr", name: "Répliques longues GBBR" },
+    { key: "repliques-longues-hpa", link: "/offres/repliques_hpa", name: "Répliques longues HPA" },
+    {
+      key: "repliques-sniper-spring",
+      link: "/offres/repliques_sniper_spring",
+      name: "Répliques sniper spring"
+    },
+    {
+      key: "repliques-sniper-gaz",
+      link: "/offres/repliques_sniper_gaz",
+      name: "Répliques sniper gaz"
+    },
+    {
+      key: "repliques-pompe-spring",
+      link: "/offres/repliques_pompe_spring",
+      name: "Répliques à pompe spring"
+    },
+    {
+      key: "repliques-pompe-gaz",
+      link: "/offres/repliques_pompe_gaz",
+      name: "Répliques à pompe gaz"
+    }
+  ],
+  [
+    { key: "repliques-poing-gbb", link: "/offres/repliques_gbb", name: "Répliques de poing GBB" },
+    { key: "repliques-poing-nbb", link: "/offres/repliques_nbb", name: "Répliques de poing NBB" },
+    { key: "repliques-poing-aep", link: "/offres/repliques_aep", name: "Répliques de poing AEP" },
+    { key: "repliques-revolver", link: "/offres/repliques_revolver", name: "Révolvers" }
+  ],
+  [
+    { key: "chargeurs", link: "/offres/chargeurs", name: "Chargeurs" },
+    { key: "organes-visee", link: "/offres/organes_visee", name: "Organes de visée" },
+    { key: "lampes-lasers", link: "/offres/lampes_lasers", name: "Lampes et lasers" },
+    { key: "pieces-customs", link: "/offres/pieces_customs", name: "Pièces customs" },
+    {
+      key: "batteries-chargeurs",
+      link: "/offres/batteries_chargeurs",
+      name: "Batteries et chargeurs de batterie"
+    }
+  ],
+  [
+    { key: "pieces_aeg", link: "/offres/pieces_aeg", name: "Pièces AEG" },
+    { key: "pieces_gbbr", link: "/offres/pieces_gbbr", name: "Pièces GBBR" },
+    { key: "pieces_gbb_nbb", link: "/offres/pieces_gbb_nbb", name: "Pièces GBB et NBB" },
+    { key: "pieces_sniper", link: "/offres/pieces_sniper", name: "Pièces de snipers" },
+    { key: "pieces_aep", link: "/offres/pieces_aep", name: "Pièces AEP" }
+  ],
+  [{ key: "paiement-securise", link: "/paiement-securise", name: "Paiement sécurisé" }]
+];
+
+const repliquesLongues = (
   <MenuElement>
-    <Menu.Item key="repliques-longues-aeg">
-      <Link href="/offres/repliques_aeg">
-        <a title="Répliques longues AEG">Répliques longues AEG</a>
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="repliques-longues-gbbr">
-      <Link href="/offres/repliques_gbbr">
-        <a title="Répliques longues GBBR">Répliques longues GBBR</a>
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="repliques-hpa">
-      <Link href="/offres/repliques_hpa">
-        <a title="Répliques longues HPA">Répliques longues HPA</a>
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="sniper-spring">
-      <Link href="/offres/sniper_spring">
-        <a title="Répliques longues HPA">Répliques de sniper spring</a>
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="/offres/sniper_spring">
-      <Link href="/">
-        <a title="Répliques longues HPA">Répliques de sniper gaz</a>
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="my-profile">
-      <Link href="/">
-        <a title="Répliques longues HPA">Répliques à pompe string</a>
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="my-profile">
-      <Link href="/">
-        <a title="Répliques longues HPA">Répliques à pompe gaz</a>
-      </Link>
-    </Menu.Item>
+    {menuContent[0].map((content) => (
+      <Menu.Item key={content.key}>
+        <Link href={content.link}>
+          <a title={content.name}>{content.name}</a>
+        </Link>
+      </Menu.Item>
+    ))}
+  </MenuElement>
+);
+
+const repliquesPoing = (
+  <MenuElement>
+    {menuContent[1].map((content) => (
+      <Menu.Item key={content.key}>
+        <Link href={content.link}>
+          <a title={content.name}>{content.name}</a>
+        </Link>
+      </Menu.Item>
+    ))}
+  </MenuElement>
+);
+
+const accessoires = (
+  <MenuElement>
+    {menuContent[2].map((content) => (
+      <Menu.Item key={content.key}>
+        <Link href={content.link}>
+          <a title={content.name}>{content.name}</a>
+        </Link>
+      </Menu.Item>
+    ))}
+  </MenuElement>
+);
+
+const upgrade = (
+  <MenuElement>
+    {menuContent[3].map((content) => (
+      <Menu.Item key={content.key}>
+        <Link href={content.link}>
+          <a title={content.name}>{content.name}</a>
+        </Link>
+      </Menu.Item>
+    ))}
+  </MenuElement>
+);
+
+const autre = (
+  <MenuElement>
+    {menuContent[4].map((content) => (
+      <Menu.Item key={content.key}>
+        <Link href={content.link}>
+          <a title={content.name}>{content.name}</a>
+        </Link>
+      </Menu.Item>
+    ))}
   </MenuElement>
 );
 
@@ -136,41 +217,39 @@ export default function Navbar({ display }) {
     <NavbarElement display={display ? 1 : 0}>
       <Container>
         <NavbarList>
-          <Dropdown overlay={authMenu} getPopupContainer={(element) => element.parentNode}>
+          <Dropdown overlay={repliquesLongues} getPopupContainer={(element) => element.parentNode}>
             <ListItem>
               <span> Répliques longues</span>
             </ListItem>
           </Dropdown>
-          <ListItem>
-            <span>Répliques de poing</span>
-            <SubList>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-              <SubListItem>
-                <Link href="/">
-                  <a>Répliques longues AEG</a>
-                </Link>{" "}
-              </SubListItem>
-            </SubList>
-          </ListItem>
+          <Dropdown overlay={repliquesPoing} getPopupContainer={(element) => element.parentNode}>
+            <ListItem>
+              <span> Répliques de poing</span>
+            </ListItem>
+          </Dropdown>
+
+          <Dropdown overlay={accessoires} getPopupContainer={(element) => element.parentNode}>
+            <ListItem>
+              <span> Accessoires</span>
+            </ListItem>
+          </Dropdown>
+          <Dropdown overlay={upgrade} getPopupContainer={(element) => element.parentNode}>
+            <ListItem>
+              <span> Upgrade</span>
+            </ListItem>
+          </Dropdown>
+          <Link href="/offres/gear">
+            <a title="Gear">
+              <ListItem>
+                <span> Gear</span>
+              </ListItem>
+            </a>
+          </Link>
+          <Dropdown overlay={autre} getPopupContainer={(element) => element.parentNode}>
+            <ListItem>
+              <span> En savoir plus</span>
+            </ListItem>
+          </Dropdown>
         </NavbarList>
       </Container>
     </NavbarElement>
