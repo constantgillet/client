@@ -5,14 +5,16 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 import { Row, Col } from "antd";
 import { MainStyle } from "../styles/style";
-import TextInput from "../components/TextInput";
-import Select from "../components/SelectOld";
+import Input from "../components/Input";
 import OffersList from "../components/OffersList";
 import Main from "../components/Main";
 import Meta from "../components/Meta";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faShieldAlt, faShippingFast, faUserShield } from "@fortawesome/fontawesome-free-solid";
 import OfferAPI from "../lib/API/offerAPI";
+import Select from "../components/Select";
+
+const { Option, OptGroup } = Select;
 
 const MainElement = styled(Main)`
   padding-bottom: ${MainStyle.space.l}px;
@@ -95,7 +97,7 @@ const SearchBox = styled.div`
   }
 `;
 
-const SearchBoxInput = styled(TextInput)`
+const SearchBoxInput = styled(Input)`
   margin-bottom: ${MainStyle.space.m}px;
 `;
 
@@ -135,8 +137,8 @@ export default function Home({ ...props }) {
             <SeachAnnonceCol md={12}>
               <SearchBox>
                 <SearchBoxInput placeholder="Votre recherche" />
-                <SearchBoxSelect instanceId="categorySelect" options={options} placeholder="Catégorie" />
-                <SearchBoxSelect instanceId="regionSelect" options={options} placeholder="Catégorie" />
+                <SearchBoxSelect options={options} placeholder="Catégorie" style={{ width: "100%" }} />
+                <SearchBoxSelect options={options} placeholder="Catégorie" style={{ width: "100%" }} />
                 <Button block>Rechercher</Button>
               </SearchBox>
             </SeachAnnonceCol>
