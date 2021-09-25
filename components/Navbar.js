@@ -22,6 +22,10 @@ const NavbarElement = styled.nav`
     flex-flow: row nowrap;
     justify-content: flex-start;
   }
+
+  @media (max-width: ${MainStyle.breakpoint.lg}px) {
+    display: none;
+  }
 `;
 
 const NavbarList = styled.ul`
