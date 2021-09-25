@@ -19,7 +19,7 @@ export const MainStyle = {
     primary: "#146cda",
     primary80: lighten(0.2, "#146cda"),
     primary60: lighten(0.4, "#146cda"),
-    primary40: lighten(0.6, "#146cda"),
+    primary40: "#A1C4F0",
     primary20: "#F1F6FC",
     primary10: lighten(0.9, "#146cda"),
 

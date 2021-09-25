@@ -2,7 +2,7 @@ import Link from "next/link";
 import styled, { css } from "styled-components";
 import Container from "./Container";
 import Image from "next/image";
-import { Dropdown, Row } from "antd";
+import { Dropdown, message, Row } from "antd";
 import Col from "./Col";
 import { MainStyle } from "../styles/style";
 import Button from "./Button";
@@ -11,20 +11,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faChevronDown,
-  faEnvelope,
   faPlus,
   faSearch,
+  faSignOutAlt,
   faTimes,
   faUser
 } from "@fortawesome/fontawesome-free-solid";
+
 import { signOut, useSession } from "next-auth/client";
 import { useEffect, useRef, useState } from "react";
 import { API_IMAGES_PATH, API_URL } from "../lib/constants";
-import { darken } from "polished";
+import { darken, lighten } from "polished";
 import Menu from "./Menu";
 import { connect } from "react-redux";
 import { useRouter } from "next/dist/client/router";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import { faEnvelope, faPlusSquare, faUserCircle } from "@fortawesome/fontawesome-free-regular";
+import Separator from "../components/Separator";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 const HeaderElement = styled.header`
   height: 63px;
@@ -188,6 +192,12 @@ const DropdownIcon = styled(FontAwesomeIcon)`
   height: 12px;
 `;
 
+const showNotAvaibleMessage = (e) => {
+  e.stopPropagation();
+  e.preventDefault();
+  message.info("Cette fonctionnalité n'est pas encore disponnible");
+};
+
 function Header({ display, className, userData, ...props }) {
   const headerRef = useRef();
   const [session, loading] = useSession();
@@ -249,7 +259,7 @@ function Header({ display, className, userData, ...props }) {
   return (
     <HeaderElement display={display ? 1 : 0}>
       {isMobile ? (
-        <MobileMenu />
+        <MobileMenu auth={session} />
       ) : (
         <HeaderFixedElement ref={headerRef} isFixed={isFixed} className={className}>
           <Container>
@@ -288,7 +298,7 @@ function Header({ display, className, userData, ...props }) {
                   {session && !loading ? (
                     <WidgetDiv>
                       <Link href="/">
-                        <IconButtonLink title="Page connexion">
+                        <IconButtonLink title="Page connexion" onClick={showNotAvaibleMessage}>
                           <FontAwesomeIcon icon={faEnvelope} />
                         </IconButtonLink>
                       </Link>
@@ -444,8 +454,10 @@ const AsideMenu = styled.aside`
   left: 0px;
   z-index: 4;
   border-right: ${MainStyle.card.border};
-  transition: all 0.3s ease-in-out;
-  transform: translateX(-100%);
+  transition: all 0.3s ease-out;
+  transform: translateX(-101%);
+  display: flex;
+  flex-direction: column;
 
   ${({ visible }) =>
     visible &&
@@ -454,7 +466,51 @@ const AsideMenu = styled.aside`
     `}
 `;
 
-const MobileMenu = () => {
+const LogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: ${MainStyle.space.l}px;
+  margin-bottom: ${MainStyle.space.m}px;
+`;
+
+const ListNav = styled.nav`
+  flex-direction: column;
+  flex: 1 0 auto;
+`;
+
+const MobileNavItem = styled.div`
+  border-radius: ${MainStyle.radius.s}px;
+  color: ${MainStyle.color.dark};
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-weight: 600;
+  margin: 0px ${MainStyle.space.s}px ${MainStyle.space.m}px;
+  padding: 0.6rem 1rem;
+  transition: all 0.3s ease-out;
+
+  &:hover,
+  &:focus {
+    background-color: ${MainStyle.color.primary20};
+    color: ${MainStyle.color.primary};
+  }
+  svg {
+    font-size: 20px;
+    margin-right: ${MainStyle.space.m}px;
+  }
+
+  ${({ textPrimary }) =>
+    textPrimary &&
+    css`
+      color: ${MainStyle.color.primary};
+    `}
+`;
+
+const NavSeparator = styled(Separator)`
+  margin: ${MainStyle.space.m}px 0px;
+`;
+
+const MobileMenu = ({ auth }) => {
   const [visible, setVisible] = useState(false);
 
   const toggleMenu = () => setVisible(!visible);
@@ -474,7 +530,78 @@ const MobileMenu = () => {
           <FontAwesomeIcon icon={faTimes} />
         </CloseMenuButton>
       </ShadowLayout>
-      <AsideMenu visible={visible}></AsideMenu>
+      <AsideMenu visible={visible}>
+        <div>
+          <Link href="/">
+            <LogoContainer title="Accueil" onClick={toggleMenu}>
+              <Image src="/images/logo.png" width={114} height={22} />
+            </LogoContainer>
+          </Link>
+        </div>
+        <ListNav>
+          <Link href="/ajouter-une-annonce">
+            <a title="Déposer une annonce" onClick={toggleMenu}>
+              <MobileNavItem>
+                <FontAwesomeIcon icon={faPlusSquare} /> Déposer une annonce
+              </MobileNavItem>
+            </a>
+          </Link>
+
+          <Link href="/offres">
+            <a title="Rechercher une annonce" onClick={toggleMenu}>
+              <MobileNavItem>
+                <FontAwesomeIcon icon={faSearch} /> Rechercher une annonce
+              </MobileNavItem>
+            </a>
+          </Link>
+          <NavSeparator />
+          <Link href="/">
+            <a title="Messages" onClick={showNotAvaibleMessage}>
+              <MobileNavItem>
+                <FontAwesomeIcon icon={faEnvelope} /> Messages
+              </MobileNavItem>
+            </a>
+          </Link>
+
+          <Link href="/compte/mes-favoris">
+            <a title="Mes favoris" onClick={toggleMenu}>
+              <MobileNavItem>
+                <FontAwesomeIcon icon={faHeart} /> Mes favoris
+              </MobileNavItem>
+            </a>
+          </Link>
+        </ListNav>
+        <ListNav>
+          {auth?.user ? (
+            <a
+              title="Se déconnecter"
+              onClick={() => {
+                toggleMenu();
+                signOut();
+              }}
+            >
+              <MobileNavItem>
+                <FontAwesomeIcon icon={faSignOutAlt} /> Se déconnecter
+              </MobileNavItem>
+            </a>
+          ) : (
+            <Link href="/auth/connexion">
+              <a title="Se connecter" onClick={toggleMenu}>
+                <MobileNavItem textPrimary>
+                  <FontAwesomeIcon icon={faUserCircle} /> Se connecter
+                </MobileNavItem>
+              </a>
+            </Link>
+          )}
+
+          <NavSeparator />
+          <Link href="/paiement-securise">
+            <a title="Paiement sécurisé" onClick={toggleMenu}>
+              <MobileNavItem>Paiement sécurisé</MobileNavItem>
+            </a>
+          </Link>
+        </ListNav>
+      </AsideMenu>
     </MobileMenuBar>
   );
 };
