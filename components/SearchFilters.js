@@ -37,7 +37,7 @@ const SearchFiltersContainer = styled.div`
     position: fixed;
     width: 100%;
     top: 63px;
-    z-index: 2;
+    z-index: 1;
     overflow: hidden;
     max-height: 68px;
     will-change: auto;
