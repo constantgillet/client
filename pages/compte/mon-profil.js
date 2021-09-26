@@ -387,6 +387,15 @@ function MyProfile({ user, loading, userData, updateUserProfile }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
 
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/auth/connexion?error=RequiredLogin`,
+        statusCode: 303
+      }
+    };
+  }
+
   try {
     const resp = await new UserAPI(context).getOneUser(session.user.id);
     const userData = resp.data.data;

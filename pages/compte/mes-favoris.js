@@ -66,6 +66,15 @@ export default function MyFavorites({ offers }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
 
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/auth/connexion?error=RequiredLogin`,
+        statusCode: 303
+      }
+    };
+  }
+
   try {
     const resp = await new FavoriteAPI(context).getAll(session.user.id);
     let favorites = resp.data.data;

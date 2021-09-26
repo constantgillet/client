@@ -116,6 +116,15 @@ export default function MyOffers({ offers }) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
 
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/auth/connexion?error=RequiredLogin`,
+        statusCode: 303
+      }
+    };
+  }
+
   try {
     const respOffers = await new OfferAPI().getAllOffer({ userId: session.user.id });
 
