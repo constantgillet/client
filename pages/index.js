@@ -13,8 +13,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faShieldAlt, faShippingFast, faUserShield } from "@fortawesome/fontawesome-free-solid";
 import OfferAPI from "../lib/API/offerAPI";
 import Select from "../components/Select";
+import departments from "../docs/departments.json";
+import { connect } from "react-redux";
+import { useState } from "react";
+import { useRouter } from "next/dist/client/router";
 
 const { Option, OptGroup } = Select;
+
+const regions = [];
+getRegions();
+
+function getRegions() {
+  departments.forEach((department) => {
+    const region = { regionCode: department.regionCode, regionName: department.regionName };
+
+    if (!regions.some((_region) => _region.regionCode === region.regionCode)) {
+      regions.push(region);
+    }
+  });
+}
 
 const MainElement = styled(Main)`
   padding-bottom: ${MainStyle.space.l}px;
@@ -116,8 +133,27 @@ const PageSection = styled.section`
   margin-bottom: ${MainStyle.space.l}px;
 `;
 
-export default function Home({ ...props }) {
+function Home({ ...props }) {
   //console.log(props);
+
+  const [regionValue, setRegionValue] = useState(null);
+
+  const [categoryValue, setCategoryValue] = useState(null);
+
+  const router = useRouter();
+
+  const onClickSearch = () => {
+    const newDepartments = departments.filter((department) => department.regionCode === regionValue);
+
+    let newDepartmentValues = [];
+    newDepartmentValues = newDepartments.map((department) => department.departmentCode);
+
+    router.push({
+      pathname: categoryValue ? "/offres/" + categoryValue : "/offres",
+      query: { departement: newDepartmentValues }
+    });
+  };
+
   return (
     <MainElement>
       <Meta />
@@ -137,9 +173,41 @@ export default function Home({ ...props }) {
             <SeachAnnonceCol md={12}>
               <SearchBox>
                 <SearchBoxInput placeholder="Votre recherche" />
-                <SearchBoxSelect options={options} placeholder="Catégorie" style={{ width: "100%" }} />
-                <SearchBoxSelect options={options} placeholder="Catégorie" style={{ width: "100%" }} />
-                <Button block>Rechercher</Button>
+                <SearchBoxSelect
+                  placeholder="Catégorie"
+                  style={{ width: "100%" }}
+                  value={categoryValue}
+                  onChange={(val) => setCategoryValue(val)}
+                >
+                  {props.categories?.map((category, index) => {
+                    return (
+                      <OptGroup key={index} label={category.label}>
+                        {category.subcategories?.map((subcategory) => (
+                          <Option key={subcategory.name} value={subcategory.name}>
+                            {subcategory.label}
+                          </Option>
+                        ))}
+                      </OptGroup>
+                    );
+                  })}
+                </SearchBoxSelect>
+                <SearchBoxSelect
+                  placeholder="Région"
+                  style={{ width: "100%" }}
+                  value={regionValue}
+                  onChange={(val) => setRegionValue(val)}
+                >
+                  {regions?.map((region, index) => {
+                    return (
+                      <Option key={index} value={region.regionCode}>
+                        {region.regionName}
+                      </Option>
+                    );
+                  })}
+                </SearchBoxSelect>
+                <Button block onClick={onClickSearch}>
+                  Rechercher
+                </Button>
               </SearchBox>
             </SeachAnnonceCol>
           </Row>
@@ -205,6 +273,16 @@ export async function getServerSideProps(context) {
     };
   }
 }
+
+const mapState = (state) => {
+  return {
+    categories: state.category.categories
+  };
+};
+
+const mapDis = {};
+
+export default connect(mapState, mapDis)(Home);
 
 const AdBanner = () => {
   return (
