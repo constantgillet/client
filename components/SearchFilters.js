@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Input from "../components/Input";
 import { MainStyle } from "../styles/style";
 import Select from "./Select";
 import departments from "../docs/departments.json";
 import { useRouter } from "next/dist/client/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/fontawesome-free-solid";
+import { faFilter, faSort, faTrashAlt } from "@fortawesome/fontawesome-free-solid";
 import useDebounce from "../hooks/useDebounce.js";
+import Button from "./Button";
 
 const regions = [];
 getRegions();
@@ -35,14 +36,25 @@ const SearchFiltersContainer = styled.div`
     left: 1px;
     position: fixed;
     width: 100%;
-    top: 100px;
+    top: 63px;
     z-index: 2;
     overflow: hidden;
     max-height: 68px;
+    will-change: auto;
+    pointer-events: none;
+    transition: max-height 0.35s ease-in-out;
+    //border-bottom: 1px solid #e8e9ec;
 
     h2 {
       display: none;
     }
+
+    ${({ visible }) =>
+      visible &&
+      css`
+        max-height: 700px;
+        height: 100%;
+      `}
   }
 `;
 const SearchFiltersElement = styled.aside`
@@ -53,10 +65,40 @@ const SearchFiltersElement = styled.aside`
   top: 84px;
   z-index: 2;
   border: 1px solid #e8e9ec;
+  pointer-events: all;
+
+  @media (max-width: ${MainStyle.breakpoint.lg}px) {
+    border-left: none;
+    border-right: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 14px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+  }
 `;
 
-const InputSearch = styled(Input)`
+const InputSearchContainer = styled.div`
+  width: 100%auto;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  display: flex;
+  flex-wrap: nowrap;
   margin-bottom: 12px;
+`;
+
+const InputSearch = styled(Input)``;
+
+const ButtonFiltersToggle = styled(Button)`
+  margin-left: ${MainStyle.space.s}px;
+
+  @media (min-width: ${MainStyle.breakpoint.lg}px) {
+    display: none;
+  }
 `;
 
 const SelectElement = styled(Select)`
@@ -92,6 +134,8 @@ function SearchFilters({ categories }) {
 
   const [init, setInit] = useState(false);
 
+  const [filtersVisible, setFiltersVisible] = useState(false);
+
   // Effect for API call
   useEffect(
     () => {
@@ -118,14 +162,22 @@ function SearchFilters({ categories }) {
   }, []);
 
   return (
-    <SearchFiltersContainer>
+    <SearchFiltersContainer visible={filtersVisible}>
       <SearchFiltersElement>
         <Title>Filtres</Title>
-        <InputSearch
-          placeholder="Votre recherche"
-          value={queryValue}
-          onChange={(e) => setQueryValue(e.target.value)}
-        />
+        <InputSearchContainer>
+          <InputSearch
+            placeholder="Votre recherche"
+            value={queryValue}
+            onChange={(e) => setQueryValue(e.target.value)}
+          />
+          <ButtonFiltersToggle
+            icon={<FontAwesomeIcon icon={faSort} />}
+            onClick={() => setFiltersVisible(!filtersVisible)}
+          >
+            Filtres
+          </ButtonFiltersToggle>
+        </InputSearchContainer>
         <SelectElement
           placeholder="Choisissez une catégorie"
           style={{ width: "100%" }}
