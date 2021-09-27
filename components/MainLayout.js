@@ -52,7 +52,7 @@ function MainLayout({ children, user }) {
   let showMailNotVerified = false;
 
   if (session && !loading) {
-    if (user && !user.email_verified) {
+    if (user && user.email_verified === false) {
       showMailNotVerified = true;
     }
   }
