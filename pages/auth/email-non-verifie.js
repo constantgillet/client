@@ -7,9 +7,11 @@ import Button from "../../components/Button";
 import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import Card from "../../components/Card";
-import { useSession } from "next-auth/client";
 import { sendVerificationEmail } from "../../lib/API/authAPI";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useSession } from "next-auth/client";
+import { getUser } from "../../redux/actions/userActions";
 
 const IconContainer = styled.div`
   color: ${MainStyle.color.primary};
@@ -45,11 +47,16 @@ const VerifyMailSection = styled(Card)`
   margin-bottom: ${MainStyle.space.m}px;
 `;
 
-export default function MailNotVerified() {
-  const [session, loading] = useSession();
+let checkEmailVerified;
+
+function MailNotVerified(props) {
+  const { user } = props;
+
   const [isPosting, setIsPosting] = useState(false);
   const [canPost, setCanPost] = useState(true);
-  console.log(session);
+
+  const [session, loading] = useSession();
+
   useEffect(() => {
     sendEmail();
   }, []);
@@ -67,22 +74,23 @@ export default function MailNotVerified() {
         setCanPost(true);
       }, 1000 * 20); //20 seconds
 
-      if (session) {
-        await sendVerificationEmail(session.user.id);
+      if (user) {
+        await sendVerificationEmail(user.id);
         message.success("Un email vous a été envoyé");
         setIsPosting(false);
       }
     } catch (error) {}
   };
 
-  // const checkEmailVerified = async = () => {
+  useEffect(() => {
+    if (session?.user && !loading) {
+      checkEmailVerified = setInterval(() => {
+        props.getUser(session?.user.id);
+      }, 1000 * 10); //20 seconds
+    }
 
-  //   const checkEmailVerified = setTimeout(() => {
-
-  //   }, 1000 * 20); //20 seconds
-
-  //   return () => clearTimeout(checkEmailVerified)
-  // }
+    return () => clearInterval(checkEmailVerified);
+  }, [session, loading]);
 
   return (
     <Main style={{ height: "50vh" }}>
@@ -95,7 +103,7 @@ export default function MailNotVerified() {
               </IconContainer>
 
               <h1>Vérification de l'adresse email</h1>
-              <p>Nous avons envoyé un email de confirmation à {session && session.user.email}</p>
+              <p>Nous avons envoyé un email de confirmation à {user && user.email}</p>
               <p>Si vous ne le recevez pas, cliquez sur le bouton ci-dessous ou regardez dans vos spams</p>
               <Button onClick={onButtonClick} loading={isPosting} disabled={!canPost}>
                 Renvoyer l'email
@@ -113,3 +121,15 @@ export default function MailNotVerified() {
     </Main>
   );
 }
+
+const mapState = (state) => {
+  return {
+    user: state.user.user
+  };
+};
+
+const mapDis = {
+  getUser: getUser
+};
+
+export default connect(mapState, mapDis)(MailNotVerified);

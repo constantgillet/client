@@ -38,8 +38,6 @@ const RowElement = styled(Row)`
   }
 `;
 export default function MyOffers({ offers }) {
-  console.log(offers);
-
   const [currentOffers, setCurrentOffers] = useState(offers || []);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);

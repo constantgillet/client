@@ -4,11 +4,12 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Router, { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
 import MailNotVerified from "../pages/auth/email-non-verifie";
 import { WEBSITE_URL } from "../lib/constants";
+import { connect } from "react-redux";
+import { useSession } from "next-auth/client";
 
-export default function MainLayout({ children }) {
+function MainLayout({ children, user }) {
   const [state, setState] = useState({
     displayHeader: true,
     displayNavigation: true,
@@ -16,9 +17,9 @@ export default function MainLayout({ children }) {
     fullScreen: false
   });
 
-  const [session, loading] = useSession();
-
   const router = useRouter();
+
+  const [session, loading] = useSession();
 
   useEffect(() => {
     applyLayout(router.pathname);
@@ -48,7 +49,13 @@ export default function MainLayout({ children }) {
     }
   };
 
-  let showMailNotVerified = session && !loading && !session.user.emailVerified ? true : false;
+  let showMailNotVerified = false;
+
+  if (session && !loading) {
+    if (user && !user.email_verified) {
+      showMailNotVerified = true;
+    }
+  }
 
   if (router.pathname == "/auth/verification") {
     showMailNotVerified = false;
@@ -63,3 +70,13 @@ export default function MainLayout({ children }) {
     </div>
   );
 }
+
+const mapState = (state) => {
+  return {
+    user: state.user.user
+  };
+};
+
+const mapDis = {};
+
+export default connect(mapState, mapDis)(MainLayout);
