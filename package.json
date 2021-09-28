@@ -5,10 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT",
-    "dokku": {
-      "predeploy": "npm run build"
-    }
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
