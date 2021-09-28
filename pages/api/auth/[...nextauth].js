@@ -4,6 +4,9 @@ import { refreshAccessToken } from "../../../lib/api/authAPI";
 import { API_URL } from "../../../lib/constants";
 
 export default NextAuth({
+  jwt: {
+    signingKey: process.env.JWT_SIGNING_PRIVATE_KEY
+  },
   providers: [
     Providers.Credentials({
       name: "Credentials",
