@@ -1,5 +1,5 @@
 import { getSession, useSession } from "next-auth/client";
-import api from "../lib/API/api";
+import api from "../lib/api/api";
 import Main from "../components/Main";
 import styled from "styled-components";
 import Container from "../components/Container";
@@ -12,12 +12,12 @@ import Button from "../components/Button";
 import Select from "../components/Select";
 import Image from "next/dist/client/image";
 import { connect } from "react-redux";
-import { searchCities } from "../lib/API/adressAPI";
+import { searchCities } from "../lib/api/adressAPI";
 import Radio from "../components/Radio";
 import Modal from "../components/Modal";
 import { useRouter } from "next/dist/client/router";
 import Meta from "../components/Meta";
-import OfferAPI from "../lib/API/offerAPI";
+import OfferAPI from "../lib/api/offerAPI";
 
 const { Option, OptGroup } = Select;
 

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { setCategories } from "../redux/actions/categoryActions";
 import { connect } from "react-redux";
-import { getCategories } from "../lib/API/categoryAPI";
+import { getCategories } from "../lib/api/categoryAPI";
 import { useSession } from "next-auth/client";
 import { setFavorites } from "../redux/actions/favoriteActions";
-import FavoriteAPI from "../lib/API/favoritesAPI";
+import FavoriteAPI from "../lib/api/favoritesAPI";
 import { getUser, setUser } from "../redux/actions/userActions";
 
 function DataFetcher(props) {

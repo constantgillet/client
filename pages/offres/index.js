@@ -5,7 +5,7 @@ import { Col, Row } from "antd";
 import { MainStyle } from "../../styles/style";
 import styled from "styled-components";
 import Meta from "../../components/Meta";
-import OfferAPI from "../../lib/API/offerAPI";
+import OfferAPI from "../../lib/api/offerAPI";
 import OfferCard from "../../components/OfferCard";
 import SearchFilters from "../../components/SearchFilters";
 import Pagination from "../../components/Pagination";

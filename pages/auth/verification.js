@@ -2,7 +2,7 @@ import { message } from "antd";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { verifyEmail } from "../../lib/API/authAPI";
+import { verifyEmail } from "../../lib/api/authAPI";
 
 export default function verification(props) {
   const { error } = props;

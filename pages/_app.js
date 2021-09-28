@@ -11,7 +11,7 @@ import withRedux, { createWrapper } from "next-redux-wrapper";
 import store from "../redux/store";
 import { useEffect } from "react";
 import { setCategories } from "../redux/actions/categoryActions";
-import { getCategories } from "../lib/API/categoryAPI";
+import { getCategories } from "../lib/api/categoryAPI";
 import DataFetcher from "../components/DataFetcher";
 import CookieConsent from "../components/CookieConsent";
 

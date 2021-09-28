@@ -11,7 +11,7 @@ import { Col, message, Row, Upload } from "antd";
 import Input from "../../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/fontawesome-free-solid";
-import UserAPI from "../../lib/API/userAPI";
+import UserAPI from "../../lib/api/userAPI";
 import { getSession } from "next-auth/client";
 import { API_IMAGES_PATH } from "../../lib/constants";
 import { updateUserProfile } from "../../redux/actions/userActions";

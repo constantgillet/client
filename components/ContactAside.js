@@ -18,7 +18,7 @@ import { faQuestionCircle } from "@fortawesome/fontawesome-free-regular";
 import { signOut, useSession } from "next-auth/client";
 import { message, Popover } from "antd";
 import { useState } from "react";
-import OfferAPI from "../lib/API/offerAPI";
+import OfferAPI from "../lib/api/offerAPI";
 import copyToClipboard from "../helpers/copyToClipboard";
 
 const ContactAsideElement = styled.aside`

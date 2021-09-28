@@ -15,7 +15,7 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import { useSession } from "next-auth/client";
 import { addFavorite, removeFavorite } from "../redux/actions/favoriteActions";
-import FavoriteAPI from "../lib/API/favoritesAPI";
+import FavoriteAPI from "../lib/api/favoritesAPI";
 
 const AnnoncesListElement = styled(Card)`
   padding: ${MainStyle.space.l}px;

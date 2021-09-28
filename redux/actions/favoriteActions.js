@@ -1,4 +1,4 @@
-import FavoriteAPI from "../../lib/API/favoritesAPI";
+import FavoriteAPI from "../../lib/api/favoritesAPI";
 
 //Action Types
 export const SET_FAVORITES = "SET_FAVORITES";

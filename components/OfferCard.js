@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faMapMarkerAlt, faHeart as faHeartFavorite } from "@fortawesome/fontawesome-free-solid";
 import { faHeart as FaHeartNotFavorite } from "@fortawesome/fontawesome-free-regular";
 import { useSession } from "next-auth/client";
-import FavoriteAPI from "../lib/API/favoritesAPI";
+import FavoriteAPI from "../lib/api/favoritesAPI";
 
 const OfferLink = styled.a`
   background: white;

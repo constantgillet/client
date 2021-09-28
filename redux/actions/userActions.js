@@ -1,4 +1,4 @@
-import UserAPI from "../../lib/API/userAPI";
+import UserAPI from "../../lib/api/userAPI";
 
 //Action Types
 export const SET_USER = "SET_USER";

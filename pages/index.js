@@ -11,7 +11,7 @@ import Main from "../components/Main";
 import Meta from "../components/Meta";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faShieldAlt, faShippingFast, faUserShield } from "@fortawesome/fontawesome-free-solid";
-import OfferAPI from "../lib/API/offerAPI";
+import OfferAPI from "../lib/api/offerAPI";
 import Select from "../components/Select";
 import departments from "../docs/departments.json";
 import { connect } from "react-redux";
