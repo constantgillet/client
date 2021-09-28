@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prestart": "next build",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT"
+    "start": "next start -p $PORT",
+    "dokku": {
+      "predeploy": "npm run build"
+    }
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
