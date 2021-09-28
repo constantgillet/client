@@ -7,7 +7,7 @@ import Link from "next/link";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Image from "next/image";
-import { changePassword, forgotPassword } from "../../lib/API/authAPI";
+import { changePassword } from "../../lib/API/authAPI";
 import { message } from "antd";
 import { useRouter } from "next/dist/client/router";
 
