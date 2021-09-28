@@ -7,7 +7,7 @@ import Button from "../../components/Button";
 import styled from "styled-components";
 import { MainStyle } from "../../styles/style";
 import Card from "../../components/Card";
-import { sendVerificationEmail } from "../../lib/API/authAPI";
+import { sendVerificationEmail } from "../../lib/api/authAPI";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useSession } from "next-auth/client";

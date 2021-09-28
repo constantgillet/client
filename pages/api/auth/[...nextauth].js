@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import { refreshAccessToken } from "../../../lib/API/authAPI";
+import { refreshAccessToken } from "../../../lib/api/authAPI";
 import { API_URL } from "../../../lib/constants";
 
 export default NextAuth({

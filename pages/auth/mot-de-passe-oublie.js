@@ -7,7 +7,7 @@ import Link from "next/link";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Image from "next/image";
-import { forgotPassword } from "../../lib/API/authAPI";
+import { forgotPassword } from "../../lib/api/authAPI";
 import { message } from "antd";
 
 const Form = styled.form`

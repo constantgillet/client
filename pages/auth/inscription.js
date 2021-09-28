@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import Checkbox from "../../components/Checkbox";
 import { useState } from "react";
-import { registerUser } from "../../lib/API/authAPI.JS";
+import { registerUser } from "../../lib/api/authAPI";
 import Router from "next/router";
 
 const RegisterForm = styled.form`
