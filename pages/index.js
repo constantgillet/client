@@ -332,8 +332,8 @@ const ProtectBanner = () => {
       <Col md={9}>
         <AdBannerTitle>Achetez & vendez en toute sécurité</AdBannerTitle>
         <ProtectectText>
-          Acheter une réplique d’airsoft à des particuliers n’est pas simple. Achetez de façon sécurisée vous
-          grâce à la protection Obvy disponnible sur toutes les annonces.
+          Acheter une réplique d’airsoft d'occasion n’est pas simple. Achetez de façon sécurisée grâce à la
+          protection Obvy disponnible sur toutes les annonces.
         </ProtectectText>
       </Col>
       <ProtectectInfos>
