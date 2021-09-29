@@ -62,7 +62,7 @@ const HeaderFixedElement = styled.div`
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 1060;
+      z-index: 4;
       filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.06));
       animation: header-fixed-animation 0.3s ease-out;
     `}

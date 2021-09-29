@@ -75,7 +75,7 @@ const SelectElement = styled(AntSelect)`
 `;
 
 function Select(props) {
-  return <SelectElement {...props} notFoundContent="Aucun résultat" />;
+  return <SelectElement {...props} notFoundContent="Aucun résultat" dropdownStyle={{ zIndex: "2" }} />;
 }
 
 Select.OptGroup = AntSelect.OptGroup;
