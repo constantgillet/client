@@ -340,8 +340,16 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
 
   const carousel = useRef(null);
 
-  const category = categories.map((_category) => {
-    return _category.subcategories?.find((subcategory) => subcategory.name === offer.category);
+  //get category
+  let category;
+
+  categories.map((_category) => {
+    return _category.subcategories?.find((subcategory) => {
+      if (subcategory.name === offer.category) {
+        category = subcategory;
+      }
+      return false;
+    });
   })[0];
 
   const [session, loading] = useSession();
