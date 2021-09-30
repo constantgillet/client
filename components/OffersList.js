@@ -48,7 +48,7 @@ export default function OffersList({ className, children, offers, title, seeMore
     <AnnoncesListElement className={className}>
       <BlockHeader>
         <BlockTitle>{title}</BlockTitle>
-        <Link href={seeMoreLink ? seeMoreLink : "/"}>
+        <Link href={seeMoreLink ? seeMoreLink : "/offres"}>
           <SeeMoreLink title="Voir plus"> Voir plus </SeeMoreLink>
         </Link>
       </BlockHeader>
