@@ -207,25 +207,25 @@ export default function Footer({ display }) {
             <SeparatorHr />
             <LinksList>
               <li>
-                <Link href="/">
-                  <a>Répliques longues AEG </a>
+                <Link href="/offres/repliques_aeg">
+                  <a title="Répliques longues AEG">Répliques longues AEG </a>
                 </Link>
               </li>
 
               <li>
-                <Link href="/">
-                  <a>Répliques longues GBBR </a>
+                <Link href="/offres/repliques_gbbr">
+                  <a title="Répliques longues GBBR">Répliques longues GBBR </a>
                 </Link>
               </li>
 
               <li>
-                <Link href="/">
-                  <a>Répliques longues GBBR</a>
+                <Link href="/offres/repliques_gbb">
+                  <a title="Répliques de poing GBB">Répliques de poing GBB</a>
                 </Link>
               </li>
               <li>
-                <Link href="/">
-                  <a>Répliques longues GBBR </a>
+                <Link href="/offres/repliques_sniper_spring">
+                  <a title="Répliques sniper spring">Répliques sniper spring </a>
                 </Link>
               </li>
             </LinksList>

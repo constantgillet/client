@@ -17,6 +17,7 @@ import departments from "../docs/departments.json";
 import { connect } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import { useSession } from "next-auth/client";
 
 const { Option, OptGroup } = Select;
 
@@ -136,6 +137,8 @@ const PageSection = styled.section`
 function Home({ ...props }) {
   //console.log(props);
 
+  const [session, loading] = useSession();
+
   const [regionValue, setRegionValue] = useState(null);
 
   const [categoryValue, setCategoryValue] = useState(null);
@@ -164,11 +167,19 @@ function Home({ ...props }) {
             <Col md={12}>
               <SectionIntroTitle>Achetez & vendez votre matériel d’airsoft</SectionIntroTitle>
 
-              <Link href="/">
-                <a>
-                  <Button>S'inscrire</Button>
-                </a>
-              </Link>
+              {session?.user ? (
+                <Link href="/offres">
+                  <a title="Chercher une annonce">
+                    <Button>Chercher une annonce</Button>
+                  </a>
+                </Link>
+              ) : (
+                <Link href="/auth/inscription">
+                  <a title="Page d'inscription">
+                    <Button>S'inscrire</Button>
+                  </a>
+                </Link>
+              )}
             </Col>
             <SeachAnnonceCol md={12}>
               <SearchBox>
@@ -294,7 +305,7 @@ const AdBanner = () => {
           passionnés. Vendez vos équipements et achetez-en de nouveaux.
         </AdBannerText>
       </Col>
-      <Link href="/">
+      <Link href="/ajouter-une-annonce">
         <a title="Page d'ajout d'annonces">
           <Button type="outline-light">Vendre des équipements</Button>
         </a>
