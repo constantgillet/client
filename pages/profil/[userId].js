@@ -97,7 +97,7 @@ export default function ProfilePage({ offers, user }) {
         </Row>
         <SubTitle>Annonces du vendeur</SubTitle>
         <Row gutter={MainStyle.gutter}>
-          {offers.map((offer, index) => (
+          {offers?.map((offer, index) => (
             <ColCard key={index} span={12} lg={6}>
               <OfferCard offer={offer} />
             </ColCard>
