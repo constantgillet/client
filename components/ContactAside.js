@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { MainStyle } from "../styles/style";
 import Button from "./Button";
 import Input from "./Input";
@@ -27,6 +27,23 @@ const ContactAsideElement = styled.aside`
   background: white;
   border-radius: ${MainStyle.radius.m}px;
   box-shadow: ${MainStyle.boxShadow};
+  margin-bottom: ${MainStyle.space.l}px;
+
+  @media (max-width: ${MainStyle.breakpoint.lg}px) {
+    display: none;
+  }
+
+  ${({ isMobile }) =>
+    isMobile &&
+    css`
+      display: none;
+      margin-top: ${MainStyle.space.l}px;
+      margin-bottom: 0px;
+
+      @media (max-width: ${MainStyle.breakpoint.lg}px) {
+        display: block;
+      }
+    `}
 `;
 
 const AsideHeader = styled.div`
@@ -114,7 +131,7 @@ const HelpIcon = styled.a`
   }
 `;
 
-export default function ContactAside({ offer, offerUser }) {
+export default function ContactAside({ offer, offerUser, isMobile }) {
   const [isFetchingBuyLink, setIsFetchingBuyLink] = useState(false);
   const [isFecthingPhoneNumber, setIsFecthingPhoneNumber] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(false);
@@ -169,7 +186,7 @@ export default function ContactAside({ offer, offerUser }) {
   };
 
   return (
-    <ContactAsideElement>
+    <ContactAsideElement isMobile={isMobile}>
       <AsideHeader>
         <Link href={`/profil/${offerUser.id}`}>
           <ProfileLink title="Lien du profil du vendeur">

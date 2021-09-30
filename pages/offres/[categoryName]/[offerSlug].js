@@ -421,7 +421,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
           <Breadcrumb.Item>{offer.title}</Breadcrumb.Item>
         </BreadcrumbElement>
         <Row gutter={MainStyle.gutter}>
-          <Col span={24} md={16}>
+          <Col span={24} lg={16}>
             <Row gutter={MainStyle.gutter}>
               <Col lg={18}>
                 <CarouselContainer>
@@ -455,7 +455,11 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
                 </ImagesPreviewBox>
               </Col>
             </Row>
-
+            <Row>
+              <Col span={24}>
+                <ContactAside offer={offer} offerUser={offerUser} isMobile />
+              </Col>
+            </Row>
             <OfferSection>
               <OfferTitleContainer>
                 <OfferTitle>{offer.title}</OfferTitle>
@@ -533,7 +537,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
               <Separator />
             </OfferSection>
           </Col>
-          <Col span={24} md={8}>
+          <Col span={24} lg={8}>
             <ContactAside offer={offer} offerUser={offerUser} />
           </Col>
         </Row>

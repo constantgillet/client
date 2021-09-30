@@ -7,8 +7,8 @@ const MapContainer = styled.div`
   width: 100%;
   height: 200px;
 
-  canvas {
-    border-radius: ${MainStyle.radius.m}px;
+  .ol-viewport {
+    border-radius: ${MainStyle.radius.s}px;
   }
 `;
 
