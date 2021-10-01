@@ -47,6 +47,8 @@ const BreadcrumbElement = styled(Breadcrumb)`
 
 const OfferImage = styled(Image)`
   border-radius: ${MainStyle.radius.m}px;
+  width: 100% !important;
+  height: auto !important;
 `;
 
 const CarouselContainer = styled.div`
@@ -98,6 +100,10 @@ const ImagesPreviewBox = styled.div`
   align-self: flex-start;
   justify-content: space-between;
   height: 100%;
+
+  @media (max-width: ${MainStyle.breakpoint.lg}px) {
+    display: none;
+  }
 `;
 
 const ImagePreview = styled.div`
@@ -423,7 +429,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
         <Row gutter={MainStyle.gutter}>
           <Col span={24} lg={16}>
             <Row gutter={MainStyle.gutter}>
-              <Col lg={18}>
+              <Col span={24} lg={18}>
                 <CarouselContainer>
                   <Carousel ref={carousel}>
                     {offer.images.map((image, index) => (
@@ -434,7 +440,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
                   <ButtonNext icon={faChevronRight} size="2x" onClick={() => carousel.current.next()} />
                 </CarouselContainer>
               </Col>
-              <Col lg={6}>
+              <Col span={24} lg={6}>
                 <ImagesPreviewBox>
                   <ImagePreview
                     style={{ backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[0]}\')` }}

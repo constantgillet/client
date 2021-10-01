@@ -48,7 +48,7 @@ export default function OfferSearchPage({ offers }) {
   const router = useRouter();
 
   const [page, setPage] = useState(parseInt(router?.query?.page) || 1);
-  const [pageSize, setPageSize] = useState(router?.query?.size || 9);
+  const [pageSize, setPageSize] = useState(router?.query?.size || 12);
 
   return (
     <>
@@ -77,7 +77,6 @@ export default function OfferSearchPage({ offers }) {
               <PaginationContainer>
                 <Pagination
                   showSizeChanger
-                  pageSize={router?.query?.size ? router?.query?.size : 10}
                   current={page}
                   total={offers?.total}
                   pageSize={pageSize}
@@ -93,7 +92,7 @@ export default function OfferSearchPage({ offers }) {
                     delete params.query?.categoryName;
                     router.push(params);
                   }}
-                  pageSizeOptions={[9, 18, 45, 90]}
+                  pageSizeOptions={[12, 18, 45, 90]}
                 />
               </PaginationContainer>
             </Col>
@@ -118,7 +117,7 @@ export async function getServerSideProps(context) {
 
   try {
     const resp = await new OfferAPI().getAllOffer({
-      limit: query?.size ? query?.size : 9,
+      limit: query?.size ? query?.size : 12,
       page: query?.page ? query?.page : 1,
       departments: departments,
       category: query?.categoryName,
