@@ -145,19 +145,19 @@ const tableData = [
     key: "1",
     amount: "De 1€ à 29€",
     seller_fees: "Aucun",
-    buyer_fees: "10 %"
+    buyer_fees: "5 %"
   },
   {
     key: "2",
     amount: "De 30€ à 99€",
     seller_fees: "Aucun",
-    buyer_fees: "7 %"
+    buyer_fees: "5 %"
   },
   {
     key: "6",
     amount: "De 100€ à 249€",
     seller_fees: "Aucun",
-    buyer_fees: "6 %"
+    buyer_fees: "5 %"
   },
   {
     key: "3",
@@ -169,13 +169,13 @@ const tableData = [
     key: "4",
     amount: "De 500€ à 1 199€",
     seller_fees: "Aucun",
-    buyer_fees: "4 %"
+    buyer_fees: "5 %"
   },
   {
     key: "5",
     amount: "De 1200€ à 2 999€",
     seller_fees: "Aucun",
-    buyer_fees: "4 %"
+    buyer_fees: "5 %"
   }
 ];
 
