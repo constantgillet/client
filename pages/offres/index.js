@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Main from "../../components/Main";
 import Container from "../../components/Container";
 import { Col, Row } from "antd";
@@ -50,6 +50,12 @@ export default function OfferSearchPage({ offers }) {
   const [page, setPage] = useState(parseInt(router?.query?.page) || 1);
   const [pageSize, setPageSize] = useState(router?.query?.size || 12);
 
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [router.pathname, router.query]);
+
   return (
     <>
       <Meta title="Rechercher une annonce | upgear" />
@@ -57,7 +63,7 @@ export default function OfferSearchPage({ offers }) {
         <Container>
           <Row gutter={MainStyle.gutter}>
             <Col span={24} lg={6}>
-              <SearchFilters />
+              <SearchFilters setSearchPageLoading={setLoading} />
             </Col>
             <Col span={24} lg={18}>
               <HeaderCard>
@@ -67,7 +73,7 @@ export default function OfferSearchPage({ offers }) {
                 {offers?.offers?.length ? (
                   offers?.offers?.map((offer, index) => (
                     <CardCol key={index} span={24} sm={12} lg={8}>
-                      <OfferCard offer={offer} />
+                      <OfferCard offer={offer} loading={loading} />
                     </CardCol>
                   ))
                 ) : (

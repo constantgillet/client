@@ -1,4 +1,4 @@
-import { Col, message } from "antd";
+import { Col, message, Skeleton } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -111,8 +111,8 @@ const OfferLocation = styled.span`
   }
 `;
 
-const OfferCard = ({ className, children, offer, favorites, addFavorite, removeFavorite }) => {
-  const [session, loading] = useSession();
+const OfferCard = ({ className, children, offer, favorites, addFavorite, removeFavorite, loading }) => {
+  const [session, sessionLoading] = useSession();
 
   const isFavorite = favorites.includes(offer.id);
 
@@ -120,7 +120,7 @@ const OfferCard = ({ className, children, offer, favorites, addFavorite, removeF
     e.preventDefault();
     e.stopPropagation();
 
-    if (session && !loading) {
+    if (session && !sessionLoading) {
       if (!isFavorite) {
         addFavorite(offer.id);
         //Set error message https://stackoverflow.com/questions/58266418/correct-way-of-error-handling-in-react-redux
@@ -131,6 +131,15 @@ const OfferCard = ({ className, children, offer, favorites, addFavorite, removeF
       message.error("Vous devez être connecté(e)");
     }
   };
+
+  if (loading) {
+    return (
+      <div>
+        <Skeleton.Image active />
+        <Skeleton active />
+      </div>
+    );
+  }
 
   return (
     <Link href={`/offres/${offer.category}/${offer.id}`}>

@@ -123,7 +123,7 @@ const DeleteFilters = styled.div`
   }
 `;
 
-function SearchFilters({ categories }) {
+function SearchFilters({ categories, setSearchPageLoading }) {
   const router = useRouter();
   const [queryValue, setQueryValue] = useState(router?.query?.q || "");
   const [category, setCategoryName] = useState(router?.query?.categoryName || null);
@@ -192,6 +192,8 @@ function SearchFilters({ categories }) {
 
             delete params.query?.categoryName;
             router.push(params);
+
+            setSearchPageLoading(true);
           }}
           id="input-category"
           getPopupContainer={(element) => element.parentNode}
@@ -228,6 +230,7 @@ function SearchFilters({ categories }) {
             delete params.query?.categoryName;
 
             router.push(params);
+            setSearchPageLoading(true);
           }}
           id="input-region"
           getPopupContainer={(element) => element.parentNode}
@@ -254,6 +257,7 @@ function SearchFilters({ categories }) {
             delete params.query?.categoryName;
 
             router.push(params);
+            setSearchPageLoading(true);
           }}
           value={departmentValues}
           id="input-region"
@@ -289,6 +293,7 @@ function SearchFilters({ categories }) {
               pathname: "/offres",
               query: { page: 1 }
             });
+            setSearchPageLoading(true);
           }}
         >
           <FontAwesomeIcon icon={faTrashAlt} /> Effacer les filtres
