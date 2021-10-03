@@ -97,6 +97,8 @@ export default function OfferSearchPage({ offers }) {
 
                     delete params.query?.categoryName;
                     router.push(params);
+
+                    setLoading(true);
                   }}
                   pageSizeOptions={[12, 18, 45, 90]}
                 />
