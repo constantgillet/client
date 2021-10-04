@@ -127,6 +127,7 @@ export default function SignIn({ csrfToken, ...props }) {
               placeholder="Votre email"
               defaultValue={query.email && query.email}
               onBlur={onBlurEmail}
+              onChange={(e) => setEmail(e.target.value)}
               error={emailError}
             />
             {emailError && <ErrorInputMessage>{emailError}</ErrorInputMessage>}
@@ -138,6 +139,7 @@ export default function SignIn({ csrfToken, ...props }) {
               name="password"
               placeholder="Mot de passe"
               onBlur={onBlurPassword}
+              onChange={(e) => setPassword(e.target.value)}
               error={passwordError}
             />
             {passwordError && <ErrorInputMessage>{passwordError}</ErrorInputMessage>}
