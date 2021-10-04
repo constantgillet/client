@@ -256,6 +256,7 @@ function Header({ display, className, userData, ...props }) {
 
   const isMobile =
     (current?.xs || current?.sm || current?.md) && !current?.lg && !current?.xl && !current?.xxl;
+
   return (
     <HeaderElement display={display ? 1 : 0}>
       {isMobile ? (
@@ -514,6 +515,15 @@ const MobileMenu = ({ auth }) => {
   const [visible, setVisible] = useState(false);
 
   const toggleMenu = () => setVisible(!visible);
+
+  useEffect(() => {
+    if (visible) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [visible]);
 
   return (
     <MobileMenuBar>
