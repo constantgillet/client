@@ -629,9 +629,10 @@ function SecureBanner() {
             <div>
               <div className="title">Votre achat est protégé</div>
               <div className="body text-body">
-                Votre argent est conservé jusqu'à la bonne réception de votre colis.{" "}
-                <span className="font-weight-bold"> Obvy vous remboursera </span>si la commande n'est jamais
-                expédiée, si elle arrive endommagée ou si elle n'est pas conforme à la description.{" "}
+                Votre <span style={{ fontWeight: "bold" }}> argent est conservé et sucurisé </span> jusqu'à la
+                bonne réception de votre colis. Une fois le colis retiré, l'acheteur dispose de 72 heures pour
+                valider la transaction et payer le vendeur. Vous pouvez aussi filmer l'emballage et le
+                déballage depuis Obvy pour attester que tout est en règle.{" "}
                 <a title="En savoir plus sur le paiement sécurisé" target="blank" href="/paiement-securise">
                   En savoir plus.
                 </a>
@@ -646,8 +647,9 @@ function SecureBanner() {
             <div>
               <div className="title">Une équipe de support dédiée</div>
               <div className="body text-body">
-                Si vous avez besoin d'aide, vous pouvez contacter Obvy 24h/24, ils feront leur possible pour
-                vous répondre dans les 24 heures.
+                Si vous avez besoin d'aide (perte du colis, bien endommagé, bien non conforme), vous pouvez
+                contacter Obvy 7j/7, ils feront leur possible pour vous répondre dans les 24 heures et trouver
+                ensemble une solution.
               </div>
             </div>
           </li>
