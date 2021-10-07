@@ -232,7 +232,7 @@ const OwnedOfferCard = ({ offer, onClickDelete }) => {
               layout="responsive"
             />
             <ViewsCount>
-              <FontAwesomeIcon icon={faEye} /> 0
+              <FontAwesomeIcon icon={faEye} /> {offer?.views && offer?.views}
             </ViewsCount>
           </CardHead>
           <CardBody>
