@@ -507,7 +507,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-phone">Numéro de téléphone (optionnel) :</InputLabel>
+                <InputLabel htmlFor="input-phone">Numéro de téléphone (obligatoire) :</InputLabel>
                 <p>
                   Mettez un numéro de téléphone si vous souhaitez être contacté autrement que par la
                   messagerie upgear.
