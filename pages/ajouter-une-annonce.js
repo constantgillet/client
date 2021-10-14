@@ -281,7 +281,9 @@ function AddAnnonce(props) {
       state.description.value.length > 0 &&
       state.category &&
       state.price.value > 0 &&
-      state.location
+      state.location &&
+      state.shippingCategory &&
+      state.phone.value.length > 0
     ) {
       if (!state.title.error && !state.description.error && !state.price.error && !state.phone.error) {
         setIsPosting(true);
@@ -358,7 +360,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-title">Titre de l'annonce :</InputLabel>
+                <InputLabel htmlFor="input-title">Titre de l'annonce * :</InputLabel>
               </Col>
               <Col span={24} md={12}>
                 <Input
@@ -377,7 +379,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-description">Description de l'annonce :</InputLabel>
+                <InputLabel htmlFor="input-description">Description de l'annonce * :</InputLabel>
               </Col>
               <Col span={24} md={12}>
                 <Input.TextAera
@@ -397,7 +399,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-category">Catégorie :</InputLabel>
+                <InputLabel htmlFor="input-category">Catégorie * :</InputLabel>
               </Col>
               <Col span={24} md={12}>
                 <Select
@@ -427,7 +429,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-price">Prix de l'annonce :</InputLabel>
+                <InputLabel htmlFor="input-price">Prix de l'annonce * :</InputLabel>
               </Col>
               <Col span={24} md={12}>
                 <Input
@@ -448,7 +450,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-location">Votre ville :</InputLabel>
+                <InputLabel htmlFor="input-location">Votre ville * :</InputLabel>
               </Col>
               <Col span={24} md={12}>
                 <Select
@@ -478,7 +480,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-shipping-category">Catégorie de la livraion :</InputLabel>
+                <InputLabel htmlFor="input-shipping-category">Catégorie de la livraion * :</InputLabel>
                 <p>
                   Vendez facilement et plus rapidement vos équipements grâce à notre partenaire
                   <ObvyLogo />.
@@ -507,7 +509,7 @@ function AddAnnonce(props) {
           <FormPart>
             <Row gutter={30}>
               <Col span={24} md={12}>
-                <InputLabel htmlFor="input-phone">Numéro de téléphone (obligatoire) :</InputLabel>
+                <InputLabel htmlFor="input-phone">Numéro de téléphone (obligatoire) * :</InputLabel>
                 <p>
                   Mettez un numéro de téléphone si vous souhaitez être contacté autrement que par la
                   messagerie upgear.
