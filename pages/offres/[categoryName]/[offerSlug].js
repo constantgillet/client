@@ -343,6 +343,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
 
   const creationDate = new Date(offer.creation_date);
   const offerUserCreationDate = new Date(offerUser.creation_date);
+  const offerUserLastLogin = new Date(offerUser.last_login);
 
   const carousel = useRef(null);
 
@@ -534,7 +535,13 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
                 })}
               </SellerInfoItem>
               <SellerInfoItem>
-                <FontAwesomeIcon icon={faClock} /> Dernière connexion le 01/08/2021 à 19:26
+                <FontAwesomeIcon icon={faClock} /> Dernière connexion le{" "}
+                {offerUserLastLogin.toLocaleString("fr-FR", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric"
+                })}{" "}
+                à {offerUserLastLogin.toLocaleString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
               </SellerInfoItem>
               <Separator />
               <ReportOffer>
