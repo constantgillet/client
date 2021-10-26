@@ -48,6 +48,8 @@ const ProfileInfo = styled.p`
 `;
 
 export default function ProfilePage({ offers, user }) {
+  const creationDate = new Date(user?.creation_date);
+
   return (
     <Main>
       <Meta title={"Profil de " + user.username + " | Upgear airsoft"} />
@@ -77,7 +79,14 @@ export default function ProfilePage({ offers, user }) {
                 </Col>
                 <Col span={24} md={12}>
                   <LabelInfo>Date de création du compte:</LabelInfo>
-                  <ProfileInfo>Cet utilisateur n'est pas dans une équipe / team.</ProfileInfo>
+                  <ProfileInfo>
+                    A rejoint upgear le{" "}
+                    {creationDate?.toLocaleString("fr-FR", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric"
+                    })}
+                  </ProfileInfo>
                 </Col>
               </Row>
               <LabelInfo>Description:</LabelInfo>
