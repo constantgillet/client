@@ -298,6 +298,7 @@ function MyProfile({ user, loading, userData, updateUserProfile }) {
                       profilePicture: { ...profileData.profilePicture, value: newFile, isModified: true }
                     });
                   }}
+                  accept="image/png, image/jpeg"
                 >
                   {profileData.profilePicture.imageSrc ? (
                     <ProfileImagePreview
@@ -321,6 +322,7 @@ function MyProfile({ user, loading, userData, updateUserProfile }) {
                       bannerPicture: { ...profileData.bannerPicture, value: newFile, isModified: true }
                     });
                   }}
+                  accept="image/png, image/jpeg"
                 >
                   {profileData.bannerPicture.imageSrc ? (
                     <BannerImagePreview

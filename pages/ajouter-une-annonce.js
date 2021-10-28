@@ -350,8 +350,10 @@ function AddAnnonce(props) {
                 setState({ ...state, images: newFileList });
               }}
               beforeUpload={beforeUploadImage}
+              accept="image/png, image/jpeg"
+              maxCount={6}
             >
-              {state.images.length < 5 && "+ Uploader"}
+              {state.images.length < 6 && "+ Uploader"}
             </UploadElement>
           </FormPart>
         </FormSection>
