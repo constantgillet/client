@@ -120,15 +120,15 @@ function AddAnnonce(props) {
   /** IMAGES */
 
   const beforeUploadImage = (file) => {
-    //limit 4000 KO
-    const limit = file.size / 1024 < 4000;
+    //limit 5000 KO
+    const limit = file.size / 1024 < 5000;
 
     if (file.type !== "image/png" && file.type !== "image/jpeg") {
       message.error(`${file.name} n'est pas un fichier png ou jpeg`);
     }
 
     if (!limit) {
-      message.error(`${file.name} fait plus de 4 MO`);
+      message.error(`${file.name} fait plus de 5 MO`);
     }
 
     return file.type === "image/png" || (file.type === "image/jpeg" && limit) ? true : Upload.LIST_IGNORE;
