@@ -153,7 +153,10 @@ const menuContent = [
     { key: "pieces_sniper", link: "/offres/pieces_sniper", name: "Pièces de snipers" },
     { key: "pieces_aep", link: "/offres/pieces_aep", name: "Pièces AEP" }
   ],
-  [{ key: "paiement-securise", link: "/paiement-securise", name: "Paiement sécurisé" }]
+  [
+    { key: "paiement-securise", link: "/paiement-securise", name: "Paiement sécurisé" },
+    { key: "blog", link: "/blog", name: "Blog" }
+  ]
 ];
 
 const repliquesLongues = (

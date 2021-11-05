@@ -3,7 +3,7 @@ import api from "../lib/api/api";
 import Main from "../components/Main";
 import styled from "styled-components";
 import Container from "../components/Container";
-import { Row, Col, message, Upload } from "antd";
+import { Row, Col, message, Upload, Progress } from "antd";
 import { MainStyle } from "../styles/style";
 import { useEffect, useState } from "react";
 import Separator from "../components/Separator";
@@ -18,6 +18,7 @@ import Modal from "../components/Modal";
 import { useRouter } from "next/dist/client/router";
 import Meta from "../components/Meta";
 import OfferAPI from "../lib/api/offerAPI";
+import { createAsset } from "../lib/api/assetsAPI";
 
 const { Option, OptGroup } = Select;
 
@@ -86,6 +87,27 @@ function AddAnnonce(props) {
 
   const router = useRouter();
 
+  const uploadImage = async (options) => {
+    const { onSuccess, onError, file, onProgress } = options;
+
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+      onUploadProgress: (event) => {
+        onProgress({ percent: (event.loaded / event.total) * 100 });
+      }
+    };
+
+    try {
+      const res = await createAsset(file, "offer", config);
+
+      onSuccess(res.data.data, file);
+    } catch (err) {
+      console.error("Eroor: ", err);
+      const error = new Error("Some error");
+      onError({ err });
+    }
+  };
+
   const [state, setState] = useState({
     locationOptions: [],
     images: [],
@@ -116,6 +138,8 @@ function AddAnnonce(props) {
   const [cities, setCities] = useState([]);
 
   const [showTipModal, setShopTipModal] = useState(false);
+
+  const [progress, setProgress] = useState(0);
 
   /** IMAGES */
 
@@ -288,6 +312,10 @@ function AddAnnonce(props) {
       if (!state.title.error && !state.description.error && !state.price.error && !state.phone.error) {
         setIsPosting(true);
 
+        const images = [];
+
+        state.images.forEach((image) => images.push(image.response?.id));
+
         new OfferAPI()
           .createOffer(
             state.title.value,
@@ -297,7 +325,7 @@ function AddAnnonce(props) {
             state.location,
             state.phone.value,
             state.shippingCategory,
-            state.images
+            images
           )
           .then(() => {
             setIsPosting(false);
@@ -346,9 +374,10 @@ function AddAnnonce(props) {
             <UploadElement
               listType="picture-card"
               fileList={state.images}
-              onChange={({ fileList: newFileList }) => {
+              onChange={({ file, fileList: newFileList }) => {
                 setState({ ...state, images: newFileList });
               }}
+              customRequest={uploadImage}
               beforeUpload={beforeUploadImage}
               accept="image/png, image/jpeg"
               maxCount={6}
