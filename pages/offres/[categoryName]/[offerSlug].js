@@ -339,11 +339,11 @@ const ShippingInfos = styled.p`
 `;
 
 function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavorite }) {
-  const { offer, offerUser, shippingCategory } = pageProps;
+  const { offer, shippingCategory } = pageProps;
 
   const creationDate = new Date(offer.creation_date);
-  const offerUserCreationDate = new Date(offerUser.creation_date);
-  const offerUserLastLogin = new Date(offerUser.last_login);
+  const offerUserCreationDate = new Date(offer?.user.creation_date);
+  const offerUserLastLogin = new Date(offer?.user.last_login);
 
   const carousel = useRef(null);
 
@@ -366,10 +366,8 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
   const [isPosting, setIsPosting] = useState(false);
 
   //Change user picture
-  if (offerUser && offerUser.profile_picture) {
-    if (offerUser?.profile_picture.length) {
-      offerUser.profile_picture = API_IMAGES_PATH + offerUser.profile_picture;
-    }
+  if (offer?.user && offer?.user?.profile_picture?.length) {
+    offer.user.profile_picture = API_IMAGES_PATH + offer?.user.profile_picture;
   }
 
   const onClickFavorite = (e) => {
@@ -415,7 +413,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
       <Meta
         title={offer.title + " | Annonce airsoft"}
         description={offer.description}
-        image={API_IMAGES_PATH + "min-" + offer.images[0]}
+        image={API_IMAGES_PATH + "min-" + offer.images[0].src}
       />
       <Container>
         <BreadcrumbElement>
@@ -434,7 +432,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
                 <CarouselContainer>
                   <Carousel ref={carousel}>
                     {offer.images.map((image, index) => (
-                      <OfferImage key={index} src={API_IMAGES_PATH + image} width={540} height={400} />
+                      <OfferImage key={index} src={API_IMAGES_PATH + image.src} width={540} height={400} />
                     ))}
                   </Carousel>
                   <ButtonPrevious icon={faChevronLeft} onClick={() => carousel.current.prev()} />
@@ -444,11 +442,13 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
               <Col span={24} lg={6}>
                 <ImagesPreviewBox>
                   <ImagePreview
-                    style={{ backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[0]}\')` }}
+                    style={{ backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[0].src}\')` }}
                   />
                   {offer.images.length > 1 ? (
                     <ImagePreview
-                      style={{ backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[1]}\')` }}
+                      style={{
+                        backgroundImage: `url(\'${API_IMAGES_PATH + "min-" + offer.images[1].src}\')`
+                      }}
                     />
                   ) : (
                     <ImagePreviewEmpty>
@@ -456,7 +456,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
                     </ImagePreviewEmpty>
                   )}
                   <ImagePreviewSeeMore
-                    imageSrc={API_IMAGES_PATH + "min-" + offer.images[0]}
+                    imageSrc={API_IMAGES_PATH + "min-" + offer.images[0].src}
                     onClick={() => message.info("Cette fonctionnalité n'est pas encore disponnible")}
                   />
                 </ImagesPreviewBox>
@@ -464,7 +464,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
             </Row>
             <Row>
               <Col span={24}>
-                <ContactAside offer={offer} offerUser={offerUser} isMobile />
+                <ContactAside offer={offer} offerUser={offer?.user} isMobile />
               </Col>
             </Row>
             <OfferSection>
@@ -513,17 +513,19 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
               <PartSeparator />
 
               <OfferPartTitle> Vendeur : </OfferPartTitle>
-              <Link href={`/profil/${offerUser.id}`}>
+              <Link href={`/profil/${offer?.user.id}`}>
                 <SellerProfileLink title="Lien du profil du vendeur">
                   <SellerProfilePicture
                     src={
-                      offerUser.profile_picture?.length ? offerUser.profile_picture : "/images/profile.jpg"
+                      offer?.user.profile_picture?.length
+                        ? offer?.user.profile_picture
+                        : "/images/profile.jpg"
                     }
                     width={58}
                     height={58}
                     alt="Photo de profil du vendeur"
                   />
-                  <SellerUsername>{offerUser.username}</SellerUsername>
+                  <SellerUsername>{offer?.user.username}</SellerUsername>
                 </SellerProfileLink>
               </Link>
               <SellerInfoItem>
@@ -551,7 +553,7 @@ function OfferPage({ pageProps, categories, favorites, addFavorite, removeFavori
             </OfferSection>
           </Col>
           <Col span={24} lg={8}>
-            <ContactAside offer={offer} offerUser={offerUser} />
+            <ContactAside offer={offer} offerUser={offer?.user} />
           </Col>
         </Row>
       </Container>
@@ -565,7 +567,6 @@ export async function getServerSideProps({ params, res }) {
 
   try {
     const resp = await new OfferAPI().getOneOffer(offerSlugSplited[0]);
-    const respUser = await new UserAPI().getOneUser(resp.data.data.user_id);
     const respShippingCategory = await new ShippingCategoryAPI().getOneShippingCategory(
       resp.data.data.shipping_category
     );
@@ -575,7 +576,6 @@ export async function getServerSideProps({ params, res }) {
       props: {
         pageProps: {
           offer: resp.data.data,
-          offerUser: respUser.data.data,
           shippingCategory: respShippingCategory.data.data
         }
       }
