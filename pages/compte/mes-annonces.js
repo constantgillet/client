@@ -226,7 +226,7 @@ const OwnedOfferCard = ({ offer, onClickDelete }) => {
         <OfferLink title={offer.title}>
           <CardHead>
             <OfferImage
-              src={API_IMAGES_PATH + "min-" + offer.images[0]}
+              src={API_IMAGES_PATH + "min-" + offer.images[0]?.src}
               width={236}
               height={236}
               layout="responsive"

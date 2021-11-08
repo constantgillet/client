@@ -192,7 +192,7 @@ const AnnonceCard = connect(
         <AnnonceLink title={offer.title}>
           <AnnonceCardHeader>
             <AnnonceImage
-              src={API_IMAGES_PATH + "min-" + offer.images[0]}
+              src={API_IMAGES_PATH + "min-" + offer.images[0]?.src}
               width={243}
               height={243}
               layout="responsive"
