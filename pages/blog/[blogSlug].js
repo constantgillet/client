@@ -3,7 +3,7 @@ import axios from "axios";
 import { parse } from "node-html-parser";
 import React from "react";
 import styled from "styled-components";
-import AdBanner from "../../components/Adbanner";
+import AdBanner from "../../components/AdBanner";
 import Container from "../../components/Container";
 import Main from "../../components/Main";
 import Meta from "../../components/Meta";
