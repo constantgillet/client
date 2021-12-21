@@ -83,7 +83,7 @@ const ObvyLogo = styled.span`
 `;
 
 function AddAnnonce(props) {
-  const { categories } = props;
+  const { categories, offer } = props;
 
   const router = useRouter();
 
@@ -108,24 +108,25 @@ function AddAnnonce(props) {
     }
   };
 
+  console.log(offer);
   const [state, setState] = useState({
     locationOptions: [],
     images: [],
     title: {
-      value: "",
+      value: offer?.title ? offer?.title : "",
       error: null
     },
     description: {
-      value: "",
+      value: offer?.description ? offer?.description : "",
       error: null
     },
-    category: null,
+    category: offer?.category ? offer?.category : null,
     price: {
-      value: "",
+      value: offer?.price ? offer?.price : "",
       error: null
     },
     location: null,
-    shippingCategory: null,
+    shippingCategory: offer?.shipping_category ? offer?.shipping_category : null,
     phone: {
       value: "",
       error: null
@@ -349,7 +350,7 @@ function AddAnnonce(props) {
 
   return (
     <Main>
-      <Meta title="Ajouter une annonce airsoft" />
+      <Meta title={offer?.id ? "Editer une annonce" : "Ajouter une annonce airsoft"} />
       <Container style={{ paddingTop: MainStyle.space.l + "px", paddingBottom: MainStyle.space.xl + "px" }}>
         <FormSection style={{ marginTop: "0px" }}>
           <FormPart style={{ paddingBottom: "0px" }}>
@@ -395,6 +396,7 @@ function AddAnnonce(props) {
               </Col>
               <Col span={24} md={12}>
                 <Input
+                  value={state.title.value}
                   placeholder="Ex: Famas tokyo marui"
                   id="input-title"
                   onBlur={onBlurTitleInput}
@@ -414,6 +416,7 @@ function AddAnnonce(props) {
               </Col>
               <Col span={24} md={12}>
                 <Input.TextAera
+                  value={state.description.value}
                   placeholder="Ex: Utilisé pendant une dizaine de partie, très bon état"
                   id="input-description"
                   autoSize={{ minRows: 4 }}
@@ -434,6 +437,7 @@ function AddAnnonce(props) {
               </Col>
               <Col span={24} md={12}>
                 <Select
+                  value={state.category}
                   placeholder="Choisissez une catégorie"
                   style={{ width: "100%" }}
                   onChange={(val) => setState({ ...state, category: val })}
@@ -464,6 +468,7 @@ function AddAnnonce(props) {
               </Col>
               <Col span={24} md={12}>
                 <Input
+                  value={state.price.value}
                   placeholder="120,00€"
                   id="input-price"
                   type="number"
