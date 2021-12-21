@@ -108,7 +108,6 @@ function AddAnnonce(props) {
     }
   };
 
-  console.log(offer);
   const [state, setState] = useState({
     locationOptions: [],
     images: [],
@@ -399,6 +398,7 @@ function AddAnnonce(props) {
                   value={state.title.value}
                   placeholder="Ex: Famas tokyo marui"
                   id="input-title"
+                  onChange={(e) => setState({ ...state, title: { ...state.title, value: e.target.value } })}
                   onBlur={onBlurTitleInput}
                   error={state.title.error}
                 />
@@ -420,6 +420,9 @@ function AddAnnonce(props) {
                   placeholder="Ex: Utilisé pendant une dizaine de partie, très bon état"
                   id="input-description"
                   autoSize={{ minRows: 4 }}
+                  onChange={(e) =>
+                    setState({ ...state, description: { ...state.description, value: e.target.value } })
+                  }
                   onBlur={onBlurDescriptionInput}
                   error={state.description.error}
                 />
@@ -474,6 +477,7 @@ function AddAnnonce(props) {
                   type="number"
                   style={{ width: "120px" }}
                   onBlur={onBlurPriceInput}
+                  onChange={(e) => setState({ ...state, price: { ...state.price, value: e.target.value } })}
                   error={state.price.error}
                 />
                 <Input.Message type="error" message={state.price.error} />
