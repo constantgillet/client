@@ -19,6 +19,8 @@ import { useRouter } from "next/dist/client/router";
 import Meta from "../components/Meta";
 import OfferAPI from "../lib/api/offerAPI";
 import { createAsset } from "../lib/api/assetsAPI";
+import { StarTwoTone } from "@ant-design/icons/lib/icons";
+import { API_IMAGES_PATH } from "../lib/constants";
 
 const { Option, OptGroup } = Select;
 
@@ -85,6 +87,20 @@ const ObvyLogo = styled.span`
 function AddAnnonce(props) {
   const { categories, offer } = props;
 
+  console.log(offer);
+
+  useEffect(() => {
+    if (offer) {
+      const images = [];
+
+      offer.images.forEach((image) => {
+        images.push({ uid: image.id, name: "image", status: "done", url: API_IMAGES_PATH + image.src });
+      });
+
+      setState({ ...state, images: images });
+    }
+  }, []);
+
   const router = useRouter();
 
   const uploadImage = async (options) => {
@@ -124,13 +140,14 @@ function AddAnnonce(props) {
       value: offer?.price ? offer?.price : "",
       error: null
     },
-    location: null,
+    location: offer?.city ? offer.city : null,
     shippingCategory: offer?.shipping_category ? offer?.shipping_category : null,
     phone: {
-      value: "",
+      value: offer?.phone ? offer?.phone : "",
       error: null
     }
   });
+
   const [isPosting, setIsPosting] = useState(false);
 
   const [isFetchingCities, setIsFecthingCities] = useState(false);
@@ -138,8 +155,6 @@ function AddAnnonce(props) {
   const [cities, setCities] = useState([]);
 
   const [showTipModal, setShopTipModal] = useState(false);
-
-  const [progress, setProgress] = useState(0);
 
   /** IMAGES */
 
@@ -314,31 +329,55 @@ function AddAnnonce(props) {
 
         const images = [];
 
-        state.images.forEach((image) => images.push(image.response?.id));
+        state.images.forEach((image) => images.push(image.response?.id || image.uid));
 
-        new OfferAPI()
-          .createOffer(
-            state.title.value,
-            state.description.value,
-            state.category,
-            state.price.value,
-            state.location,
-            state.phone.value,
-            state.shippingCategory,
-            images
-          )
-          .then(() => {
-            setIsPosting(false);
-            message.success("L'annonce a bien été ajoutée");
-            router.push("/");
-          })
-          .catch((err) => {
-            console.error(err);
-            setIsPosting(false);
-            message.error("Erreur lors de l'ajout de votre annonce, merci de contacter le support");
-          });
-
-        //postData();
+        //Create offer if no offer
+        if (!offer) {
+          new OfferAPI()
+            .createOffer(
+              state.title.value,
+              state.description.value,
+              state.category,
+              state.price.value,
+              state.location,
+              state.phone.value,
+              state.shippingCategory,
+              images
+            )
+            .then(() => {
+              setIsPosting(false);
+              message.success("L'annonce a bien été ajoutée");
+              router.push("/");
+            })
+            .catch((err) => {
+              console.error(err);
+              setIsPosting(false);
+              message.error("Erreur lors de l'ajout de votre annonce, merci de contacter le support");
+            });
+        } else {
+          new OfferAPI()
+            .updateOffer(
+              offer.id,
+              state.title.value,
+              state.description.value,
+              state.category,
+              state.price.value,
+              state.location,
+              state.phone.value,
+              state.shippingCategory,
+              images
+            )
+            .then(() => {
+              setIsPosting(false);
+              message.success("L'annonce a bien été modifiée", 3);
+              router.push("/compte/mes-annonces");
+            })
+            .catch((err) => {
+              console.error(err);
+              setIsPosting(false);
+              message.error("Erreur lors de la modification de votre annonce, merci de contacter le support");
+            });
+        }
       } else {
         message.error("Vous devez compléter tous les champs obligatoires.");
       }
@@ -502,6 +541,7 @@ function AddAnnonce(props) {
                   style={{ width: "100%" }}
                   onSearch={onCitySearch}
                   loading={isFetchingCities}
+                  value={state.location}
                   onChange={(val) => setState({ ...state, location: val })}
                   autoComplete="dontshow"
                 >
@@ -532,7 +572,7 @@ function AddAnnonce(props) {
                   id="input-shipping-category"
                   name="radiogroup"
                   buttonStyle="solid"
-                  defaultValue={1}
+                  value={state.shippingCategory || null}
                   onChange={(e) => setState({ ...state, shippingCategory: e.target.value })}
                 >
                   <Radio.Button value={"small"}>S (max. 2kg)</Radio.Button>
@@ -563,6 +603,8 @@ function AddAnnonce(props) {
                   style={{ width: "180px" }}
                   onBlur={onBlurPhoneInput}
                   error={state.phone.error}
+                  value={state.phone.value}
+                  onChange={(e) => setState({ ...state, phone: { ...state.phone, value: e.target.value } })}
                 />
                 <Input.Message type="error" message={state.phone.error} />
               </Col>
@@ -571,7 +613,7 @@ function AddAnnonce(props) {
         </FormSection>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button onClick={onClickPostButton} loading={isPosting}>
-            Ajouter l'annonce
+            {offer ? "Modifier l'annonce" : "Ajouter l'annonce"}
           </Button>
         </div>
       </Container>

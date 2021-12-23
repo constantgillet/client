@@ -13,7 +13,7 @@ import Link from "next/link";
 import { API_IMAGES_PATH } from "../../lib/constants";
 import { toReadablePrice } from "../../helpers/textHelpers";
 import Image from "next/image";
-import { faEye, faPlus, faTrash } from "@fortawesome/fontawesome-free-solid";
+import { faEye, faPlus, faTrash, faEdit } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button";
 import { useState } from "react";
@@ -146,7 +146,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-const OfferLink = styled.a`
+const OfferDiv = styled.div`
   background: white;
   border-radius: ${MainStyle.radius.m}px;
   border: ${MainStyle.card.border};
@@ -159,8 +159,6 @@ const OfferLink = styled.a`
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    filter: drop-shadow(0px 5px 14px rgba(0, 0, 0, 0.1));
-    cursor: pointer;
     text-decoration: none;
   }
 `;
@@ -179,6 +177,10 @@ const OfferImage = styled(Image)`
   border-top-right-radius: 8px;
   width: 100%;
   height: auto;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const ViewsCount = styled.div`
@@ -204,6 +206,10 @@ const OfferTitle = styled.span`
   font-size: 16px;
   line-height: 21px;
   text-align: left;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const OfferPrice = styled.span`
@@ -215,6 +221,11 @@ const OfferPrice = styled.span`
   margin-top: ${MainStyle.space.xs}px;
 `;
 
+const EditButton = styled(Button)`
+  margin-top: ${MainStyle.space.xs}px;
+  margin-right: ${MainStyle.space.xs}px;
+`;
+
 const DeleteButton = styled(Button)`
   margin-top: ${MainStyle.space.xs}px;
 `;
@@ -222,33 +233,47 @@ const DeleteButton = styled(Button)`
 const OwnedOfferCard = ({ offer, onClickDelete }) => {
   return (
     <Col span={24} sm={12} lg={8}>
-      <Link href={`/offres/${offer.category}/${offer.id}`}>
-        <OfferLink title={offer.title}>
-          <CardHead>
-            <OfferImage
-              src={API_IMAGES_PATH + "min-" + offer.images[0]?.src}
-              width={236}
-              height={236}
-              layout="responsive"
-            />
-            <ViewsCount>
-              <FontAwesomeIcon icon={faEye} /> {offer?.views && offer?.views}
-            </ViewsCount>
-          </CardHead>
-          <CardBody>
-            <OfferTitle> {offer.title} </OfferTitle>
-            <OfferPrice> {toReadablePrice(offer.price)} </OfferPrice>
-            <DeleteButton
-              type="outline-danger"
-              icon={<FontAwesomeIcon icon={faTrash} />}
-              size="small"
-              onClick={(e) => onClickDelete(e)}
-            >
-              Supprimer
-            </DeleteButton>
-          </CardBody>
-        </OfferLink>
-      </Link>
+      <OfferDiv>
+        <CardHead>
+          <Link href={`/offres/${offer.category}/${offer.id}`}>
+            <a title={offer.title}>
+              <OfferImage
+                src={API_IMAGES_PATH + "min-" + offer.images[0]?.src}
+                width={236}
+                height={236}
+                layout="responsive"
+              />
+            </a>
+          </Link>
+          <ViewsCount>
+            <FontAwesomeIcon icon={faEye} /> {offer?.views && offer?.views}
+          </ViewsCount>
+        </CardHead>
+        <CardBody>
+          <Link href={`/offres/${offer.category}/${offer.id}`}>
+            <a title={offer.title}>
+              <OfferTitle> {offer.title} </OfferTitle>
+            </a>
+          </Link>
+          <OfferPrice> {toReadablePrice(offer.price)} </OfferPrice>
+          <Link href={`/editer/${offer.id}`}>
+            <a title="Modifier l'annonce">
+              <EditButton type="outline-primary" icon={<FontAwesomeIcon icon={faEdit} />} size="small">
+                Editer
+              </EditButton>
+            </a>
+          </Link>
+
+          <DeleteButton
+            type="outline-danger"
+            icon={<FontAwesomeIcon icon={faTrash} />}
+            size="small"
+            onClick={(e) => onClickDelete(e)}
+          >
+            Supprimer
+          </DeleteButton>
+        </CardBody>
+      </OfferDiv>
     </Col>
   );
 };
