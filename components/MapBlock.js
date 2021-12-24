@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MainStyle } from "../styles/style";
+import VectorSource from "ol/source/Vector";
+import Point from "ol/geom/Point";
+import { useGeographic } from "ol/proj";
+import Feature from "ol/Feature";
+import Map from "ol/Map";
+import OSM from "ol/source/OSM";
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector";
+import View from "ol/View";
+import Circle from "ol/style/Circle";
+import Fill from "ol/style/Fill";
+import Style from "ol/style/Style";
 
 const MapContainer = styled.div`
   margin-top: ${MainStyle.space.l}px;
@@ -38,22 +50,6 @@ export default function MapBlock({ location, ...props }) {
   };
 
   const initMap = (long, lat) => {
-    const Map = require("ol/Map").default;
-    const OSM = require("ol/source/OSM").default;
-    const TileLayer = require("ol/layer/Tile").default;
-    //const VectorSource = require("ol/source/Vector").default;
-    const VectorLayer = require("ol/layer/Vector").default;
-    const ImageLayer = require("ol/layer/Image").default;
-    const Static = require("ol/source/ImageStatic").default;
-    const View = require("ol/View").default;
-    const Projection = require("ol/proj/Projection").default;
-    const Circle = require("ol/style/Circle").default;
-    const Fill = require("ol/style/Fill").default;
-    const Style = require("ol/style/Style").default;
-    const VectorSource = require("ol/source/Vector").default;
-    const Point = require("ol/geom/Point").default;
-    const useGeographic = require("ol/proj").useGeographic;
-    const Feature = require("ol/Feature").default;
     useGeographic();
 
     const place = [long, lat];
