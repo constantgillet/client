@@ -15,7 +15,7 @@ import OfferAPI from "../lib/api/offerAPI";
 import Select from "../components/Select";
 import departments from "../docs/departments.json";
 import { connect } from "react-redux";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSession } from "next-auth/client";
 
@@ -123,12 +123,6 @@ const SearchBoxSelect = styled(Select)`
   margin-bottom: ${MainStyle.space.m}px;
 `;
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" }
-];
-
 const PageSection = styled.section`
   margin-top: ${MainStyle.space.l}px;
   margin-bottom: ${MainStyle.space.l}px;
@@ -142,6 +136,7 @@ function Home({ ...props }) {
   const [regionValue, setRegionValue] = useState(null);
 
   const [categoryValue, setCategoryValue] = useState(null);
+  const [queryValue, setQueryValue] = useState("");
 
   const router = useRouter();
 
@@ -153,7 +148,7 @@ function Home({ ...props }) {
 
     router.push({
       pathname: categoryValue ? "/offres/" + categoryValue : "/offres",
-      query: { departement: newDepartmentValues }
+      query: { departement: newDepartmentValues, q: queryValue }
     });
   };
 
@@ -183,7 +178,7 @@ function Home({ ...props }) {
             </Col>
             <SeachAnnonceCol md={12}>
               <SearchBox>
-                <SearchBoxInput placeholder="Votre recherche" />
+                <SearchBoxInput placeholder="Votre recherche" value={queryValue} onChange={ (e) => setQueryValue(e.target.value) } />
                 <SearchBoxSelect
                   placeholder="Catégorie"
                   style={{ width: "100%" }}
