@@ -12,6 +12,7 @@ import Pagination from "../../components/Pagination";
 import { useRouter } from "next/dist/client/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/fontawesome-free-regular";
+import Select from "../../components/Select";
 
 const MainElement = styled(Main)`
   padding-top: ${MainStyle.space.l}px;
@@ -44,11 +45,26 @@ const PaginationContainer = styled.div`
   text-align: center;
 `;
 
+const TopPageGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: ${MainStyle.space.s}px;
+`;
+
+const OrderByText = styled.span`
+  margin-right: ${MainStyle.space.s}px;
+
+  @media (max-width: ${MainStyle.breakpoint.md}px) {
+    display: none;
+  }
+`;
+
 export default function OfferSearchPage({ offers }) {
   const router = useRouter();
 
   const [page, setPage] = useState(parseInt(router?.query?.page) || 1);
   const [pageSize, setPageSize] = useState(router?.query?.size || 12);
+  const [orderBy, setOrderBy] = useState(router?.query?.orderBy || "id_desc");
 
   const [loading, setLoading] = useState(false);
 
@@ -69,6 +85,51 @@ export default function OfferSearchPage({ offers }) {
               <HeaderCard>
                 <h1>Recherche</h1>
               </HeaderCard>
+              <TopPageGroup>
+                <div>
+                  <OrderByText>Trier par:</OrderByText>
+                  <Select
+                    value={orderBy}
+                    onChange={(newOrderBy) => {
+                      const params = {
+                        pathname: window.location.pathname,
+                        query: { ...router.query, page: 1, orderBy: newOrderBy }
+                      };
+
+                      setPage(1);
+                      setOrderBy(newOrderBy);
+                      router.push(params);
+
+                      setLoading(true);
+                    }}
+                  >
+                    <Select.Option value={"id_desc"}>Plus récentes</Select.Option>
+                    <Select.Option value={"id_asc"}>Plus vielles</Select.Option>
+                    <Select.Option value={"price_asc"}>Moins chères</Select.Option>
+                    <Select.Option value={"price_desc"}>Plus chères</Select.Option>
+                    <Select.Option value={"views_desc"}>Plus vues</Select.Option>
+                    <Select.Option value={"views_asc"}>Moins vues</Select.Option>
+                  </Select>
+                </div>
+                <Pagination
+                  current={page}
+                  total={offers?.total}
+                  onChange={(newPage, newPageSize) => {
+                    setPage(newPage);
+                    setPageSize(newPageSize);
+
+                    const params = {
+                      pathname: window.location.pathname,
+                      query: { ...router.query, page: newPage, size: newPageSize }
+                    };
+
+                    delete params.query?.categoryName;
+                    router.push(params);
+
+                    setLoading(true);
+                  }}
+                />
+              </TopPageGroup>
               <Row gutter={MainStyle.gutter}>
                 {offers?.offers?.length ? (
                   offers?.offers?.map((offer, index) => (
@@ -129,8 +190,10 @@ export async function getServerSideProps(context) {
       page: query?.page ? query?.page : 1,
       departments: departments,
       category: query?.categoryName,
-      query: query?.q
+      query: query?.q,
+      orderBy: query?.orderBy || "id_desc"
     });
+
     const offers = resp.data.data;
 
     return {

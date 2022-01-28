@@ -15,7 +15,7 @@ import OfferAPI from "../lib/api/offerAPI";
 import Select from "../components/Select";
 import departments from "../docs/departments.json";
 import { connect } from "react-redux";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSession } from "next-auth/client";
 
@@ -178,7 +178,11 @@ function Home({ ...props }) {
             </Col>
             <SeachAnnonceCol md={12}>
               <SearchBox>
-                <SearchBoxInput placeholder="Votre recherche" value={queryValue} onChange={ (e) => setQueryValue(e.target.value) } />
+                <SearchBoxInput
+                  placeholder="Votre recherche"
+                  value={queryValue}
+                  onChange={(e) => setQueryValue(e.target.value)}
+                />
                 <SearchBoxSelect
                   placeholder="Catégorie"
                   style={{ width: "100%" }}
