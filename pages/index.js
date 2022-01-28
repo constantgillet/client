@@ -10,6 +10,9 @@ import OffersList from "../components/OffersList";
 import Main from "../components/Main";
 import Meta from "../components/Meta";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+// Prevent fontawesome from adding its CSS since we did it manually above:
+import { config as faConfig } from "@fortawesome/fontawesome-svg-core";
 import { faLock, faShieldAlt, faShippingFast, faUserShield } from "@fortawesome/fontawesome-free-solid";
 import OfferAPI from "../lib/api/offerAPI";
 import Select from "../components/Select";
