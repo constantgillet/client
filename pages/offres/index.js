@@ -51,6 +51,12 @@ const TopPageGroup = styled.div`
   margin-bottom: ${MainStyle.space.s}px;
 `;
 
+const TopPagination = styled(Pagination)`
+  & .ant-pagination-simple-pager input {
+    border-radius: ${MainStyle.radius.s}px;
+  }
+`;
+
 const OrderByText = styled.span`
   margin-right: ${MainStyle.space.s}px;
 
@@ -111,7 +117,7 @@ export default function OfferSearchPage({ offers }) {
                     <Select.Option value={"views_asc"}>Moins vues</Select.Option>
                   </Select>
                 </div>
-                <Pagination
+                <TopPagination
                   current={page}
                   total={offers?.total}
                   onChange={(newPage, newPageSize) => {
