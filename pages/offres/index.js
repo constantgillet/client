@@ -128,6 +128,9 @@ export default function OfferSearchPage({ offers }) {
 
                     setLoading(true);
                   }}
+                  showSizeChanger={false}
+                  //size={"small"}
+                  simple
                 />
               </TopPageGroup>
               <Row gutter={MainStyle.gutter}>
