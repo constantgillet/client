@@ -34,9 +34,7 @@ export default function MapBlock({ location, ...props }) {
   const [foundLocation, setFoundLocation] = useState(false);
 
   const reqMapCoord = (cityName) => {
-    fetch(
-      `https://api-adresse.data.gouv.fr/search/?q=%20=${cityName}&type=municipality&autocomplete=1&limit=1`
-    )
+    fetch(`https://api-adresse.data.gouv.fr/search/?q=${cityName}&type=municipality&autocomplete=1&limit=1`)
       .then((response) => response.json())
       .then((data) => {
         //If there is a result
