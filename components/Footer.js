@@ -278,7 +278,7 @@ export default function Footer({ display }) {
         </Row>
       </MainPartContainer>
       <FooterCopyright>
-        © 2021 Copyright:<a href="https://upgear.fr/"> upgear.fr</a>
+        © 2022 Copyright:<a href="https://upgear.fr/"> upgear.fr</a>
       </FooterCopyright>
     </FooterElement>
   );
