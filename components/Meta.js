@@ -3,8 +3,8 @@ import React from "react";
 import { WEBSITE_URL } from "../lib/constants";
 
 export default function Meta({
-  title = "UpGear | Achetez et vendez vos équipements d'airsoft",
-  description = "UpGear est une plateforme pour acheter des équipements d'airsoft d'occasion de façon simple & sécurisée. Créez une annonce en quelques clics.",
+  title = "Annonces airsoft d'occasion | Upgear | Première marketplace d'airsoft en France",
+  description = "Achetez et vendez des équipements d'airsoft de façon simple et sécurisée. Créez des annonces pour revendre vos répliques d'airsoft d'occasion.",
   image = `${WEBSITE_URL}/images/previews/website-preview.png`
 }) {
   return (
