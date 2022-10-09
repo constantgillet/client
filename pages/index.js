@@ -77,7 +77,7 @@ const SectionIntroBackground = styled.div`
     height: 100%;
     top: 0px;
     background: linear-gradient(0deg, rgba(16, 35, 58, 0.67), rgba(16, 35, 58, 0.67)),
-      url(/images/backgrounds/background-index.jpg);
+      url(/images/backgrounds/background-index.webp);
     background-size: cover;
     background-position: center;
     animation: backgroundImageIntroAnimation 60s ease-out backwards infinite;
@@ -321,7 +321,7 @@ const AdBannerElement = styled.div`
   padding: ${MainStyle.space.l}px;
   background-size: cover;
   background-position: center;
-  background-image: url("/images/banners/banner-1.jpg");
+  background-image: url("/images/banners/banner-1.webp");
 
   h2,
   p {
@@ -429,7 +429,7 @@ const FeaturesBannerElement = styled.div`
   border-radius: ${MainStyle.radius.m}px;
   border-radius: 8px;
   background: linear-gradient(0deg, rgba(20, 108, 218, 0.67), rgba(20, 108, 218, 0.67)),
-    url(/images/backgrounds/soldier2.jpg);
+    url(/images/backgrounds/soldier2.webp);
   background-size: cover;
   background-position: top;
 `;
