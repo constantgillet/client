@@ -20,6 +20,7 @@ import { message, Popover } from "antd";
 import { useState } from "react";
 import OfferAPI from "../lib/api/offerAPI";
 import copyToClipboard from "../helpers/copyToClipboard";
+import ChatAPI from "../lib/api/chatAPI";
 
 const ContactAsideElement = styled.aside`
   position: sticky;
@@ -135,6 +136,8 @@ export default function ContactAside({ offer, offerUser, isMobile }) {
   const [isFetchingBuyLink, setIsFetchingBuyLink] = useState(false);
   const [isFecthingPhoneNumber, setIsFecthingPhoneNumber] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(false);
+  const [messageContent, setMesssageContent] = useState("");
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
 
   const [session] = useSession();
 
@@ -185,6 +188,31 @@ export default function ContactAside({ offer, offerUser, isMobile }) {
     }
   };
 
+  const onClickSendMessage = () => {
+    if (!isSendingMessage) {
+      if (messageContent.length > 4 && messageContent.length < 700) {
+        setIsSendingMessage(true);
+
+        new ChatAPI()
+          .createChat(offer.id, messageContent)
+          .then((res) => {
+            setIsSendingMessage(false);
+            message.success("Votre message a été envoyé");
+          })
+          .catch((err) => {
+            setIsSendingMessage(false);
+            if (err.response.data?.error_code === "already_exist") {
+              message.error("Ce chat a déjà été créé.");
+            } else {
+              message.error("Erreur lors de la création du chat.");
+            }
+          });
+      } else {
+        message.error("Votre message est trop court.");
+      }
+    }
+  };
+
   return (
     <ContactAsideElement isMobile={isMobile}>
       <AsideHeader>
@@ -200,12 +228,17 @@ export default function ContactAside({ offer, offerUser, isMobile }) {
         </Link>
       </AsideHeader>
       <AsideBody>
-        <ChatTextAera placeholder="Ecrivez un message au vendeur ici" />
+        <ChatTextAera
+          placeholder="Ecrivez un message au vendeur ici"
+          value={messageContent}
+          onChange={(e) => setMesssageContent(e.target.value)}
+        />
         <SendMessageButton
           block
           type="outline"
           icon={<FontAwesomeIcon icon={faComments} />}
-          onClick={() => message.info("Cette fonctionnalité n'est pas encore disponnible.")}
+          onClick={onClickSendMessage}
+          loading={isSendingMessage}
         >
           Envoyer le message
         </SendMessageButton>

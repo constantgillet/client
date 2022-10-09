@@ -192,12 +192,6 @@ const DropdownIcon = styled(FontAwesomeIcon)`
   height: 12px;
 `;
 
-const showNotAvaibleMessage = (e) => {
-  e.stopPropagation();
-  e.preventDefault();
-  message.info("Cette fonctionnalité n'est pas encore disponnible");
-};
-
 function Header({ display, className, userData, ...props }) {
   const headerRef = useRef();
   const [session, loading] = useSession();
@@ -298,8 +292,8 @@ function Header({ display, className, userData, ...props }) {
 
                   {session && !loading ? (
                     <WidgetDiv>
-                      <Link href="/">
-                        <IconButtonLink title="Page connexion" onClick={showNotAvaibleMessage}>
+                      <Link href="/chats">
+                        <IconButtonLink title="Page connexion">
                           <FontAwesomeIcon icon={faEnvelope} />
                         </IconButtonLink>
                       </Link>
@@ -565,8 +559,8 @@ const MobileMenu = ({ auth }) => {
             </a>
           </Link>
           <NavSeparator />
-          <Link href="/">
-            <a title="Messages" onClick={showNotAvaibleMessage}>
+          <Link href="/chats">
+            <a title="Messages">
               <MobileNavItem>
                 <FontAwesomeIcon icon={faEnvelope} /> Messages
               </MobileNavItem>

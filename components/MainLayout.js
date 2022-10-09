@@ -8,6 +8,13 @@ import MailNotVerified from "../pages/auth/email-non-verifie";
 import { WEBSITE_URL } from "../lib/constants";
 import { connect } from "react-redux";
 import { useSession } from "next-auth/client";
+import styled from "styled-components";
+
+const MainLayoutDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
 
 function MainLayout({ children, user }) {
   const [state, setState] = useState({
@@ -27,7 +34,7 @@ function MainLayout({ children, user }) {
 
   const applyLayout = (newPathname) => {
     switch (newPathname) {
-      case "/chat":
+      case "/chats":
         setState({ displayHeader: true, displayNavigation: true, displayFooter: false, fullScreen: true });
         break;
       case "/auth/connexion":
@@ -62,12 +69,12 @@ function MainLayout({ children, user }) {
   }
 
   return (
-    <div>
+    <MainLayoutDiv>
       <Header display={state.displayHeader} />
       <Navbar display={state.displayNavigation} />
       {showMailNotVerified ? <MailNotVerified /> : children}
       <Footer display={state.displayFooter} />
-    </div>
+    </MainLayoutDiv>
   );
 }
 
